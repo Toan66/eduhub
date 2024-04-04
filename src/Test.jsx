@@ -1,7 +1,7 @@
 function Test(){
     return(
-        <div className="">
-            {/* <div className="p-6 max-w-sm mx-auto bg-white rounded  }*/}
+        <div className="rounded-xl m-5 p-2 border-2 border-red-200 text-primary">
+            Hello
         </div>
     )
 }
