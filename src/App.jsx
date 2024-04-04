@@ -8,7 +8,7 @@ function App() {
 
 	return (
 		<>
-			Đã Commit
+			<h1 className="text-3xl font-bold underline bg-green-300">Đã Commit</h1>
 		</>
 	)
 }
