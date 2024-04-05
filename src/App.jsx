@@ -4,17 +4,14 @@ import viteLogo from '/vite.svg'
 import './App.css'
 import Test from './Test'
 import Login from './Pages/Login'
-import Header from './Components/Header'
-import Footer from './Components/Footer'
+import Layout from './Components/Layout'
 function App() {
 	const [count, setCount] = useState(0)
 
 	return (
-		<>
-			<Header/>
+		<Layout>
 			<Login/>
-			<Footer/>
-		</>
+		</Layout>
 	)
 }
 

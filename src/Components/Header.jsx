@@ -1,4 +1,5 @@
 import { useState } from 'react'
+import logo_eduhub from "../assets/logo_eduhub.jpg"
 
 export default () => {
 
@@ -18,10 +19,10 @@ export default () => {
                 <div className="flex items-center justify-between py-3 md:py-5 md:block">
                     <a href="javascript:void(0)">
                         <img
-                            src="https://www.floatui.com/logo.svg"
+                            src={logo_eduhub}
                             width={120}
                             height={50}
-                            alt="Float UI logo"
+                            alt="eduhub logo"
                         />
                     </a>
                     <div className="md:hidden">
