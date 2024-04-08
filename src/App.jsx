@@ -1,5 +1,4 @@
 import { useState } from 'react'
-import './App.css'
 import Login from './Pages/Login'
 import Layout from './Components/Layout'
 import Home from './Pages/Home'
