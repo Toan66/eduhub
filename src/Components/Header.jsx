@@ -2,6 +2,7 @@ import { useState } from 'react'
 import logo_eduhub from "../assets/logo_eduhub.jpg"
 import { Link, useNavigate } from 'react-router-dom'
 import axios from 'axios'
+import Cookies from 'js-cookie'
 
 export default () => {
 
@@ -16,17 +17,19 @@ export default () => {
         { title: "Pricing", path: "#" }
     ]
 
-    const handleLinkClick = () => {
-        // Cookies.remove('jwt');
-        localStorage.clear();
-        axios.post('https://localhost:7291/api/Auth/logout')
-            .then(() => {
-                console.log('Đã đăng xuất thành công');
-                navigate('/');
-            })
-            .catch(error => {
-                console.error('Lỗi khi đăng xuất:', error);
-            });
+    const handleLinkClick = async () => {
+        try {
+            Cookies.remove('jwt');
+            localStorage.clear();
+            // Gửi yêu cầu đăng xuất tới server
+            await axios.post('https://localhost:7291/api/Auth/logout', {withCredentials: true});
+            console.log('Đã đăng xuất thành công');
+            // Chuyển hướng người dùng về trang chủ sau khi đăng xuất thành công
+            navigate(0);
+        } catch (error) {
+            // Xử lý lỗi nếu có trong quá trình gửi yêu cầu đăng xuất
+            console.error('Lỗi khi đăng xuất:', error);
+        }
     };
 
     return (
