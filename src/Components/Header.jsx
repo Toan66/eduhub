@@ -3,11 +3,13 @@ import logo_eduhub from "../assets/logo_eduhub.jpg"
 import { Link, useNavigate } from 'react-router-dom'
 import axios from 'axios'
 import Cookies from 'js-cookie'
+import { useAuth } from '../Contexts/AuthContext'
 
 export default () => {
 
     const [state, setState] = useState(false)
     const navigate = useNavigate()
+    const { userRole } = useAuth();
 
     // Replace javascript:void(0) paths with your paths
     const navigation = [
@@ -22,7 +24,7 @@ export default () => {
             Cookies.remove('jwt');
             localStorage.clear();
             // Gửi yêu cầu đăng xuất tới server
-            await axios.post('https://localhost:7291/api/Auth/logout', {withCredentials: true});
+            await axios.post('https://localhost:7291/api/Auth/logout', { withCredentials: true });
             console.log('Đã đăng xuất thành công');
             // Chuyển hướng người dùng về trang chủ sau khi đăng xuất thành công
             navigate(0);
@@ -77,16 +79,32 @@ export default () => {
                         }
                         <span className='hidden w-px h-6 bg-gray-300 md:block'></span>
                         <div className='space-y-3 items-center gap-x-6 md:flex md:space-y-0'>
-                            <li>
-                                <Link to="/login" className="block py-3 text-center text-gray-700 hover:text-indigo-600 border rounded-lg md:border-none">
-                                    Log in
-                                </Link>
-                            </li>
-                            <li>
-                                <button onClick={handleLinkClick} to="#" className="block py-3 px-4 font-medium text-center text-white bg-indigo-600 hover:bg-indigo-500 active:bg-indigo-700 active:shadow-none rounded-lg shadow md:inline">
+
+
+
+                            {!userRole
+                                ?
+                                <li>
+                                    <Link to="/login" className="block py-3 px-4 font-medium text-center text-white bg-indigo-600 hover:bg-indigo-500 active:bg-indigo-700 active:shadow-none rounded-lg shadow md:inline">
+                                        Log in
+                                    </Link>
+                                </li>
+                                :
+                                <li className=" inline-block">
+                                    <div className="inline-block items-center font-medium text-base mr-2">Hello {userRole}</div>
+                                    <button onClick={handleLinkClick} className="inline-block py-3 px-4 font-medium text-center text-white bg-indigo-600 hover:bg-indigo-500 active:bg-indigo-700 active:shadow-none rounded-lg shadow md:inline">
+                                        Log out
+                                    </button>
+                                </li>
+                            }
+
+                            <li className=" inline-block">
+                                <div className="inline-block items-center font-medium text-base mr-2">Hello {userRole}</div>
+                                <button onClick={handleLinkClick} className="inline-block py-3 px-4 font-medium text-center text-white bg-indigo-600 hover:bg-indigo-500 active:bg-indigo-700 active:shadow-none rounded-lg shadow md:inline">
                                     Log out
                                 </button>
                             </li>
+
                         </div>
                     </ul>
                 </div>

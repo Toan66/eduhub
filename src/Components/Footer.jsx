@@ -5,19 +5,19 @@ export default () => {
             label: "Resources",
             items: [
                 {
-                    href: 'javascript:void()',
+                    href: '#',
                     name: 'contact'
                 },
                 {
-                    href: 'javascript:void()',
+                    href: '#',
                     name: 'Support'
                 },
                 {
-                    href: 'javascript:void()',
+                    href: '#',
                     name: 'Documentation'
                 },
                 {
-                    href: 'javascript:void()',
+                    href: '#',
                     name: 'Pricing'
                 },
             ],
@@ -26,41 +26,41 @@ export default () => {
             label: "About",
             items: [
                 {
-                    href: 'javascript:void()',
+                    href: '#',
                     name: 'Terms'
                 },
                 {
-                    href: 'javascript:void()',
+                    href: '#',
                     name: 'License'
                 },
                 {
-                    href: 'javascript:void()',
+                    href: '#',
                     name: 'Privacy'
                 },
                 {
-                    href: 'javascript:void()',
+                    href: '#',
                     name: 'About US'
                 },
             ]
         },
         {
-            label: "Explore",
+            label: "Course",
             items: [
                 {
-                    href: 'javascript:void()',
-                    name: 'Showcase'
+                    href: '#',
+                    name: 'IT'
                 },
                 {
-                    href: 'javascript:void()',
-                    name: 'Roadmap'
+                    href: '#',
+                    name: 'Designer'
                 },
                 {
-                    href: 'javascript:void()',
-                    name: 'Languages'
+                    href: '#',
+                    name: 'Bussiness'
                 },
                 {
-                    href: 'javascript:void()',
-                    name: 'Blog'
+                    href: '#',
+                    name: 'Photography'
                 },
             ]
         },
@@ -68,15 +68,15 @@ export default () => {
             label: "Company",
             items: [
                 {
-                    href: 'javascript:void()',
+                    href: '#',
                     name: 'Partners'
                 },
                 {
-                    href: 'javascript:void()',
+                    href: '#',
                     name: 'Team'
                 },
                 {
-                    href: 'javascript:void()',
+                    href: '#',
                     name: 'Careers'
                 },
             ],
@@ -89,7 +89,7 @@ export default () => {
                 <div className="justify-between items-center gap-12 md:flex">
                     <div className="flex-1 max-w-lg">
                         <h3 className="text-white text-2xl font-bold">
-                            Get our beautiful newsletter straight to your inbox.
+                            Get newsletter straight to your inbox.
                         </h3>
                     </div>
                     <div className="flex-1 mt-6 md:mt-0">
