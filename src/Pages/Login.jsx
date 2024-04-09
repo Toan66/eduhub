@@ -12,6 +12,10 @@ const Login = () => {
     e.preventDefault();
     try {
         const response = await axios.post('https://localhost:7291/api/Auth/login', { username, password });
+        console.log(response.data.jwt);
+        const token = response.data.jwt;
+        localStorage.setItem('token', token);
+        navigate('/');
         // const token = Cookies.get('jwt');
         // if (token) {
         //     localStorage.setItem('jwt', token);
