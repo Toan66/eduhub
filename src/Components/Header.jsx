@@ -1,11 +1,12 @@
 import { useState } from 'react'
 import logo_eduhub from "../assets/logo_eduhub.jpg"
-import { Link } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom'
 import axios from 'axios'
 
 export default () => {
 
     const [state, setState] = useState(false)
+    const navigate = useNavigate()
 
     // Replace javascript:void(0) paths with your paths
     const navigation = [
@@ -14,6 +15,19 @@ export default () => {
         { title: "Customers", path: "#" },
         { title: "Pricing", path: "#" }
     ]
+
+    const handleLinkClick = () => {
+        // Cookies.remove('jwt');
+        localStorage.clear();
+        axios.post('https://localhost:7291/api/Auth/logout')
+            .then(() => {
+                console.log('Đã đăng xuất thành công');
+                navigate('/');
+            })
+            .catch(error => {
+                console.error('Lỗi khi đăng xuất:', error);
+            });
+    };
 
     return (
         <nav className="bg-white border-b w-full md:static md:text-sm md:border-none xl:">
@@ -66,9 +80,9 @@ export default () => {
                                 </Link>
                             </li>
                             <li>
-                                <Link to="#" className="block py-3 px-4 font-medium text-center text-white bg-indigo-600 hover:bg-indigo-500 active:bg-indigo-700 active:shadow-none rounded-lg shadow md:inline">
+                                <button onClick={handleLinkClick} to="#" className="block py-3 px-4 font-medium text-center text-white bg-indigo-600 hover:bg-indigo-500 active:bg-indigo-700 active:shadow-none rounded-lg shadow md:inline">
                                     Log out
-                                </Link>
+                                </button>
                             </li>
                         </div>
                     </ul>

@@ -3,20 +3,20 @@ import axios from 'axios'
 import { useEffect, useState } from "react";
 
 function Home() {
-    const [data, setData] = useState(null);
+    // const [data, setData] = useState(null);
 
-    const getData = async () => {
-        try {
-            const response = await axios({ method: 'get', url: 'https://localhost:7291/api/Auth', withCredentials: true })
-            setData(response.data);
-        } catch (error) {
-            console.error(error);
-        }
-    };
+    // const getData = async () => {
+    //     try {
+    //         const response = await axios({ method: 'get', url: 'https://localhost:7291/api/Auth', withCredentials: true })
+    //         setData(response.data);
+    //     } catch (error) {
+    //         console.error(error);
+    //     }
+    // };
 
-    useEffect(() => {
-        getData();
-    }, []);
+    // useEffect(() => {
+    //     getData();
+    // }, []);
 
     return (
         <>
