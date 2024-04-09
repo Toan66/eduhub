@@ -12,15 +12,15 @@ const Login = () => {
     e.preventDefault();
     try {
         const response = await axios.post('https://localhost:7291/api/Auth/login', { username, password });
-        const token = Cookies.get('jwt');
-        if (token) {
-            localStorage.setItem('jwt', token);
-            console.log('Đăng nhập thành công!');
-            navigate('/');
-        } else {
-            // Cập nhật lỗi nếu token không tồn tại
-            setError('Đăng nhập không thành công. Vui lòng thử lại.');
-        }
+        // const token = Cookies.get('jwt');
+        // if (token) {
+        //     localStorage.setItem('jwt', token);
+        //     console.log('Đăng nhập thành công!');
+        //     navigate('/');
+        // } else {
+        //     // Cập nhật lỗi nếu token không tồn tại
+        //     setError('Đăng nhập không thành công. Vui lòng thử lại.');
+        // }
     } catch (error) {
         // Xử lý và hiển thị lỗi từ phản hồi của server
         setError(error.response?.data?.message || 'Đã xảy ra lỗi trong quá trình đăng nhập. Vui lòng thử lại.');
