@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import axios from 'axios';
 import Cookies from 'js-cookie';
-import { useNavigate  } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 
 const Login = () => {
     const [username, setUsername] = useState('');
@@ -9,26 +9,26 @@ const Login = () => {
     const [error, setError] = useState('');
     const navigate = useNavigate();
     const handleLogin = async (e) => {
-    e.preventDefault();
-    try {
-        const response = await axios.post('https://localhost:7291/api/Auth/login', { username, password }, { withCredentials: true });        
-        console.log(response.data.token);
-        const token = response.data.token;
-        localStorage.setItem('token', token);
-        navigate('/');
-        // const token = Cookies.get('jwt');
-        // if (token) {
-        //     localStorage.setItem('jwt', token);
-        //     console.log('Đăng nhập thành công!');
-        //     navigate('/');
-        // } else {
-        //     // Cập nhật lỗi nếu token không tồn tại
-        //     setError('Đăng nhập không thành công. Vui lòng thử lại.');
-        // }
-    } catch (error) {
-        setError(error.response?.data?.message || 'Đã xảy ra lỗi trong quá trình đăng nhập. Vui lòng thử lại.');
-    }
-};
+        e.preventDefault();
+        try {
+            const response = await axios.post('https://localhost:7291/api/Auth/login', { username, password }, { withCredentials: true });
+            console.log(response.data.token);
+            const token = response.data.token;
+            localStorage.setItem('token', token);
+            navigate('/');
+            // const token = Cookies.get('jwt');
+            // if (token) {
+            //     localStorage.setItem('jwt', token);
+            //     console.log('Đăng nhập thành công!');
+            //     navigate('/');
+            // } else {
+            //     // Cập nhật lỗi nếu token không tồn tại
+            //     setError('Đăng nhập không thành công. Vui lòng thử lại.');
+            // }
+        } catch (error) {
+            setError(error.response?.data?.message || 'Đã xảy ra lỗi trong quá trình đăng nhập. Vui lòng thử lại.');
+        }
+    };
 
     return (
         <div className="flex justify-center items-center h-screen">
