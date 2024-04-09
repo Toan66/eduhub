@@ -1,5 +1,7 @@
 import { useState } from 'react'
 import logo_eduhub from "../assets/logo_eduhub.jpg"
+import { Link } from 'react-router-dom'
+import axios from 'axios'
 
 export default () => {
 
@@ -7,24 +9,24 @@ export default () => {
 
     // Replace javascript:void(0) paths with your paths
     const navigation = [
-        { title: "Course", path: "/" },
-        { title: "Contact", path: "javascript:void(0)" },
-        { title: "Customers", path: "javascript:void(0)" },
-        { title: "Pricing", path: "/login" }
+        { title: "Course", path: "#" },
+        { title: "Contact", path: "#" },
+        { title: "Customers", path: "#" },
+        { title: "Pricing", path: "#" }
     ]
 
     return (
         <nav className="bg-white border-b w-full md:static md:text-sm md:border-none xl:">
             <div className="items-center px-4 max-w-screen-xl mx-auto md:flex md:px-8">
                 <div className="flex items-center justify-between py-3 md:py-5 md:block">
-                    <a href="javascript:void(0)">
+                    <Link to="/">
                         <img
                             src={logo_eduhub}
                             width={120}
                             height={50}
                             alt="eduhub logo"
                         />
-                    </a>
+                    </Link>
                     <div className="md:hidden">
                         <button className="text-gray-500 hover:text-gray-800"
                             onClick={() => setState(!state)}
@@ -49,9 +51,9 @@ export default () => {
                             navigation.map((item, idx) => {
                                 return (
                                     <li key={idx} className="text-gray-700 hover:text-indigo-600">
-                                        <a href={item.path} className="block">
+                                        <Link to={item.path} className="block">
                                             {item.title}
-                                        </a>
+                                        </Link>
                                     </li>
                                 )
                             })
@@ -59,14 +61,14 @@ export default () => {
                         <span className='hidden w-px h-6 bg-gray-300 md:block'></span>
                         <div className='space-y-3 items-center gap-x-6 md:flex md:space-y-0'>
                             <li>
-                                <a href="javascript:void(0)" className="block py-3 text-center text-gray-700 hover:text-indigo-600 border rounded-lg md:border-none">
+                                <Link to="/login" className="block py-3 text-center text-gray-700 hover:text-indigo-600 border rounded-lg md:border-none">
                                     Log in
-                                </a>
+                                </Link>
                             </li>
                             <li>
-                                <a href="javascript:void(0)" className="block py-3 px-4 font-medium text-center text-white bg-indigo-600 hover:bg-indigo-500 active:bg-indigo-700 active:shadow-none rounded-lg shadow md:inline">
-                                    Sign in
-                                </a>
+                                <Link to="#" className="block py-3 px-4 font-medium text-center text-white bg-indigo-600 hover:bg-indigo-500 active:bg-indigo-700 active:shadow-none rounded-lg shadow md:inline">
+                                    Log out
+                                </Link>
                             </li>
                         </div>
                     </ul>
