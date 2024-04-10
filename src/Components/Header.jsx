@@ -20,19 +20,33 @@ export default () => {
     ]
 
     const handleLinkClick = async () => {
-        try {
-            Cookies.remove('jwt');
-            localStorage.clear();
-            // Gửi yêu cầu đăng xuất tới server
-            await axios.post('https://localhost:7291/api/Auth/logout', { withCredentials: true });
+    try {
+        // Gửi yêu cầu đăng xuất tới server
+        const response = await axios.post('https://localhost:7291/api/Auth/logout', {}, { withCredentials: true });
+        
+        // Kiểm tra phản hồi từ server
+        if (response.status === 200) {
             console.log('Đã đăng xuất thành công');
+            // Xóa dữ liệu người dùng từ localStorage và cookies ở đây
+            localStorage.clear();
+            const allCookies = Cookies.get();
+            if (allCookies) {
+                Object.keys(allCookies).forEach(cookieName => {
+                    Cookies.remove(cookieName); // Đảm bảo rằng bạn cung cấp đúng path và các tùy chọn khác nếu cần
+                });
+            }
             // Chuyển hướng người dùng về trang chủ sau khi đăng xuất thành công
+            navigate("/");
             navigate(0);
-        } catch (error) {
-            // Xử lý lỗi nếu có trong quá trình gửi yêu cầu đăng xuất
-            console.error('Lỗi khi đăng xuất:', error);
+        } else {
+            // Xử lý trường hợp phản hồi không thành công
+            console.error('Lỗi khi đăng xuất:', response);
         }
-    };
+    } catch (error) {
+        // Xử lý lỗi nếu có trong quá trình gửi yêu cầu đăng xuất
+        console.error('Lỗi khi đăng xuất:', error);
+    }
+};
 
     return (
         <nav className="bg-white border-b w-full md:static md:text-sm md:border-none xl:">
@@ -99,7 +113,6 @@ export default () => {
                             }
 
                             <li className=" inline-block">
-                                <div className="inline-block items-center font-medium text-base mr-2">Hello {userRole}</div>
                                 <button onClick={handleLinkClick} className="inline-block py-3 px-4 font-medium text-center text-white bg-indigo-600 hover:bg-indigo-500 active:bg-indigo-700 active:shadow-none rounded-lg shadow md:inline">
                                     Log out
                                 </button>
