@@ -1,18 +1,40 @@
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
 import axios from 'axios'
 import Cookies from 'js-cookie'
 import { useAuth } from '../../Contexts/AuthContext'
+
 
 export default () => {
 
     const [state, setState] = useState(false)
     const navigate = useNavigate()
     const { userRole } = useAuth();
+    const [userName, setUserName] = useState('');
+
+    useEffect(() => {
+        const fetchUserName = async () => {
+            try {
+                // Gọi API để lấy tên người dùng
+                const response = await axios.get('https://localhost:7291/api/Auth/name', { withCredentials: true });
+                if (response.status === 200) {
+                    // Cập nhật tên người dùng vào state
+                    setUserName(response.data);
+                } else {
+                    console.error('Error');
+                }
+            } catch (error) {
+                console.error('Error', error);
+            }
+        };
+
+        fetchUserName();
+    }, []);
+
 
     // Replace javascript:void(0) paths with your paths
     const navigation = [
-        { title: "Course", path: "/Courses" },
+        { title: "Course", path: "/Course" },
         { title: "Contact", path: "#" },
         { title: "Customers", path: "#" },
         { title: "Pricing", path: "#" }
@@ -111,15 +133,42 @@ export default () => {
                                             Register
                                         </Link>
                                     </li>
+
                                 </>
                                 :
                                 <li className=" inline-block">
-                                    <div className="inline-block items-center font-medium text-base mr-2">Hello {userRole}</div>
+                                    <div className="inline-block items-center font-medium text-base mr-2">Hello {userName}</div>
+                                    <Link to="/Dashboard" className="inline-block py-3 px-4 font-medium text-center text">Dashboard</Link>
                                     <button onClick={handleLinkClick} className="inline-block py-3 px-4 font-medium text-center text-white bg-indigo-600 hover:bg-indigo-500 active:bg-indigo-700 active:shadow-none rounded-lg shadow md:inline">
                                         Log out
                                     </button>
                                 </li>
                             }
+
+
+
+                            <div class="relative inline-block text-left sm:hidden xl:!block">
+                                <div class="group">
+                                    <button type="button"
+                                        class="inline-flex justify-center items-center w-full px-4 py-2 text-sm font-medium text-white bg-gray-800 hover:bg-gray-700 focus:outline-none focus:bg-gray-700">
+                                        Open Menu
+                                        <svg class="w-4 h-4 ml-2 -mr-1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">
+                                            <path fill-rule="evenodd" d="M10 12l-5-5h10l-5 5z" />
+                                        </svg>
+                                    </button>
+
+                                    <div
+                                        class="absolute right-0 w-40 mt-1 origin-top-left bg-white divide-y divide-gray-100 rounded-md shadow-lg opacity-0 invisible group-hover:opacity-100 group-hover:visible transition duration-300">
+                                        <div class="py-1">
+                                            <a href="#" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">Option 1</a>
+                                            <a href="#" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">Option 2</a>
+                                            <a href="#" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">Option 3</a>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+
 
                         </div>
                     </ul>

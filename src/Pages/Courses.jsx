@@ -20,16 +20,23 @@ function Courses() {
     }, []);
 
     return (
-        <div>
+        <div className="container mx-auto px-6 md:px-12 xl:px-32">
             <h1>All Courses</h1>
-            <div>
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
                 {courses.map(course => (
-                    <div key={course.courseId}>
-                        <Link to={`/course/${course.courseId}`}>
-                            <h2>{course.courseName}</h2>
-                        </Link>
-                        <p>{course.courseDescription}</p>
-                        {/* Thêm nhiều thông tin khác của khóa học tại đây */}
+                    <div key={course.courseId} className="max-w-sm rounded overflow-hidden shadow-lg">
+                        <img className="w-full" src="./src/assets/python_course.jpg" alt="Course Image" />
+                        <div className="px-6 py-4">
+                            <Link to={`/Course/${course.courseId}`} className="font-bold text-lg mb-2">{course.courseName}</Link>
+                            <p className="text-gray-700 text-base line-clamp-3">
+                                {course.courseDescription}
+                            </p>
+                        </div>
+                        <div className="px-6 pt-4 pb-2">
+                            <Link to={`/Course/${course.courseId}`} className="inline-block bg-indigo-600 hover:bg-indigo-700 text-white py-1 px-3 rounded">
+                                Learn More
+                            </Link>
+                        </div>
                     </div>
                 ))}
             </div>
