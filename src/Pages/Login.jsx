@@ -1,13 +1,22 @@
 import React, { useState } from 'react';
 import axios from 'axios';
-import Cookies from 'js-cookie';
+import { useAuth } from '../Contexts/AuthContext'
 import { useNavigate } from "react-router-dom";
+import { useEffect } from 'react';
 
 const Login = () => {
     const [username, setUsername] = useState('');
     const [password, setPassword] = useState('');
     const [error, setError] = useState('');
     const navigate = useNavigate();
+
+    const { userRole } = useAuth(); // Giả sử useAuth trả về trạng thái đăng nhập
+
+    useEffect(() => {
+        if (userRole) {
+          navigate('/'); // Chuyển hướng người dùng đã đăng nhập đến trang chủ
+        }
+      }, [userRole, navigate]);
 
     const handleLogin = async (e) => {
         e.preventDefault();
@@ -18,7 +27,7 @@ const Login = () => {
             const token = response.data.token;
             localStorage.setItem('token', token);
             localStorage.setItem('role', role);
-            navigate('/');
+            navigate('/', { replace: true });
             navigate(0);
             // if (token) {
             //     localStorage.setItem('jwt', token);

@@ -1,9 +1,8 @@
 import { useState } from 'react'
-import logo_eduhub from "../assets/logo_eduhub.jpg"
 import { Link, useNavigate } from 'react-router-dom'
 import axios from 'axios'
 import Cookies from 'js-cookie'
-import { useAuth } from '../Contexts/AuthContext'
+import { useAuth } from '../../Contexts/AuthContext'
 
 export default () => {
 
@@ -57,7 +56,7 @@ export default () => {
                 <div className="flex items-center justify-between py-3 md:py-5 md:block">
                     <Link to="/">
                         <img
-                            src={logo_eduhub}
+                            src="../../src/assets/logo_eduhub.jpg"
                             width={120}
                             height={50}
                             alt="eduhub logo"
