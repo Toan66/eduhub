@@ -21,8 +21,6 @@ function App() {
 				<Route path="Course/:courseId" element={<CourseDetail />} />
 				<Route path="register" element={<Register />} />
 				<Route path="unauthorized" element={<Unauthorized />} />
-
-
 				<Route path="login" element={<Login />} />
 
 				{/* private routes */}

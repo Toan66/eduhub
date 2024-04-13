@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import TextEditor from '../Components/TextEditor';
 import axios from 'axios';
 
 function Dashboard() {
@@ -36,6 +37,8 @@ function Dashboard() {
             ) : (
                 <p>Loading user data...</p>
             )}
+
+            <TextEditor />
         </div>
     );
 }
