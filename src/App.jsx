@@ -8,6 +8,7 @@ import Courses from './Pages/Courses';
 import Unauthorized from './Pages/Unauthorize';
 import RequireAuth from './Components/RequireAuth';
 import Dashboard from './Pages/Dashboard';
+import CreateCourse from './Pages/CreateCourse';
 
 function App() {
 	return (
@@ -19,9 +20,10 @@ function App() {
 				<Route path="Course" element={<Courses />} />
 				<Route path="/" element={<Home />} />
 				<Route path="Course/:courseId" element={<CourseDetail />} />
-				<Route path="register" element={<Register />} />
-				<Route path="unauthorized" element={<Unauthorized />} />
-				<Route path="login" element={<Login />} />
+				<Route path="Register" element={<Register />} />
+				<Route path="Unauthorized" element={<Unauthorized />} />
+				<Route path="Login" element={<Login />} />
+				<Route path="CreateCourse" element={<CreateCourse />} />
 
 				{/* private routes */}
 				<Route element={<RequireAuth allowedRoles={["Teacher", "Admin", "Student"]} />}>
