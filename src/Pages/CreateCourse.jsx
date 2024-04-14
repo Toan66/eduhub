@@ -23,7 +23,7 @@ function CreateCourse() {
         }
         const imageRef = ref(storage, `featureImages/${featureImage.name}`);
         const uploadTask = uploadBytesResumable(imageRef, featureImage);
-
+    
         uploadTask.on(
             'state_changed',
             (snapshot) => {
@@ -37,14 +37,12 @@ function CreateCourse() {
                 // Handle successful uploads on complete
                 getDownloadURL(uploadTask.snapshot.ref).then((downloadURL) => {
                     console.log('File available at', downloadURL);
-                    setFeatureImage(downloadURL);
-                    axios.post('https://localhost:7291/api/Course/', {
-                        teacherId: 4, // This will be replaced with the actual teacher ID from JWT
-                        courseName: courseName,
-                        courseDescription: courseDescription,
-                        categoryId: categoryId,
-                        featureImage: featureImage,
-                        approvalStatus: false
+                    // Here, directly use downloadURL in your post request
+                    axios.post('https://localhost:7291/api/Course/create', {
+                        courseName,
+                        courseDescription,
+                        categoryId,
+                        featureImage: downloadURL // Use the direct URL here
                     }, { withCredentials: true }).then(response => {
                         console.log(response.data);
                     }).catch(error => {

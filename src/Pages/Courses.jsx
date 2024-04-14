@@ -25,7 +25,7 @@ function Courses() {
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
                 {courses.map(course => (
                     <div key={course.courseId} className="max-w-sm rounded overflow-hidden shadow-lg">
-                        <img className="w-full" src="./src/assets/python_course.jpg" alt="Course Image" />
+                        <img className="w-full" src={course.featureImage} alt="Course Image" />
                         <div className="px-6 py-4">
                             <Link to={`/Course/${course.courseId}`} className="font-bold text-lg mb-2">{course.courseName}</Link>
                             <p className="text-gray-700 text-base line-clamp-3">
