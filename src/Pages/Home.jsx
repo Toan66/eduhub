@@ -43,7 +43,7 @@ function Home() {
                         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
 
 
-                            {courses.slice(0, 4).map(course => (
+                            {courses.slice(0, 3).map(course => (
                                 <div key={course.courseId} className="max-w-sm rounded overflow-hidden shadow-lg">
                                     <img className="w-full" src="./src/assets/python_course.jpg" alt="Course Image" />
                                     <div className="px-6 py-4">

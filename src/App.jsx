@@ -23,13 +23,15 @@ function App() {
 				<Route path="Register" element={<Register />} />
 				<Route path="Unauthorized" element={<Unauthorized />} />
 				<Route path="Login" element={<Login />} />
-				<Route path="CreateCourse" element={<CreateCourse />} />
 
 				{/* private routes */}
 				<Route element={<RequireAuth allowedRoles={["Teacher", "Admin", "Student"]} />}>
 					<Route path="Dashboard" element={<Dashboard />} />
 				</Route>
 
+				<Route element={<RequireAuth allowedRoles={["Teacher", "Admin"]} />}>
+					<Route path="CreateCourse" element={<CreateCourse />} />
+				</Route>
 
 				{/* we want to protect these routes
 				<Route element={<RequireAuth allowedRoles={[ROLES.User]} />}>

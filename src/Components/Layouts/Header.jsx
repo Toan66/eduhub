@@ -139,7 +139,7 @@ export default () => {
                                 <li className="flex items-center">
                                     <div className="inline-block text-center text-base font-medium  mr-2">Hello {userName}</div>
 
-                                    <div className="relative text-left sm:hidden xl:!block">
+                                    <div className="relative text-left ">
                                         <div className="group">
                                             <button type="button"
                                                 className="inline-flex justify-center items-center w-full px-4 py-2 text-sm font-medium text-white bg-gray-800 hover:bg-gray-700 focus:outline-none focus:bg-gray-700">
@@ -163,10 +163,6 @@ export default () => {
 
 
                             }
-
-
-
-
 
 
 
