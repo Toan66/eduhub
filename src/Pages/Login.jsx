@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import axios from 'axios';
 import { useAuth } from '../Contexts/AuthContext'
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { useEffect } from 'react';
 
 const Login = () => {
@@ -14,9 +14,9 @@ const Login = () => {
 
     useEffect(() => {
         if (userRole) {
-          navigate('/'); // Chuyển hướng người dùng đã đăng nhập đến trang chủ
+            navigate('/'); // Chuyển hướng người dùng đã đăng nhập đến trang chủ
         }
-      }, [userRole, navigate]);
+    }, [userRole, navigate]);
 
     const handleLogin = async (e) => {
         e.preventDefault();
@@ -44,13 +44,14 @@ const Login = () => {
 
     return (
         <div className="flex flex-col justify-center items-center h-96">
-            <div className="font-bold uppercase text-3xl mb-5">Đăng nhập</div>
+            <div className="font-bold uppercase text-3xl mb-5">Log in</div>
             <form className="w-full max-w-xs" onSubmit={handleLogin}>
                 <div className="mb-4">
                     <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="email">
                         Username
                     </label>
                     <input
+                        required
                         className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
                         id="username"
                         type="text" // Thay đổi type từ email sang text
@@ -64,6 +65,7 @@ const Login = () => {
                         Password
                     </label>
                     <input
+                        required
                         className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 mb-3 leading-tight focus:outline-none focus:shadow-outline"
                         id="password"
                         type="password"
@@ -73,7 +75,10 @@ const Login = () => {
                     />
                 </div>
                 {error && <p className="text-red-500 text-xs italic">{error}</p>}
-                <div className="flex items-center justify-between">
+
+                <div>New to Eduhub? <Link to="/Register" className=" text-blue-500">Register</Link></div>
+
+                <div className="flex items-center justify-center mt-10">
                     <button
                         className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
                         type="submit"

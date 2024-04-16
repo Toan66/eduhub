@@ -8,6 +8,7 @@ function CreateCourse() {
     const [courseDescription, setCourseDescription] = useState('');
     const [categoryId, setCategoryId] = useState('');
     const [featureImage, setFeatureImage] = useState(null);
+    const [uploadProgress, setUploadProgress] = useState(0);
 
     const handleImageChange = (e) => {
         if (e.target.files[0]) {
@@ -23,11 +24,14 @@ function CreateCourse() {
         }
         const imageRef = ref(storage, `featureImages/${featureImage.name}`);
         const uploadTask = uploadBytesResumable(imageRef, featureImage);
-    
+
         uploadTask.on(
             'state_changed',
             (snapshot) => {
-                // Optional: Handle upload progress
+                // Tính toán phần trăm hoàn thành
+                const progress = (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
+                setUploadProgress(progress);
+                console.log('Upload is ' + progress + '% done');
             },
             (error) => {
                 // Handle unsuccessful uploads
@@ -54,7 +58,7 @@ function CreateCourse() {
     };
 
     return (
-        <div className="container  mx-auto p-4">
+        <div className="container mx-auto px-6 md:px-12 xl:px-32">
             <form onSubmit={handleSubmit} className="space-y-4">
                 <div>
                     <label htmlFor="courseName" className="block text-sm font-medium text-gray-700">Course Name</label>
@@ -81,6 +85,13 @@ function CreateCourse() {
                     <label htmlFor="featureImage" className="block text-sm font-medium text-gray-700">Feature Image</label>
                     <input type="file" id="featureImage" onChange={handleImageChange} className="mt-1 block w-full border border-gray-300 rounded-md shadow-sm p-2" />
                 </div>
+                {uploadProgress > 0 && (
+                        <div>
+                            <label htmlFor="uploadProgress" className="block text-sm font-medium text-gray-700">Upload Progress</label>
+                            <progress id="uploadProgress" value={uploadProgress} max="100" className="mt-1 block w-full"></progress>
+                            {uploadProgress < 100 ? <p>Uploading: {uploadProgress.toFixed(2)}%</p> : <p>Upload Complete</p>}
+                        </div>
+                    )}
                 {/* Submit button */}
                 <button type="submit" className="px-4 py-2 bg-blue-500 text-white rounded-md hover:bg-blue-700">Create Course</button>
             </form>

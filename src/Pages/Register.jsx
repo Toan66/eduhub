@@ -28,8 +28,8 @@ function Register() {
                 phoneNumber
             }, { withCredentials: true });
             console.log(response.data.message);
-            // Đăng ký thành công, bạn có thể chuyển hướng người dùng hoặc làm gì đó tùy ý
-            navigate('/login'); // Chuyển hướng người dùng đến trang đăng nhập sau khi đăng ký thành công
+            
+            navigate('/login');
             navigate(0);
         } catch (error) {
             setError(error.response?.data?.message || 'Đã xảy ra lỗi trong quá trình đăng ký. Vui lòng thử lại.');
@@ -45,6 +45,7 @@ function Register() {
                         Username
                     </label>
                     <input
+                        required
                         className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
                         id="username"
                         type="text"
@@ -58,6 +59,7 @@ function Register() {
                         Password
                     </label>
                     <input
+                        required
                         className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 mb-3 leading-tight focus:outline-none focus:shadow-outline"
                         id="password"
                         type="password"
@@ -104,6 +106,7 @@ function Register() {
                         Full Name
                     </label>
                     <input
+                        required
                         className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
                         id="fullName"
                         type="text"
@@ -117,6 +120,7 @@ function Register() {
                         Email
                     </label>
                     <input
+                        required
                         className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
                         id="email"
                         type="email"
@@ -130,6 +134,7 @@ function Register() {
                         Date of Birth
                     </label>
                     <input
+                        required
                         className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
                         id="dateOfBirth"
                         type="date"
@@ -158,6 +163,7 @@ function Register() {
                         Phone Number
                     </label>
                     <input
+                        required
                         className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
                         id="phoneNumber"
                         type="text"

@@ -5,11 +5,11 @@ const RequireAuth = ({ allowedRoles }) => {
     const { userRole } = useAuth();
 
     if (!userRole) {
-        return <Navigate to="/login" replace />;
+        return <Navigate to="/Login" replace />;
     }
 
     if (!allowedRoles.includes(userRole)) {
-        return <Navigate to="/unauthorized" replace />;
+        return <Navigate to="/Unauthorized" replace />;
     }
 
     // Nếu người dùng đã đăng nhập và có role phù hợp, cho phép truy cập vào trang

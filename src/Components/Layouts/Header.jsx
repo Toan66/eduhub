@@ -32,48 +32,33 @@ export default () => {
     }, []);
 
 
-    // Replace javascript:void(0) paths with your paths
     const navigation = [
         { title: "Course", path: "/Course" },
-        { title: "Contact", path: "#" },
+        { title: "Create Course", path: "/CreateCourse" },
         { title: "Customers", path: "#" },
         { title: "Pricing", path: "#" }
     ]
 
     const logoutHandle = async () => {
         try {
-            // Gửi yêu cầu đăng xuất tới server
             const response = await axios.post('https://localhost:7291/api/Auth/logout', { withCredentials: true });
 
-            // Kiểm tra phản hồi từ server
             if (response.status === 200) {
                 console.log('Đã đăng xuất thành công');
-                // Xóa dữ liệu người dùng từ localStorage và cookies ở đây
                 localStorage.clear();
-                // const allCookies = Cookies.get();
-                // if (allCookies) {
-                //     Object.keys(allCookies).forEach(cookieName => {
-                //         Cookies.remove(cookieName); // Đảm bảo rằng bạn cung cấp đúng path và các tùy chọn khác nếu cần
-                //     });
-                // }
-
                 Cookies.remove('jwt');
-
-                // Chuyển hướng người dùng về trang chủ sau khi đăng xuất thành công
                 navigate("/");
                 navigate(0);
             } else {
-                // Xử lý trường hợp phản hồi không thành công
                 console.error('Lỗi khi đăng xuất:', response);
             }
         } catch (error) {
-            // Xử lý lỗi nếu có trong quá trình gửi yêu cầu đăng xuất
             console.error('Lỗi khi đăng xuất:', error);
         }
     };
 
     return (
-        <nav className="bg-white border-b w-full md:static md:text-sm md:border-none xl:">
+        <header className="bg-white shadow-md border-b w-full md:static md:text-sm md:border-none xl:">
             <div className="items-center px-4 max-w-screen-xl mx-auto md:flex md:px-8">
                 <div className="flex items-center justify-between py-3 md:py-5 md:block">
                     <Link to="/">
@@ -115,16 +100,16 @@ export default () => {
                                 )
                             })
                         }
-                        <span className='hidden w-px h-6 bg-gray-300 md:block'></span>
+                        <span className=' w-px h-6 bg-gray-300 md:block'></span>
                         <div className='space-y-3 items-center gap-x-6 md:flex md:space-y-0'>
 
 
-
+                            {/* role */}
                             {!userRole
                                 ?
                                 <>
                                     <li>
-                                        <Link to="/login" className="block py-3 px-4 font-medium text-center text-white bg-indigo-600 hover:bg-indigo-500 active:bg-indigo-700 active:shadow-none rounded-lg shadow md:inline">
+                                        <Link to="/login" className="text-gray-700 hover:text-indigo-600">
                                             Log in
                                         </Link>
                                     </li>
@@ -137,7 +122,7 @@ export default () => {
                                 </>
                                 :
                                 <li className="flex items-center">
-                                    <div className="inline-block text-center text-base font-medium  mr-2">Hello {userName}</div>
+                                    <div className="inline-block text-center text-base font-medium mr-2">Hello {userName}</div>
 
                                     <div className="relative text-left ">
                                         <div className="group">
@@ -153,23 +138,19 @@ export default () => {
                                                 className="absolute right-0 w-40 origin-top-left bg-white divide-y divide-gray-100 rounded-md shadow-lg opacity-0 invisible group-hover:opacity-100 group-hover:visible transition duration-300">
                                                 <div className="py-1">
                                                     <Link to="/Dashboard" className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">DashBoard</Link>
-                                                    <Link href="#" className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">LogOut</Link>
-                                                    <button onClick={logoutHandle} className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">Log out</button>
+                                                    <Link onClick={logoutHandle} className="block pointer-events-auto px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">Log out</Link>
                                                 </div>
                                             </div>
                                         </div>
                                     </div>
                                 </li>
-
-
                             }
-
 
 
                         </div>
                     </ul>
                 </div>
             </div>
-        </nav>
+        </header>
     )
 }

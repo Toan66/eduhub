@@ -6,8 +6,8 @@ const Breadcrumbs = () => {
     const pathnames = location.pathname.split('/').filter(x => x);
 
     return (
-        <div className="flex py-3 px-5 bg-gray-100 text-gray-700">
-            <nav aria-label="breadcrumb" className="container mx-auto px-6 md:px-12 xl:px-32">
+        <div className="py-3 px-5 bg-gray-100 text-gray-700 w-full">
+            <nav aria-label="breadcrumb" className="container mx-auto px-6 md:px-12 xl:px-32 text-lg font-medium">
                 <ol className="list-reset flex">
                     <li>
                         <Link to="/" className="text-gray-700 hover:text-gray-900">Home</Link>

@@ -42,13 +42,13 @@ function Home() {
                         <h3 className="text-3xl font-bold text-center mb-10">Popular Courses</h3>
                         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
 
-
-                            {courses.slice(0, 3).map(course => (
+                        {/* Course Card */}
+                            {courses.slice(0, 4).map(course => (
                                 <div key={course.courseId} className="max-w-sm rounded overflow-hidden shadow-lg">
                                     <img className="w-full" src="./src/assets/python_course.jpg" alt="Course Image" />
                                     <div className="px-6 py-4">
                                         <Link to={`/Course/${course.courseId}`} className="font-bold text-lg mb-2">{course.courseName}</Link>
-                                        <p className="text-gray-700 text-base line-clamp-3">
+                                        <p className="text-gray-700 text-base line-clamp-3 text-justify">
                                             {course.courseDescription}
 
                                         </p>
@@ -61,26 +61,6 @@ function Home() {
                                 </div>
                             ))}
 
-                            {/* Repeat this block for each course */}
-                            <div className="max-w-sm rounded overflow-hidden shadow-lg">
-                                <img className="w-full" src="./src/assets/python_course.jpg" alt="Course Image" />
-                                <div className="px-6 py-4">
-                                    <div className="font-bold text-xl mb-2">Python Course</div>
-                                    <p className="text-gray-700 text-base line-clamp-3">
-                                        Course description goes here. It should be brief and to the point.
-                                        Course description goes here. It should be brief and to the point.
-                                        Course description goes here. It should be brief and to the point.
-                                        Course description goes here. It should be brief and to the point.
-
-                                    </p>
-                                </div>
-                                <div className="px-6 pt-4 pb-2">
-                                    <Link to="/course-detail" className="inline-block bg-indigo-600 hover:bg-indigo-700 text-white py-1 px-3 rounded">
-                                        Learn More
-                                    </Link>
-                                </div>
-                            </div>
-                            {/* End of course block */}
 
                         </div>
                     </div>
