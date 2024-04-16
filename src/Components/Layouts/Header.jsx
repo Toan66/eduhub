@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react'
-import { Link, useNavigate } from 'react-router-dom'
+import { Link, useNavigate , useLocation} from 'react-router-dom'
 import axios from 'axios'
 import Cookies from 'js-cookie'
 import { useAuth } from '../../Contexts/AuthContext'
@@ -11,14 +11,18 @@ export default () => {
     const navigate = useNavigate()
     const { userRole } = useAuth();
     const [userName, setUserName] = useState('');
+    const location = useLocation();
+
+    useEffect(() => {
+        setState(false);
+    }, [location.pathname]);
+    
 
     useEffect(() => {
         const fetchUserName = async () => {
             try {
-                // Gọi API để lấy tên người dùng
                 const response = await axios.get('https://localhost:7291/api/Auth/name', { withCredentials: true });
                 if (response.status === 200) {
-                    // Cập nhật tên người dùng vào state
                     setUserName(response.data);
                 } else {
                     console.error('Error');
@@ -44,7 +48,7 @@ export default () => {
             const response = await axios.post('https://localhost:7291/api/Auth/logout', { withCredentials: true });
 
             if (response.status === 200) {
-                console.log('Đã đăng xuất thành công');
+                // console.log('Đã đăng xuất thành công');
                 localStorage.clear();
                 Cookies.remove('jwt');
                 navigate("/");
@@ -100,6 +104,7 @@ export default () => {
                                 )
                             })
                         }
+
                         <span className=' w-px h-6 bg-gray-300 md:block'></span>
                         <div className='space-y-3 items-center gap-x-6 md:flex md:space-y-0'>
 
@@ -114,7 +119,7 @@ export default () => {
                                         </Link>
                                     </li>
                                     <li>
-                                        <Link to="/register" className="block py-3 px-4 font-medium text-center text-white bg-indigo-600 hover:bg-indigo-500 active:bg-indigo-700 active:shadow-none rounded-lg shadow md:inline">
+                                        <Link to="/register" className="block py-3 px-4 font-medium text-center text-white bg-indigo-600 hover:bg-indigo-500 active:bg-indigo-700 active:shadow-none rounded-lg shadow md:inline w-auto">
                                             Register
                                         </Link>
                                     </li>

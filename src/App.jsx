@@ -9,6 +9,9 @@ import Unauthorized from './Pages/Unauthorize';
 import RequireAuth from './Components/RequireAuth';
 import Dashboard from './Pages/Dashboard';
 import CreateCourse from './Pages/CreateCourse';
+import CreateChapter from './Pages/CreateChapter';
+import CreateLesson from './Pages/CreateLesson';
+import CourseEditor from './Pages/CourseEditor';
 
 function App() {
 	return (
@@ -29,8 +32,13 @@ function App() {
 					<Route path="Dashboard" element={<Dashboard />} />
 				</Route>
 
+				<Route path="/CourseEditor/:courseId" element={<CourseEditor />} />
+
+
 				<Route element={<RequireAuth allowedRoles={["Teacher", "Admin"]} />}>
 					<Route path="CreateCourse" element={<CreateCourse />} />
+					<Route path="CreateChapter" element={<CreateChapter />} />
+					<Route path="CreateLesson" element={<CreateLesson />} />
 				</Route>
 
 				{/* we want to protect these routes
