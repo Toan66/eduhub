@@ -12,6 +12,7 @@ import CreateCourse from './Pages/CreateCourse';
 import CreateChapter from './Pages/CreateChapter';
 import CreateLesson from './Pages/CreateLesson';
 import CourseEditor from './Pages/CourseEditor';
+import ChapterEditor from './Pages/ChapterEditor';
 
 function App() {
 	return (
@@ -32,14 +33,20 @@ function App() {
 					<Route path="Dashboard" element={<Dashboard />} />
 				</Route>
 
-				<Route path="/CourseEditor/:courseId" element={<CourseEditor />} />
+				<Route path="CreateCourse" element={<CreateCourse />} />
+				<Route path="CourseEditor/:courseId" element={<CourseEditor />} />
+				<Route path="Course/:courseId/CreateChapter" element={<CreateChapter />} />
+				<Route path="Chapter/:chapterId/Edit" element={<ChapterEditor />} />
+				<Route path="/Chapter/:chapterId/CreateLesson" element={<CreateLesson />} />
 
 
-				<Route element={<RequireAuth allowedRoles={["Teacher", "Admin"]} />}>
+				{/* <Route element={<RequireAuth allowedRoles={["Teacher", "Admin"]} />}>
 					<Route path="CreateCourse" element={<CreateCourse />} />
-					<Route path="CreateChapter" element={<CreateChapter />} />
+					<Route path="CourseEditor/:courseId" element={<CourseEditor />} />
+					<Route path="Course/:courseId/CreateChapter" element={<CreateChapter />} />
+					<Route path="Chapter/:chapterId/Edit" element={<ChapterEditor />} />
 					<Route path="CreateLesson" element={<CreateLesson />} />
-				</Route>
+				</Route> */}
 
 				{/* we want to protect these routes
 				<Route element={<RequireAuth allowedRoles={[ROLES.User]} />}>
