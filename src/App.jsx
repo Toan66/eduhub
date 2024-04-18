@@ -33,19 +33,19 @@ function App() {
 					<Route path="Dashboard" element={<Dashboard />} />
 				</Route>
 
-				<Route path="CreateCourse" element={<CreateCourse />} />
-				<Route path="CourseEditor/:courseId" element={<CourseEditor />} />
-				<Route path="Course/:courseId/CreateChapter" element={<CreateChapter />} />
+				<Route path="Course/Create" element={<CreateCourse />} />
+				<Route path="Course/:courseId/Edit" element={<CourseEditor />} />
+				<Route path="Course/:courseId/Chapter/Create" element={<CreateChapter />} />
 				<Route path="Chapter/:chapterId/Edit" element={<ChapterEditor />} />
-				<Route path="/Chapter/:chapterId/CreateLesson" element={<CreateLesson />} />
+				<Route path="Chapter/:chapterId/Lesson/Create" element={<CreateLesson />} />
 
 
 				{/* <Route element={<RequireAuth allowedRoles={["Teacher", "Admin"]} />}>
-					<Route path="CreateCourse" element={<CreateCourse />} />
-					<Route path="CourseEditor/:courseId" element={<CourseEditor />} />
-					<Route path="Course/:courseId/CreateChapter" element={<CreateChapter />} />
+					<Route path="Course/Create" element={<CreateCourse />} />
+					<Route path="Course/:courseId/Edit" element={<CourseEditor />} />
+					<Route path="Course/:courseId/Chapter/Create" element={<CreateChapter />} />
 					<Route path="Chapter/:chapterId/Edit" element={<ChapterEditor />} />
-					<Route path="CreateLesson" element={<CreateLesson />} />
+					<Route path="Chapter/:chapterId/Lesson/Create" element={<CreateLesson />} />
 				</Route> */}
 
 				{/* we want to protect these routes

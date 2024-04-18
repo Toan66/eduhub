@@ -106,7 +106,7 @@ function CreateLesson() {
     };
 
     return (
-        <div className="container mx-auto px-4 py-8">
+        <div className="container mx-auto px-4 py-8 sm:max-w-screen-xl">
             <h1 className="text-2xl font-bold mb-4">Create New Lesson</h1>
             <form onSubmit={handleSubmit} className="max-w-lg">
                 <div className="mb-4">

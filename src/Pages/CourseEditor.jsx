@@ -23,9 +23,9 @@ function CourseEditor() {
     if (!course) return <div>Loading...</div>;
 
     return (
-        <div className="container mx-auto px-4">
+        <div className="container mx-auto px-4 sm:max-w-screen-xl">
             <div className="mb-8">
-                <h1 className="text-2xl font-bold mb-4">{course.courseName}</h1>
+                <h1 className="text-2xl font-bold mb-4">Course: {course.courseName}</h1>
                 <p className="mb-2">{course.courseDescription}</p>
                 {course.featureImage && (
                     <img src={course.featureImage} alt="Feature" className="w-full max-w-xs object-cover rounded-lg" />
@@ -35,7 +35,7 @@ function CourseEditor() {
             <div className="mb-8">
                 <div className="flex justify-between items-center">
                     <h2 className="text-xl font-semibold">Chapters</h2>
-                    <Link to={`/Course/${course.courseId}/CreateChapter`} className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
+                    <Link to={`/Course/${course.courseId}/Chapter/Create`} className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
                         Add Chapter
                     </Link>
                 </div>

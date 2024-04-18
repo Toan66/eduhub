@@ -35,10 +35,10 @@ function Dashboard() {
     }, [userData]);
 
     return (
-        <div className="p-4">
+        <div className="container mx-auto px-4 mt-1 sm:max-w-screen-xl">
             {userData ? (
-                <div className="max-w-4xl mx-auto bg-white p-6">
-                    <h2 className="text-2xl font-semibold mb-4">User Dashboard</h2>
+                <div className="bg-white">
+                    <h2 className="text-2xl font-bold mb-4">User Dashboard</h2>
                     <div className="mb-3 shadow-md rounded-lg p-6">
                         <h3 className="text-xl font-semibold">User Information</h3>
                         <p><strong>Username:</strong> {userData.username}</p>
@@ -62,7 +62,7 @@ function Dashboard() {
                                             <img src={course.featureImage} alt="Course" className="w-full h-32 object-cover mt-2 rounded" />
                                         )}
                                         <div className="mt-4">
-                                            <Link to={`/CourseEditor/${course.courseId}`} className="inline-block bg-blue-500 text-white py-2 px-4 rounded hover:bg-blue-700 transition-colors">Edit</Link>
+                                            <Link to={`/Course/${course.courseId}/Edit`} className="inline-block bg-blue-500 text-white py-2 px-4 rounded hover:bg-blue-700 transition-colors">Edit</Link>
                                         </div>
                                     </div>
                                 ))}

@@ -37,9 +37,9 @@ function Register() {
     };
 
     return (
-        <div className="flex flex-col justify-center items-center h-auto m-24">
+        <div className="flex flex-col justify-center items-center h-auto mt-5">
             <div className="font-bold uppercase text-3xl mb-5">REGISTER</div>
-            <form className="w-full max-w-xs" onSubmit={handleRegister}>
+            <form className="w-full max-w-sm" onSubmit={handleRegister}>
                 <div className="mb-4">
                     <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="username">
                         Username

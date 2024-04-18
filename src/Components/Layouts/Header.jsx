@@ -38,7 +38,7 @@ export default () => {
 
     const navigation = [
         { title: "Course", path: "/Course" },
-        { title: "Create Course", path: "/CreateCourse" },
+        { title: "Create Course", path: "/Course/Create" },
         { title: "Customers", path: "#" },
         { title: "Pricing", path: "#" }
     ]
@@ -114,12 +114,12 @@ export default () => {
                                 ?
                                 <>
                                     <li>
-                                        <Link to="/login" className="text-gray-700 hover:text-indigo-600">
+                                        <Link to="/Login" className="text-gray-700 hover:text-indigo-600">
                                             Log in
                                         </Link>
                                     </li>
                                     <li>
-                                        <Link to="/register" className="block py-3 px-4 font-medium text-center text-white bg-indigo-600 hover:bg-indigo-500 active:bg-indigo-700 active:shadow-none rounded-lg shadow md:inline w-auto">
+                                        <Link to="/Register" className="block py-3 px-4 font-medium text-center text-white bg-indigo-600 hover:bg-indigo-500 active:bg-indigo-700 active:shadow-none rounded-lg shadow md:inline w-auto">
                                             Register
                                         </Link>
                                     </li>
