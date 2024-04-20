@@ -77,7 +77,14 @@ function CreateCourse() {
                         <option value="2">Skill Development</option>
                         <option value="3">Marketing</option>
                         <option value="4">Music</option>
-
+                        <option value="5">Design</option>
+                        <option value="6">Finance</option>
+                        <option value="7">Health and Fitness</option>
+                        <option value="8">Language Learning</option>
+                        <option value="9">Photography & Video</option>
+                        <option value="10">Business</option>
+                        <option value="11">Office Productivity</option>
+                        
                         {/* Add more categories as needed */}
                     </select>
                 </div>
