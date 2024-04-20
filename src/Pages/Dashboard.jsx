@@ -9,7 +9,7 @@ function Dashboard() {
     useEffect(() => {
         const fetchUserData = async () => {
             try {
-                const response = await axios.get('https://localhost:7291/api/Auth/detail', { withCredentials: true });
+                const response = await axios.get('https://localhost:7291/api/User/detail', { withCredentials: true });
                 setUserData(response.data);
             } catch (error) {
                 console.error("Error fetching user data:", error);
@@ -35,7 +35,7 @@ function Dashboard() {
     }, [userData]);
 
     return (
-        <div className="container mx-auto px-4 mt-1 sm:max-w-screen-xl">
+        <div className="container mx-auto px-4 mt-1 sm:max-w-screen-lg">
             {userData ? (
                 <div className="bg-white">
                     <h2 className="text-2xl font-bold mb-4">User Dashboard</h2>

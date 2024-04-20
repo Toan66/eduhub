@@ -58,7 +58,7 @@ function CreateCourse() {
     };
 
     return (
-        <div className="container mx-auto px-6 md:px-12 xl:px-32">
+        <div className="container mx-auto px-6 sm:max-w-screen-lg">
             <form onSubmit={handleSubmit} className="space-y-4">
                 <div>
                     <label htmlFor="courseName" className="block text-sm font-medium text-gray-700">Course Name</label>
@@ -86,12 +86,12 @@ function CreateCourse() {
                     <input type="file" id="featureImage" onChange={handleImageChange} className="mt-1 block w-full border border-gray-300 rounded-md shadow-sm p-2" />
                 </div>
                 {uploadProgress > 0 && (
-                        <div>
-                            <label htmlFor="uploadProgress" className="block text-sm font-medium text-gray-700">Upload Progress</label>
-                            <progress id="uploadProgress" value={uploadProgress} max="100" className="mt-1 block w-full"></progress>
-                            {uploadProgress < 100 ? <p>Uploading: {uploadProgress.toFixed(2)}%</p> : <p>Upload Complete</p>}
-                        </div>
-                    )}
+                    <div>
+                        <label htmlFor="uploadProgress" className="block text-sm font-medium text-gray-700">Upload Progress</label>
+                        <progress id="uploadProgress" value={uploadProgress} max="100" className="mt-1 block w-full"></progress>
+                        {uploadProgress < 100 ? <p>Uploading: {uploadProgress.toFixed(2)}%</p> : <p>Upload Complete</p>}
+                    </div>
+                )}
                 {/* Submit button */}
                 <button type="submit" className="px-4 py-2 bg-blue-500 text-white rounded-md hover:bg-blue-700">Create Course</button>
             </form>

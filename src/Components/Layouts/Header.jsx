@@ -21,7 +21,7 @@ export default () => {
     useEffect(() => {
         const fetchUserName = async () => {
             try {
-                const response = await axios.get('https://localhost:7291/api/Auth/name', { withCredentials: true });
+                const response = await axios.get('https://localhost:7291/api/User/name', { withCredentials: true });
                 if (response.status === 200) {
                     setUserName(response.data);
                 } else {
@@ -63,7 +63,7 @@ export default () => {
 
     return (
         <header className="bg-white shadow-md border-b w-full md:static md:text-sm md:border-none xl:">
-            <div className="items-center px-4 max-w-screen-xl mx-auto md:flex md:px-8">
+            <div className="items-center px-4 max-w-screen-lg mx-auto md:flex md:px-8">
                 <div className="flex items-center justify-between py-3 md:py-5 md:block">
                     <Link to="/">
                         <img

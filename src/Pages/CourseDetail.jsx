@@ -24,7 +24,7 @@ function CourseDetail() {
     if (!course) return <div>Loading...</div>;
 
     return (
-        <div className="container mx-auto px-6 md:px-12 xl:px-32">
+        <div className="container m-auto max-w-screen-lg">
             {/* Update these fields to match the API response */}
             <h1>{course.courseName}</h1>
             {/* Assuming there's an image URL property you want to add or replace */}

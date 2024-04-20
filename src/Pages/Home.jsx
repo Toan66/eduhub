@@ -26,7 +26,7 @@ function Home() {
             <div className="flex flex-col min-h-screen">
                 {/* Hero Section */}
                 <div className="bg-gray-800 text-white py-20">
-                    <div className="container mx-auto px-6 md:px-12 xl:px-32">
+                    <div className="container mx-auto max-w-screen-lg">
                         <h2 className="text-3xl md:text-5xl font-bold mb-2">Learn Anything, Anytime, Anywhere</h2>
                         <p className="text-xl mb-8">Start learning today with our online courses.</p>
                         <Link to="/Course" className="bg-indigo-600 hover:bg-indigo-700 text-white font-bold py-2 px-4 rounded">
@@ -40,7 +40,7 @@ function Home() {
                 <div className="py-20">
                     <div className="container mx-auto px-6 md:px-12 xl:px-32">
                         <h3 className="text-3xl font-bold text-center mb-10">Popular Courses</h3>
-                        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+                        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 max-w-screen-lg m-auto">
 
                         {/* Course Card */}
                             {courses.slice(0, 4).map(course => (

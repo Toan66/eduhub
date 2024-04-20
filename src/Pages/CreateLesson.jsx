@@ -1,99 +1,100 @@
-import React, { useState, useRef } from 'react';
+import React, { useState } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import axios from 'axios';
-import { ref, uploadBytesResumable, getDownloadURL } from 'firebase/storage';
-import { storage } from '../firebase.jsx';
-import ReactQuill from 'react-quill';
-import 'react-quill/dist/quill.snow.css'; // Đảm bảo đã import CSS của Quill
+import { CKEditor } from '@ckeditor/ckeditor5-react';
+import ClassicEditor from '@ckeditor/ckeditor5-build-classic';
 
+
+import { storage } from '../firebase'; // Đảm bảo bạn đã cấu hình Firebase Storage
+import { ref, uploadBytesResumable, getDownloadURL } from 'firebase/storage';
+
+class FirebaseUploadAdapter {
+    constructor(loader) {
+        this.loader = loader;
+    }
+
+    // Starts the upload process.
+    upload() {
+        return this.loader.file
+            .then(file => new Promise((resolve, reject) => {
+                const storageRef = ref(storage, `images/${file.name}`);
+                const uploadTask = uploadBytesResumable(storageRef, file);
+
+                uploadTask.on(
+                    'state_changed',
+                    (snapshot) => {
+                        // Optional: Update progress
+                    },
+                    (error) => {
+                        console.error('Upload error:', error);
+                        reject(error);
+                    },
+                    () => {
+                        getDownloadURL(uploadTask.snapshot.ref).then((downloadURL) => {
+                            resolve({
+                                default: downloadURL
+                            });
+                        });
+                    }
+                );
+            }));
+    }
+}
+
+function MyCustomUploadAdapterPlugin(editor) {
+    editor.plugins.get('FileRepository').createUploadAdapter = (loader) => {
+        return new FirebaseUploadAdapter(loader);
+    };
+}
 function CreateLesson() {
     const { chapterId } = useParams();
     const navigate = useNavigate();
     const [lessonTitle, setLessonTitle] = useState('');
     const [lessonContent, setLessonContent] = useState('');
-    const [videoFile, setVideoFile] = useState(null);
+    const [video, setVideo] = useState('');
     const [uploadProgress, setUploadProgress] = useState(0);
-    const quillRef = useRef(null);
 
-    const handleFileChange = (e) => {
-        if (e.target.files[0]) {
-            setVideoFile(e.target.files[0]);
-        }
-    };
+    const handleVideoUpload = (e) => {
+        const file = e.target.files[0];
+        if (!file) return;
 
-    const uploadFile = (file, folder) => {
-        return new Promise((resolve, reject) => {
-            const fileRef = ref(storage, `/${file.name}`);
-            const uploadTask = uploadBytesResumable(fileRef, file);
+        const storageRef = ref(storage, `videos/${file.name}`);
+        const uploadTask = uploadBytesResumable(storageRef, file);
 
-            uploadTask.on(
-                'state_changed',
-                (snapshot) => {
-                    const progress = (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
-                    setUploadProgress(progress);
-                    console.log(`${file.name} is % uploaded.`);
-                },
-                (error) => {
-                    console.error('Upload failed:', error);
-                    reject(error);
-                },
-                () => {
-                    getDownloadURL(uploadTask.snapshot.ref).then((downloadURL) => {
-                        console.log(`${file.name} available at`, downloadURL);
-                        resolve(downloadURL);
-                    });
-                }
-            );
-        });
-    };
-
-    const imageHandler = () => {
-        const input = document.createElement('input');
-        input.setAttribute('type', 'file');
-        input.click();
-        input.onchange = async () => {
-            const file = input.files[0];
-            const imageUrl = await uploadFile(file, 'lessonImages');
-            const editor = quillRef.current.getEditor();
-            editor.focus(); // Ensure the editor is focused. Consider focusing it after the image URL is obtained if this doesn't work as expected.
-            setTimeout(() => { // Add a slight delay to ensure the editor is ready
-                const range = editor.getSelection();
-                if (range) {
-                    editor.insertEmbed(range.index, 'image', imageUrl);
-                } else {
-                    // If there's no selection, or it's not valid, insert the image at the last known position or at the start.
-                    editor.insertEmbed(editor.getLength() - 1, 'image', imageUrl);
-                }
-            }, 10); // Adjust delay as necessary
-        };
-    };
-
-    const modules = {
-        toolbar: {
-            container: [
-                [{ 'header': [1, 2, false] }],
-                ['bold', 'italic', 'underline'],
-                ['image', 'code-block']
-            ],
-            handlers: {
-                'image': imageHandler
+        uploadTask.on(
+            'state_changed',
+            (snapshot) => {
+                // Tính toán phần trăm tiến trình upload
+                const progress = (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
+                setUploadProgress(progress);
+            },
+            (error) => {
+                console.error('Upload error:', error);
+                alert('Error uploading video: ', error.message);
+            },
+            () => {
+                getDownloadURL(uploadTask.snapshot.ref).then((downloadURL) => {
+                    console.log('Video available at', downloadURL);
+                    setVideo(downloadURL); // Cập nhật state với URL của video
+                    setUploadProgress(0); // Reset tiến trình sau khi upload thành công
+                });
             }
-        }
+        );
     };
 
     const handleSubmit = async (e) => {
         e.preventDefault();
         try {
-            const videoUrl = await uploadFile(videoFile, 'lessonVideos');
-
-            await axios.post(`https://localhost:7291/api/Lesson/Chapter/${chapterId}/addLesson`, {
+            const response = await axios.post(`https://localhost:7291/api/Lesson/Chapter/${chapterId}/addLesson`, {
                 lessonTitle,
                 lessonContent,
-                video: videoUrl
+                video
             }, { withCredentials: true });
 
-            alert('Lesson has been created successfully!');
-            navigate(-1);
+            if (response.status === 200) {
+                alert('Lesson has been created successfully!');
+                navigate(-1); // Navigate back to the previous page
+            }
         } catch (error) {
             console.error('Error creating lesson:', error);
             alert('An error occurred while creating the lesson.');
@@ -101,29 +102,37 @@ function CreateLesson() {
     };
 
     return (
-        <div className="container mx-auto px-4 py-8 sm:max-w-screen-xl">
+        <div className="container mx-auto max-w-screen-lg">
             <h1 className="text-2xl font-bold mb-4">Create New Lesson</h1>
-            <form onSubmit={handleSubmit} className="max-w-lg">
-                {/* Form fields */}
+            <form onSubmit={handleSubmit}>
                 <div className="mb-4">
                     <label htmlFor="lessonTitle" className="block text-gray-700 text-sm font-bold mb-2">Lesson Title</label>
                     <input type="text" id="lessonTitle" value={lessonTitle} onChange={(e) => setLessonTitle(e.target.value)} className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" required />
                 </div>
                 <div className="mb-4">
                     <label className="block text-gray-700 text-sm font-bold mb-2">Lesson Content</label>
-                    <ReactQuill ref={quillRef} value={lessonContent} onChange={setLessonContent} modules={modules} />
+                    <div className='prose'>
+                        <CKEditor
+                            editor={ClassicEditor}
+                            data={lessonContent}
+                            config={{
+                                extraPlugins: [MyCustomUploadAdapterPlugin]
+                            }}
+                            onChange={(event, editor) => {
+                                const data = editor.getData();
+                                setLessonContent(data);
+                            }}
+                        />
+                    </div>
+
                 </div>
                 <div className="mb-4">
-                    <label htmlFor="videoFile" className="block text-gray-700 text-sm font-bold mb-2">Video File</label>
-                    <input type="file" id="videoFile" onChange={handleFileChange} className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" required />
+                    <label htmlFor="video" className="block text-gray-700 text-sm font-bold mb-2">Video URL</label>
+                    <input type="file" accept="video/*" onChange={handleVideoUpload} className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" />
+                    {uploadProgress > 0 && (
+                        <div className="text-sm text-gray-600">Uploading: {uploadProgress.toFixed(2)}%</div>
+                    )}
                 </div>
-                {uploadProgress > 0 && (
-                    <div className="mb-4">
-                        <label className="block text-sm font-medium text-gray-700">Upload Progress</label>
-                        <progress value={uploadProgress} max="100" className="progress-bar"></progress>
-                        <div>{uploadProgress < 100 ? `Uploading: ${uploadProgress.toFixed(2)}%` : 'Upload Complete'}</div>
-                    </div>
-                )}
                 <button type="submit" className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline">Create Lesson</button>
             </form>
         </div>

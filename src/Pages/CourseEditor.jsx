@@ -23,7 +23,7 @@ function CourseEditor() {
     if (!course) return <div>Loading...</div>;
 
     return (
-        <div className="container mx-auto px-4 sm:max-w-screen-xl">
+        <div className="container mx-auto px-4 sm:max-w-screen-lg">
             <div className="mb-8">
                 <h1 className="text-2xl font-bold mb-4">Course: {course.courseName}</h1>
                 <p className="mb-2">{course.courseDescription}</p>
