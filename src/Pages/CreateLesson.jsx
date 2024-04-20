@@ -1,10 +1,10 @@
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useState, useRef } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import axios from 'axios';
-import { storage } from '../firebase.jsx';
 import { ref, uploadBytesResumable, getDownloadURL } from 'firebase/storage';
+import { storage } from '../firebase.jsx';
 import ReactQuill from 'react-quill';
-import 'react-quill/dist/quill.snow.css'; // Import Quill styles
+import 'react-quill/dist/quill.snow.css'; // Đảm bảo đã import CSS của Quill
 
 function CreateLesson() {
     const { chapterId } = useParams();
@@ -15,14 +15,6 @@ function CreateLesson() {
     const [uploadProgress, setUploadProgress] = useState(0);
     const quillRef = useRef(null);
 
-    useEffect(() => {
-        // Cấu hình custom toolbar và image handler cho Quill
-        const quill = document.querySelector('.ql-editor');
-        if (quill) {
-            quill.setAttribute('data-gramm', false); // Disable Grammarly in Quill editor
-        }
-    }, []);
-
     const handleFileChange = (e) => {
         if (e.target.files[0]) {
             setVideoFile(e.target.files[0]);
@@ -31,7 +23,7 @@ function CreateLesson() {
 
     const uploadFile = (file, folder) => {
         return new Promise((resolve, reject) => {
-            const fileRef = ref(storage, `${folder}/${file.name}`);
+            const fileRef = ref(storage, `/${file.name}`);
             const uploadTask = uploadBytesResumable(fileRef, file);
 
             uploadTask.on(
@@ -39,7 +31,7 @@ function CreateLesson() {
                 (snapshot) => {
                     const progress = (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
                     setUploadProgress(progress);
-                    console.log(`${file.name} is ${progress}% uploaded.`);
+                    console.log(`${file.name} is % uploaded.`);
                 },
                 (error) => {
                     console.error('Upload failed:', error);
@@ -56,22 +48,25 @@ function CreateLesson() {
     };
 
     const imageHandler = () => {
-    const input = document.createElement('input');
-    input.setAttribute('type', 'file');
-    input.click();
-    input.onchange = async () => {
-        const file = input.files[0];
-        const imageUrl = await uploadFile(file, 'lessonImages');
-        const editor = quillRef.current.getEditor(); // Lấy đối tượng editor từ ref
-        editor.focus(); // Đảm bảo editor được focus
-        const range = editor.getSelection(); // Lấy vị trí hiện tại của con trỏ
-        if (range) {
-            editor.insertEmbed(range.index, 'image', imageUrl);
-        } else {
-            editor.insertEmbed(0, 'image', imageUrl); // Nếu không có vị trí nào, chèn ảnh ở đầu trình soạn thảo
-        }
+        const input = document.createElement('input');
+        input.setAttribute('type', 'file');
+        input.click();
+        input.onchange = async () => {
+            const file = input.files[0];
+            const imageUrl = await uploadFile(file, 'lessonImages');
+            const editor = quillRef.current.getEditor();
+            editor.focus(); // Ensure the editor is focused. Consider focusing it after the image URL is obtained if this doesn't work as expected.
+            setTimeout(() => { // Add a slight delay to ensure the editor is ready
+                const range = editor.getSelection();
+                if (range) {
+                    editor.insertEmbed(range.index, 'image', imageUrl);
+                } else {
+                    // If there's no selection, or it's not valid, insert the image at the last known position or at the start.
+                    editor.insertEmbed(editor.getLength() - 1, 'image', imageUrl);
+                }
+            }, 10); // Adjust delay as necessary
+        };
     };
-};
 
     const modules = {
         toolbar: {
@@ -98,7 +93,7 @@ function CreateLesson() {
             }, { withCredentials: true });
 
             alert('Lesson has been created successfully!');
-            navigate(-1); // Navigate back to the previous page
+            navigate(-1);
         } catch (error) {
             console.error('Error creating lesson:', error);
             alert('An error occurred while creating the lesson.');
@@ -109,6 +104,7 @@ function CreateLesson() {
         <div className="container mx-auto px-4 py-8 sm:max-w-screen-xl">
             <h1 className="text-2xl font-bold mb-4">Create New Lesson</h1>
             <form onSubmit={handleSubmit} className="max-w-lg">
+                {/* Form fields */}
                 <div className="mb-4">
                     <label htmlFor="lessonTitle" className="block text-gray-700 text-sm font-bold mb-2">Lesson Title</label>
                     <input type="text" id="lessonTitle" value={lessonTitle} onChange={(e) => setLessonTitle(e.target.value)} className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" required />
