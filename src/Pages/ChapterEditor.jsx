@@ -23,6 +23,21 @@ function ChapterEditor() {
         fetchChapter();
     }, [chapterId]); // Chỉ cần chapterId vì API mới không yêu cầu courseId
 
+    const handleDeleteChapter = async () => {
+        // Hiển thị hộp thoại xác nhận
+        const isConfirmed = window.confirm('Are you sure you want to delete this chapter?');
+        if (isConfirmed) {
+            try {
+                await axios.delete(`https://localhost:7291/api/Chapter/${chapterId}`, { withCredentials: true });
+                alert('Chapter deleted');
+                navigate(-1); // Quay lại trang trước sau khi xóa
+            } catch (error) {
+                console.error('Error deleting chapter:', error);
+                alert('Failed to delete chapter');
+            }
+        }
+    };
+
     if (!chapter) return <div>Loading...</div>;
 
     return (
@@ -35,6 +50,9 @@ function ChapterEditor() {
                 <span>Back</span>
             </button>
 
+            <button className='text-md bg-gray-800 text-white font-semibold px-5 py-2 rounded-md mt-5 inline-block float-right' onClick={handleDeleteChapter}>
+                Delete Chapter
+            </button>
 
             <h1 className="text-2xl font-bold mb-4">Edit Chapter: {chapter.chapterTitle}</h1>
             <p className="mb-2">Description: {chapter.chapterDescription || 'Dont have description'}</p>

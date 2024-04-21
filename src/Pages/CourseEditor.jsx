@@ -5,6 +5,8 @@ import axios from 'axios';
 import { ref, uploadBytesResumable, getDownloadURL } from 'firebase/storage';
 import { storage } from '../firebase.jsx';
 import IconAddCircleOutline from '../Components/Icons/IconAddCircleOutline';
+import { DragDropContext, Droppable, Draggable } from 'react-beautiful-dnd';
+import IconDragHandleDots2 from '../Components/Icons/IconDragHandleDots2.jsx';
 
 function CourseEditor() {
     const { courseId } = useParams();
@@ -15,30 +17,51 @@ function CourseEditor() {
     const [newDescription, setNewDescription] = useState(''); // Giá trị mô tả mới
     const [editImage, setEditImage] = useState(false); // Quản lý việc hiển thị form chỉnh sửa mô tả
     const [imageFile, setImageFile] = useState(null); // File ảnh được chọn
+    const [selectedCategory, setSelectedCategory] = useState(''); // State để lưu trữ danh mục được chọn
+    const [editCategory, setEditCategory] = useState(false); // Quản lý việc hiển thị form chỉnh sửa danh mục
+    const [categories, setCategories] = useState([]); // State để lưu trữ danh sách các danh mục
+    const navigate = useNavigate(); // Sử dụng hook useNavigate
+
 
     useEffect(() => {
         const fetchCourse = async () => {
             try {
-                const response = await axios.get(`https://localhost:7291/api/Course/${courseId}/details`);
+                const response = await axios.get(`https://localhost:7291/api/Course/${courseId}/details/edit`, { withCredentials: true });
                 setCourse(response.data);
             } catch (error) {
                 console.error('Error fetching course details:', error);
+                // alert(error);
+                navigate("/Unauthorized");
+
+            }
+        };
+
+        const fetchCategories = async () => {
+            try {
+                const response = await axios.get('https://localhost:7291/api/Course/category', { withCredentials: true });
+                // Trích xuất mảng các danh mục từ thuộc tính $values của đối tượng trả về
+                const categoriesData = response.data.$values;
+                setCategories(categoriesData);
+            } catch (error) {
+                console.error('Error fetching categories:', error);
             }
         };
 
         fetchCourse();
-    }, [courseId]);
+        fetchCategories();
+    }, [courseId, navigate]);
 
     const handleUpdateTitle = async () => {
         try {
             await axios.put(`https://localhost:7291/api/Course/${courseId}/updateName`, {
                 courseName: newTitle,
-            });
+            }, { withCredentials: true });
             // Cập nhật state của course để UI phản ánh sự thay đổi
             setCourse(prev => ({ ...prev, courseName: newTitle }));
             setEditTitle(false); // Ẩn form chỉnh sửa
         } catch (error) {
             console.error('Error updating course title:', error);
+            alert(error);
         }
     };
 
@@ -46,7 +69,7 @@ function CourseEditor() {
         try {
             await axios.put(`https://localhost:7291/api/Course/${courseId}/updateDescription`, {
                 courseDescription: newDescription,
-            });
+            }, { withCredentials: true });
             // Cập nhật state của course để UI phản ánh sự thay đổi
             setCourse(prev => ({ ...prev, courseDescription: newDescription }));
             setEditDescription(false); // Ẩn form chỉnh sửa
@@ -88,7 +111,7 @@ function CourseEditor() {
         try {
             await axios.put(`https://localhost:7291/api/Course/${courseId}/updateImage`, {
                 featureImage: imageUrl,
-            });
+            }, { withCredentials: true });
             // Cập nhật state của course để UI phản ánh sự thay đổi
             setCourse(prev => ({ ...prev, featureImage: imageUrl }));
             setEditImage(false); // Ẩn form chỉnh sửa
@@ -96,8 +119,33 @@ function CourseEditor() {
             console.error('Error updating course image:', error);
         }
     };
+    const handleUpdateCategory = async () => {
+        try {
+            await axios.put(`https://localhost:7291/api/Course/${courseId}/updateCategory`, {
+                categoryId: selectedCategory, // Sử dụng ID danh mục đã chọn
+            }, { withCredentials: true });
+            setCourse(prev => ({ ...prev, categoryId: selectedCategory }));
+            setEditCategory(false);
+        } catch (error) {
+            console.error('Error updating course category:', error);
+            alert('Failed to update category');
+        }
+    };
 
-    if (!course) return <div>Loading...</div>;
+    const onDragEnd = (result) => {
+        const { source, destination } = result;
+        if (!destination) {
+            return;
+        }
+        if (source.index === destination.index) {
+            return;
+        }
+        // Thêm logic để cập nhật thứ tự của các chapter dựa trên kết quả kéo và thả
+    };
+
+    if (!course) return <div className="container mx-auto px-4 sm:max-w-screen-lg">
+        Loading ...
+    </div>;
 
     return (
         <div className="container mx-auto px-4 sm:max-w-screen-lg">
@@ -194,7 +242,6 @@ function CourseEditor() {
 
                     <div className="rounded-lg bg-indigo-50 p-3 mb-6">
                         <div className='flex flex-row justify-between items-center mb-4 text-lg'>
-
                             <div className='font-semibold w-1/2'>Course chapters</div>
                             <Link to={`/Course/${course.courseId}/Chapter/Create`} className='font-semibold w-auto text-right items-center'>
                                 <span className='inline-block mr-2'><IconAddCircleOutline height="16px" width="16px" /></span>
@@ -202,24 +249,75 @@ function CourseEditor() {
                             </Link>
                         </div>
 
-                        <div className='flex flex-col p-2'>
-                            {course.chapters.$values.map((chapter) => (
-                                <div key={chapter.chapterId} className="mb-4 flex flex-row justify-between bg-indigo-100 p-2 rounded-md">
-                                    <h3 className=" font-semibold w-1/2">{chapter.chapterTitle}</h3>
-                                    <Link to={`/Chapter/${chapter.chapterId}/Edit`} className="w-auto text-right">
-                                        Edit
-                                        <span className='inline-block ml-2'><Pencil /></span>
-                                    </Link>
-
-                                </div>
-                            ))}
-                        </div>
+                        <DragDropContext onDragEnd={onDragEnd}>
+                            <Droppable droppableId="chapters">
+                                {(provided) => (
+                                    <div {...provided.droppableProps} ref={provided.innerRef} className='flex flex-col p-2'>
+                                        {course.chapters.$values
+                                            .filter((chapter, index, self) =>
+                                                index === self.findIndex((t) => (
+                                                    t.chapterId === chapter.chapterId
+                                                ))
+                                            )
+                                            .map((chapter, index) => {
+                                                console.log(`Chapter ID: ${chapter.chapterId}`);
+                                                return (
+                                                    <Draggable key={chapter.chapterId} draggableId={chapter.chapterId.toString()} index={index}>
+                                                        {(provided) => (
+                                                            <div ref={provided.innerRef} {...provided.draggableProps} {...provided.dragHandleProps} className="mb-4 flex flex-row justify-between bg-indigo-100 p-2 rounded-md">
+                                                                <h3 className="font-semibold w-1/2 flex flex-row align-middle items-center ">                                                                 
+                                                                    <IconDragHandleDots2 />
+                                                                    {chapter.chapterTitle}
+                                                                </h3>
+                                                                <Link to={`/Chapter/${chapter.chapterId}/Edit`} className="w-auto font-semibold text-right">
+                                                                    Edit
+                                                                    <span className='inline-block ml-2'><Pencil /></span>
+                                                                </Link>
+                                                            </div>
+                                                        )}
+                                                    </Draggable>
+                                                );
+                                            })}
+                                        {provided.placeholder}
+                                    </div>
+                                )}
+                            </Droppable>
+                        </DragDropContext>
                     </div>
 
+
+                    <div className="rounded-lg bg-indigo-50 p-3 mb-6">
+                        <div className='flex flex-row justify-between mb-4 text-lg'>
+                            <div className='font-semibold w-1/2'>Course category</div>
+                            <button onClick={() => { setEditCategory(true); }} className='font-semibold w-autobutton text-right items-center'>
+                                <span className='inline-block mr-2'><Pencil /></span>
+                                Edit course Category
+                            </button>
+                        </div>
+
+                        {editCategory ? (<>
+                            <select value={selectedCategory} onChange={(e) => setSelectedCategory(e.target.value)} className="w-full p-3 h-15 rounded-md">
+                                {categories.map((category) => (
+                                    <option key={category.courseCategoryId} value={category.courseCategoryId}>
+                                        {category.courseCategoryName}
+                                    </option>
+                                ))}
+                            </select>
+                            <button className='text-md bg-gray-800 text-white font-semibold px-5 py-2 rounded-md mt-5' onClick={handleUpdateCategory}>
+                                Save Category
+                            </button>
+                            <button onClick={() => { setEditCategory(false) }} className='text-md bg-sky-500 float-right text-white font-semibold px-5 py-2 rounded-md mt-5'>Cancel</button>
+                        </>
+
+                        ) : (
+                            <div className='font-normal'>
+                                {course.categoryId}
+                            </div>)}
+                    </div>
                 </div>
             </div>
 
-        </div>
+        </div >
     );
 }
 
