@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, Navigate } from 'react-router-dom';
 import axios from 'axios';
-
+import Pencil from '../Components/Icons/Pencil';
 function Dashboard() {
     const [userData, setUserData] = useState(null);
     const [userCourses, setUserCourses] = useState([]);
@@ -39,16 +39,31 @@ function Dashboard() {
             {userData ? (
                 <div className="bg-white">
                     <h2 className="text-2xl font-bold mb-4">User Dashboard</h2>
-                    <div className="mb-3 shadow-md rounded-lg p-6">
-                        <h3 className="text-xl font-semibold">User Information</h3>
-                        <p><strong>Username:</strong> {userData.username}</p>
-                        <p><strong>User Type:</strong> {userData.userType}</p>
-                        <p><strong>Full Name:</strong> {userData.userInfo.fullName}</p>
-                        <p><strong>Email:</strong> {userData.userInfo.email}</p>
-                        <p><strong>Date of Birth:</strong> {new Date(userData.userInfo.dateOfBirth).toLocaleDateString()}</p>
-                        <p><strong>Gender:</strong> {userData.userInfo.gender}</p>
-                        <p><strong>Phone Number:</strong> {userData.userInfo.phoneNumber}</p>
+                    <div className="mb-3 shadow-xl rounded-lg p-6">
+                        <div className='flex flex-row items-center align-middle'>
+                            <h3 className="text-xl font-semibold ">User Information</h3>
+                            <Link to={`/User/${userData.userId}/Edit`}>
+                                <span className='flex flex-row items-center align-middle'>
+                                    Edit Info
+                                    <Pencil />
+                                </span>
+                            </Link>
+                        </div>
+                        <div className='w-1/2 inline-block'>
+                            <img src={userData.userInfo.Avatar} />
+                            <p><strong>Username:</strong> {userData.username}</p>
+                            <p><strong>User Type:</strong> {userData.userType}</p>
+                            <p><strong>Full Name:</strong> {userData.userInfo.fullName}</p>
+                            <p><strong>Email:</strong> {userData.userInfo.email}</p>
+                        </div>
+                        <div className='w-1/2 float-right inline-block'>
+                            <p><strong>Date of Birth:</strong> {new Date(userData.userInfo.dateOfBirth).toLocaleDateString()}</p>
+                            <p><strong>Gender:</strong> {userData.userInfo.gender}</p>
+                            <p><strong>Phone Number:</strong> {userData.userInfo.phoneNumber}</p>
+                        </div>
+
                     </div>
+
                     {userData.userType === 'Teacher' && userCourses.length > 0 && (
                         <div className="mt-20">
                             <h3 className="text-2xl font-semibold mb-4">Your Courses</h3>
@@ -71,7 +86,7 @@ function Dashboard() {
                     )}
                 </div>
             ) : (
-                <p>Loading user data...</p>
+                <></>
             )}
         </div>
     );

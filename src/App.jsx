@@ -13,6 +13,7 @@ import CreateChapter from './Pages/CreateChapter';
 import CreateLesson from './Pages/CreateLesson';
 import CourseEditor from './Pages/CourseEditor';
 import ChapterEditor from './Pages/ChapterEditor';
+import UserEditor from './Pages/UserEditor';
 
 function App() {
 	return (
@@ -38,6 +39,8 @@ function App() {
 				<Route path="Course/:courseId/Chapter/Create" element={<CreateChapter />} />
 				<Route path="Chapter/:chapterId/Edit" element={<ChapterEditor />} />
 				<Route path="Chapter/:chapterId/Lesson/Create" element={<CreateLesson />} />
+				<Route path="User/:userId/Edit" element={<UserEditor />} />
+
 
 
 				{/* <Route element={<RequireAuth allowedRoles={["Teacher", "Admin"]} />}>

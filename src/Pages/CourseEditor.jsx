@@ -5,8 +5,8 @@ import axios from 'axios';
 import { ref, uploadBytesResumable, getDownloadURL } from 'firebase/storage';
 import { storage } from '../firebase.jsx';
 import IconAddCircleOutline from '../Components/Icons/IconAddCircleOutline';
-import { DragDropContext, Droppable, Draggable } from 'react-beautiful-dnd';
-import IconDragHandleDots2 from '../Components/Icons/IconDragHandleDots2.jsx';
+import { DragDropContext, Droppable, Draggable } from '@hello-pangea/dnd';
+import IconDragHandleDots2 from '../Components/Icons/IconDragHandleDots2';
 
 function CourseEditor() {
     const { courseId } = useParams();
@@ -20,6 +20,7 @@ function CourseEditor() {
     const [selectedCategory, setSelectedCategory] = useState(''); // State để lưu trữ danh mục được chọn
     const [editCategory, setEditCategory] = useState(false); // Quản lý việc hiển thị form chỉnh sửa danh mục
     const [categories, setCategories] = useState([]); // State để lưu trữ danh sách các danh mục
+    const [editChapterOrder, setEditChapterOrder] = useState(false); 
     const navigate = useNavigate(); // Sử dụng hook useNavigate
 
 
@@ -47,9 +48,11 @@ function CourseEditor() {
             }
         };
 
+        setEditChapterOrder(false);
+
         fetchCourse();
         fetchCategories();
-    }, [courseId, navigate]);
+    }, [courseId, editChapterOrder,editCategory]);
 
     const handleUpdateTitle = async () => {
         try {
@@ -132,16 +135,38 @@ function CourseEditor() {
         }
     };
 
-    const onDragEnd = (result) => {
-        const { source, destination } = result;
-        if (!destination) {
-            return;
+    // Giả sử đây là hàm xử lý khi việc kéo và thả kết thúc
+    async function handleOnDragEnd(result) {
+        // Kiểm tra xem phần tử được kéo có được thả vào một vị trí hợp lệ không
+        if (!result.destination) return;
+
+        // Tạo một bản sao của mảng chapters hiện tại
+        const items = Array.from(course.chapters.$values);
+        // Lấy ra phần tử được kéo
+        const [reorderedItem] = items.splice(result.source.index, 1);
+        // Chèn phần tử vào vị trí mới
+        items.splice(result.destination.index, 0, reorderedItem);
+
+        // Tạo JSON để gửi lên server với thứ tự mới
+        const chaptersOrder = items.map((chapter, index) => ({
+            chapterId: chapter.chapterId,
+            newOrder: index + 1 // Giả sử thứ tự bắt đầu từ 1
+        }));
+
+        // Gửi dữ liệu thứ tự mới đến server
+        try {
+            const response = await axios.put(`https://localhost:7291/api/Chapter/Course/${courseId}/updateChapterOrder`, {
+                chaptersOrder: chaptersOrder
+            }, { withCredentials: true });
+
+            setEditChapterOrder(true);
+            // Xử lý phản hồi từ server ở đây, ví dụ: cập nhật UI, thông báo thành công, v.v...
+            console.log('Chapter order updated successfully:', response.data);
+            
+        } catch (error) {
+            console.error('Error updating chapter order:', error);
         }
-        if (source.index === destination.index) {
-            return;
-        }
-        // Thêm logic để cập nhật thứ tự của các chapter dựa trên kết quả kéo và thả
-    };
+    }
 
     if (!course) return <div className="container mx-auto px-4 sm:max-w-screen-lg">
         Loading ...
@@ -249,40 +274,60 @@ function CourseEditor() {
                             </Link>
                         </div>
 
-                        <DragDropContext onDragEnd={onDragEnd}>
+                        {/* <div className="rounded-lg bg-indigo-50 p-3 mb-6">
+                            <div className='flex flex-row justify-between items-center mb-4 text-lg'>
+
+                                <div className='font-semibold w-1/2'>Course chapters</div>
+                                <Link to={`/Course/${course.courseId}/Chapter/Create`} className='font-semibold w-auto text-right items-center'>
+                                    <span className='inline-block mr-2'><IconAddCircleOutline height="16px" width="16px" /></span>
+                                    Add a chapter
+                                </Link>
+                            </div>
+
+                            <div className='flex flex-col p-2'>
+                                {course.chapters.$values.map((chapter) => (
+                                    <div key={chapter.chapterId} className="mb-4 flex flex-row justify-between bg-indigo-100 p-2 rounded-md">
+                                        <h3 className=" font-semibold w-1/2">{chapter.chapterTitle}</h3>
+                                        <Link to={`/Chapter/${chapter.chapterId}/Edit`} className="w-auto text-right">
+                                            Edit
+                                            <span className='inline-block ml-2'><Pencil /></span>
+                                        </Link>
+
+                                    </div>
+                                ))}
+                            </div>
+                        </div> */}
+
+                        <DragDropContext onDragEnd={handleOnDragEnd}>
                             <Droppable droppableId="chapters">
                                 {(provided) => (
-                                    <div {...provided.droppableProps} ref={provided.innerRef} className='flex flex-col p-2'>
-                                        {course.chapters.$values
-                                            .filter((chapter, index, self) =>
-                                                index === self.findIndex((t) => (
-                                                    t.chapterId === chapter.chapterId
-                                                ))
-                                            )
-                                            .map((chapter, index) => {
-                                                console.log(`Chapter ID: ${chapter.chapterId}`);
-                                                return (
-                                                    <Draggable key={chapter.chapterId} draggableId={chapter.chapterId.toString()} index={index}>
-                                                        {(provided) => (
-                                                            <div ref={provided.innerRef} {...provided.draggableProps} {...provided.dragHandleProps} className="mb-4 flex flex-row justify-between bg-indigo-100 p-2 rounded-md">
-                                                                <h3 className="font-semibold w-1/2 flex flex-row align-middle items-center ">                                                                 
-                                                                    <IconDragHandleDots2 />
-                                                                    {chapter.chapterTitle}
-                                                                </h3>
-                                                                <Link to={`/Chapter/${chapter.chapterId}/Edit`} className="w-auto font-semibold text-right">
-                                                                    Edit
-                                                                    <span className='inline-block ml-2'><Pencil /></span>
-                                                                </Link>
-                                                            </div>
-                                                        )}
-                                                    </Draggable>
-                                                );
-                                            })}
+                                    <div {...provided.droppableProps} ref={provided.innerRef} className="flex flex-col p-2">
+                                        {course.chapters.$values.sort((a, b) => a.chapterOrder - b.chapterOrder).map((chapter, index) => (
+                                            <Draggable key={chapter.chapterId} draggableId={chapter.chapterId.toString()} index={index}>
+                                                {(provided) => (
+                                                    <div
+                                                        ref={provided.innerRef}
+                                                        {...provided.draggableProps}
+                                                        {...provided.dragHandleProps}
+                                                        className="mb-4 flex flex-row justify-between bg-indigo-100 p-2 rounded-md">
+                                                        <h3 className="font-semibold w-1/2 flex flex-row items-center">
+                                                            <IconDragHandleDots2 />
+                                                            {chapter.chapterTitle}
+                                                        </h3>
+                                                        <Link to={`/Chapter/${chapter.chapterId}/Edit`} className="w-auto text-right font-semibold">
+                                                            Edit
+                                                            <span className='inline-block ml-2'><Pencil /></span>
+                                                        </Link>
+                                                    </div>
+                                                )}
+                                            </Draggable>
+                                        ))}
                                         {provided.placeholder}
                                     </div>
                                 )}
                             </Droppable>
                         </DragDropContext>
+
                     </div>
 
 
@@ -311,7 +356,8 @@ function CourseEditor() {
 
                         ) : (
                             <div className='font-normal'>
-                                {course.categoryId}
+                                {categories.find(category => category.courseCategoryId === course.categoryId)?.courseCategoryName || 'Category not found'}
+
                             </div>)}
                     </div>
                 </div>
