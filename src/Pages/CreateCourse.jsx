@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import { ref, uploadBytesResumable, getDownloadURL } from 'firebase/storage';
 import { storage } from '../firebase.jsx';
@@ -9,6 +9,21 @@ function CreateCourse() {
     const [categoryId, setCategoryId] = useState('');
     const [featureImage, setFeatureImage] = useState(null);
     const [uploadProgress, setUploadProgress] = useState(0);
+    const [categories, setCategories] = useState([]); // State to hold categories
+
+    useEffect(() => {
+        // Fetch categories when the component mounts
+        const fetchCategories = async () => {
+            try {
+                const response = await axios.get('https://localhost:7291/api/Course/category');
+                setCategories(response.data.$values); // Update state with fetched categories
+            } catch (error) {
+                console.error('Error fetching categories:', error);
+            }
+        };
+
+        fetchCategories();
+    }, []); // Empty dependency array means this effect runs once on mount
 
     const handleImageChange = (e) => {
         if (e.target.files[0]) {
@@ -28,25 +43,20 @@ function CreateCourse() {
         uploadTask.on(
             'state_changed',
             (snapshot) => {
-                // Tính toán phần trăm hoàn thành
                 const progress = (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
                 setUploadProgress(progress);
                 console.log('Upload is ' + progress + '% done');
             },
             (error) => {
-                // Handle unsuccessful uploads
                 console.error('Upload failed:', error);
             },
             () => {
-                // Handle successful uploads on complete
                 getDownloadURL(uploadTask.snapshot.ref).then((downloadURL) => {
-                    console.log('File available at', downloadURL);
-                    // Here, directly use downloadURL in your post request
                     axios.post('https://localhost:7291/api/Course/create', {
                         courseName,
                         courseDescription,
                         categoryId,
-                        featureImage: downloadURL // Use the direct URL here
+                        featureImage: downloadURL
                     }, { withCredentials: true }).then(response => {
                         console.log(response.data);
                     }).catch(error => {
@@ -72,20 +82,9 @@ function CreateCourse() {
                     <label htmlFor="categoryId" className="block text-sm font-medium text-gray-700">Category</label>
                     <select id="categoryId" value={categoryId} onChange={(e) => setCategoryId(e.target.value)} className="mt-1 block w-full border border-gray-300 rounded-md shadow-sm p-2">
                         <option value="">Select a category</option>
-                        {/* Populate with actual category options */}
-                        <option value="1">Programming</option>
-                        <option value="2">Skill Development</option>
-                        <option value="3">Marketing</option>
-                        <option value="4">Music</option>
-                        <option value="5">Design</option>
-                        <option value="6">Finance</option>
-                        <option value="7">Health and Fitness</option>
-                        <option value="8">Language Learning</option>
-                        <option value="9">Photography & Video</option>
-                        <option value="10">Business</option>
-                        <option value="11">Office Productivity</option>
-                        
-                        {/* Add more categories as needed */}
+                        {categories.map((category) => (
+                            <option key={category.courseCategoryId} value={category.courseCategoryId}>{category.courseCategoryName}</option>
+                        ))}
                     </select>
                 </div>
                 <div>
@@ -99,7 +98,6 @@ function CreateCourse() {
                         {uploadProgress < 100 ? <p>Uploading: {uploadProgress.toFixed(2)}%</p> : <p>Upload Complete</p>}
                     </div>
                 )}
-                {/* Submit button */}
                 <button type="submit" className="px-4 py-2 bg-blue-500 text-white rounded-md hover:bg-blue-700">Create Course</button>
             </form>
         </div>
