@@ -174,11 +174,11 @@ function CourseEditor() {
 
     return (
         <div className="container mx-auto px-4 sm:max-w-screen-lg">
-            <div className="mb-8 text-4xl font-semibold">Course setup</div>
+            <div className="text-3xl font-bold mb-4">Course Setup</div>
 
-            <div className='flex xl:flex-row justify-between sm:flex-row'>
+            <div className='flex flex-col justify-between md:flex-row'>
 
-                <div className="mb-8 w-1/2 pr-3">
+                <div className="mb-8 w-full lg:w-1/2 pr-3">
                     <div className="mb-8 text-xl font-semibold">Customize your course</div>
 
                     <div className="rounded-lg bg-indigo-50 p-3 mb-6">
@@ -262,7 +262,7 @@ function CourseEditor() {
 
                 </div>
 
-                <div className="mb-8 w-1/2 pl-3">
+                <div className="mb-8 w-full lg:w-1/2 pl-3">
                     <div className="mb-8 text-xl font-semibold">Course chapters</div>
 
                     <div className="rounded-lg bg-indigo-50 p-3 mb-6">

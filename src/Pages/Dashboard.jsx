@@ -35,31 +35,39 @@ function Dashboard() {
     }, [userData]);
 
     return (
-        <div className="container mx-auto px-4 mt-1 sm:max-w-screen-lg">
+        <div className="container mx-auto px-4 sm:max-w-screen-lg">
             {userData ? (
-                <div className="bg-white">
+                <div className="bg-white h-auto">
                     <h2 className="text-2xl font-bold mb-4">User Dashboard</h2>
-                    <div className="mb-3 shadow-xl rounded-lg p-6">
-                        <div className='flex flex-row items-center align-middle'>
-                            <h3 className="text-xl font-semibold ">User Information</h3>
-                            <Link to={`/User/${userData.userId}/Edit`}>
-                                <span className='flex flex-row items-center align-middle'>
+                    <div className="mb-3 shadow-xl rounded-lg p-10 h-auto flex flex-col lg:flex-row lg:h-auto flex-wrap">
+                        <div className='flex flex-row items-center lg:w-full align-middle mb-5'>
+                            <h3 className="text-xl w-full font-semibold">User Information</h3>
+
+                        </div>
+                        <div className='w-full mb-5'>
+                            <img className='size-32 m-auto rounded-full' src={userData.userInfo.avatar} />
+
+                        </div>
+
+                        <div className='w-full md:w-1/2 inline-block'>
+                            <p><strong>Full Name:</strong> {userData.userInfo.fullName}</p>
+                            <p><strong>Date of Birth:</strong> {new Date(userData.userInfo.dateOfBirth).toLocaleDateString()}</p>
+                            <p><strong>Gender:</strong> {userData.userInfo.gender}</p>
+                            <p><strong>Phone Number:</strong> {userData.userInfo.phoneNumber}</p>
+                        </div>
+                        <div className='w-full md:w-1/2 float-right inline-block'>
+                            <p><strong>User Type:</strong> {userData.userType}</p>
+                            <p><strong>Username:</strong> {userData.username}</p>
+                            <p><strong>Email:</strong> {userData.userInfo.email}</p>
+                        </div>
+
+                        <div className='mt-5'>
+                            <Link to={`/User/${userData.userId}/Edit`} className=''>
+                                <span className='flex flex-row text-lg font-semibold items-center align-middle'>
                                     Edit Info
                                     <Pencil />
                                 </span>
                             </Link>
-                        </div>
-                        <div className='w-1/2 inline-block'>
-                            <img src={userData.userInfo.Avatar} />
-                            <p><strong>Username:</strong> {userData.username}</p>
-                            <p><strong>User Type:</strong> {userData.userType}</p>
-                            <p><strong>Full Name:</strong> {userData.userInfo.fullName}</p>
-                            <p><strong>Email:</strong> {userData.userInfo.email}</p>
-                        </div>
-                        <div className='w-1/2 float-right inline-block'>
-                            <p><strong>Date of Birth:</strong> {new Date(userData.userInfo.dateOfBirth).toLocaleDateString()}</p>
-                            <p><strong>Gender:</strong> {userData.userInfo.gender}</p>
-                            <p><strong>Phone Number:</strong> {userData.userInfo.phoneNumber}</p>
                         </div>
 
                     </div>

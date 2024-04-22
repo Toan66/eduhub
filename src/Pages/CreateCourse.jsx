@@ -69,6 +69,9 @@ function CreateCourse() {
 
     return (
         <div className="container mx-auto px-6 sm:max-w-screen-lg">
+            <div className='font-semibold text-3xl'>
+                Create New Course
+            </div>
             <form onSubmit={handleSubmit} className="space-y-4">
                 <div>
                     <label htmlFor="courseName" className="block text-sm font-medium text-gray-700">Course Name</label>
