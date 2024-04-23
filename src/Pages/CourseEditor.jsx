@@ -20,7 +20,15 @@ function CourseEditor() {
     const [selectedCategory, setSelectedCategory] = useState(''); // State để lưu trữ danh mục được chọn
     const [editCategory, setEditCategory] = useState(false); // Quản lý việc hiển thị form chỉnh sửa danh mục
     const [categories, setCategories] = useState([]); // State để lưu trữ danh sách các danh mục
-    const [editChapterOrder, setEditChapterOrder] = useState(false); 
+    const [editChapterOrder, setEditChapterOrder] = useState(false);
+    const [levels, setLevels] = useState([]);
+    const [selectedLevel, setSelectedLevel] = useState('');
+    const [editLevel, setEditLevel] = useState(false);
+    const [editPrice, setEditPrice] = useState(false);
+    const [newPrice, setNewPrice] = useState('');
+    const [editEarnings, setEditEarnings] = useState(false);
+    const [newEarnings, setNewEarnings] = useState('');
+
     const navigate = useNavigate(); // Sử dụng hook useNavigate
 
 
@@ -31,16 +39,13 @@ function CourseEditor() {
                 setCourse(response.data);
             } catch (error) {
                 console.error('Error fetching course details:', error);
-                // alert(error);
                 navigate("/Unauthorized");
-
             }
         };
 
         const fetchCategories = async () => {
             try {
                 const response = await axios.get('https://localhost:7291/api/Course/category', { withCredentials: true });
-                // Trích xuất mảng các danh mục từ thuộc tính $values của đối tượng trả về
                 const categoriesData = response.data.$values;
                 setCategories(categoriesData);
             } catch (error) {
@@ -48,11 +53,23 @@ function CourseEditor() {
             }
         };
 
+        const fetchLevels = async () => {
+            try {
+                const response = await axios.get('https://localhost:7291/api/Course/level', { withCredentials: true });
+                const levelsData = response.data.$values;
+                setLevels(levelsData);
+                console.log(levelsData);
+            } catch (error) {
+                console.error('Error fetching levels:', error);
+            }
+        };
+
         setEditChapterOrder(false);
 
         fetchCourse();
         fetchCategories();
-    }, [courseId, editChapterOrder,editCategory]);
+        fetchLevels();
+    }, [courseId, editChapterOrder, editCategory, editLevel, editPrice, editEarnings]);
 
     const handleUpdateTitle = async () => {
         try {
@@ -134,6 +151,48 @@ function CourseEditor() {
             alert('Failed to update category');
         }
     };
+    // Example function to update the course level
+    const handleUpdateLevel = async () => {
+        try {
+            await axios.put(`https://localhost:7291/api/Course/${courseId}/updateLevel`, {
+                courseLevelId: selectedLevel,
+            }, { withCredentials: true });
+            setCourse(prev => ({ ...prev, levelId: selectedLevel }));
+            setEditLevel(false);
+        } catch (error) {
+            console.error('Error updating course level:', error);
+            alert('Failed to update level');
+        }
+    };
+
+    // Example function to update the course price
+    const handleUpdatePrice = async () => {
+        try {
+            await axios.put(`https://localhost:7291/api/Course/${courseId}/updatePrice`, {
+                coursePrice: newPrice,
+            }, { withCredentials: true });
+            setCourse(prev => ({ ...prev, price: newPrice }));
+            setEditPrice(false);
+        } catch (error) {
+            console.error('Error updating course price:', error);
+            alert('Failed to update price');
+        }
+    };
+
+    // Example function to update the course earnings
+    const handleUpdateEarnings = async () => {
+        try {
+            await axios.put(`https://localhost:7291/api/Course/${courseId}/updateEarn`, {
+                courseEarn: newEarnings
+            }, { withCredentials: true });
+            setCourse(prev => ({ ...prev, earnings: newEarnings }));
+            setEditEarnings(false);
+        } catch (error) {
+            console.error('Error updating course earnings:', error);
+            alert('Failed to update earnings');
+        }
+    };
+
 
     // Giả sử đây là hàm xử lý khi việc kéo và thả kết thúc
     async function handleOnDragEnd(result) {
@@ -162,11 +221,26 @@ function CourseEditor() {
             setEditChapterOrder(true);
             // Xử lý phản hồi từ server ở đây, ví dụ: cập nhật UI, thông báo thành công, v.v...
             console.log('Chapter order updated successfully:', response.data);
-            
+
         } catch (error) {
             console.error('Error updating chapter order:', error);
         }
     }
+
+    const handleDeleteCourse = async () => {
+        // Hiển thị hộp thoại xác nhận
+        const isConfirmed = window.confirm('Are you sure you want to delete this chapter?');
+        if (isConfirmed) {
+            try {
+                await axios.delete(`https://localhost:7291/api/Course/${courseId}`, { withCredentials: true });
+                alert('Course deleted successfully');
+                navigate(-1); // Quay lại trang trước sau khi xóa
+            } catch (error) {
+                console.error('Error deleting course:', error);
+                alert('Failed to delete course');
+            }
+        }
+    };
 
     if (!course) return <div className="container mx-auto px-4 sm:max-w-screen-lg">
         Loading ...
@@ -174,7 +248,14 @@ function CourseEditor() {
 
     return (
         <div className="container mx-auto px-4 sm:max-w-screen-lg">
-            <div className="text-3xl font-bold mb-4">Course Setup</div>
+            <div className="text-3xl font-bold mb-4 flex align-middle items-center justify-between">
+                Course Setup
+                <button className=' text-xl bg-gray-800 text-white font-semibold px-5 py-2 rounded-md mt-5 float-right' onClick={handleDeleteCourse}>
+                    Delete Course
+                </button>
+            </div>
+
+
 
             <div className='flex flex-col justify-between md:flex-row'>
 
@@ -259,6 +340,36 @@ function CourseEditor() {
 
                     </div>
 
+                    <div className="rounded-lg bg-indigo-50 p-3 mb-6">
+                        <div className='flex flex-row justify-between mb-4 text-lg'>
+                            <div className='font-semibold w-1/2'>Course level</div>
+                            <button onClick={() => { setEditLevel(true); setSelectedLevel(course.courseLevelId); }} className='font-semibold w-auto text-right items-center'>
+                                <span className='inline-block mr-2'><Pencil /></span>
+                                Edit level
+                            </button>
+                        </div>
+
+                        {editLevel ? (
+                            <>
+                                <select value={selectedLevel} onChange={(e) => setSelectedLevel(e.target.value)} className="w-full p-3 h-15 rounded-md">
+                                    {levels.map((level) => (
+                                        <option key={level.courseLevelId} value={level.courseLevelId}>
+                                            {level.courseLevelName}
+                                        </option>
+                                    ))}
+                                </select>
+                                <button className='text-md bg-gray-800 text-white font-semibold px-5 py-2 rounded-md mt-5' onClick={handleUpdateLevel}>
+                                    Save Level
+                                </button>
+                                <button onClick={() => { setEditLevel(false) }} className='text-md bg-sky-500 float-right text-white font-semibold px-5 py-2 rounded-md mt-5'>Cancel</button>
+                            </>
+                        ) : (
+                            <div className='font-normal'>
+                                {levels.find(level => level.courseLevelId === course.courseLevelId)?.courseLevelName || 'Level not found'}
+                            </div>
+                        )}
+                    </div>
+
 
                 </div>
 
@@ -334,7 +445,7 @@ function CourseEditor() {
                     <div className="rounded-lg bg-indigo-50 p-3 mb-6">
                         <div className='flex flex-row justify-between mb-4 text-lg'>
                             <div className='font-semibold w-1/2'>Course category</div>
-                            <button onClick={() => { setEditCategory(true); }} className='font-semibold w-autobutton text-right items-center'>
+                            <button onClick={() => { setEditCategory(true); setSelectedCategory(course.courseCategoryId)}} className='font-semibold w-autobutton text-right items-center'>
                                 <span className='inline-block mr-2'><Pencil /></span>
                                 Edit course Category
                             </button>
@@ -359,6 +470,55 @@ function CourseEditor() {
                                 {categories.find(category => category.courseCategoryId === course.categoryId)?.courseCategoryName || 'Category not found'}
 
                             </div>)}
+                    </div>
+
+                    <div className="rounded-lg bg-indigo-50 p-3 mb-6">
+                        <div className='flex flex-row justify-between mb-4 text-lg'>
+                            <div className='font-semibold w-1/2'>Course price</div>
+                            <button onClick={() => {setEditPrice(true); setNewPrice(course.coursePrice)}} className='font-semibold w-auto text-right items-center'>
+                                <span className='inline-block mr-2'><Pencil /></span>
+                                Edit price
+                            </button>
+                        </div>
+
+                        {editPrice ? (
+                            <div>
+                                <input type="number" className='w-full p-3 h-11 rounded-md' value={newPrice} onChange={(e) => setNewPrice(e.target.value)} />
+                                <button className='text-md bg-gray-800 text-white font-semibold px-5 py-2 rounded-md mt-5' onClick={handleUpdatePrice}>
+                                    Save
+                                </button>
+                                <button onClick={() => setEditPrice(false)} className='text-md bg-sky-500 float-right text-white font-semibold px-5 py-2 rounded-md mt-5'>Cancel</button>
+                            </div>
+                        ) : (
+                            <div className='font-normal'>
+                                {course.coursePrice} EHT
+                            </div>
+                        )}
+                    </div>
+
+
+                    <div className="rounded-lg bg-indigo-50 p-3 mb-6">
+                        <div className='flex flex-row justify-between mb-4 text-lg'>
+                            <div className='font-semibold w-1/2'>Course earnings</div>
+                            <button onClick={() => {setEditEarnings(true); setNewEarnings(course.courseEarn)}} className='font-semibold w-auto text-right items-center'>
+                                <span className='inline-block mr-2'><Pencil /></span>
+                                Edit earnings
+                            </button>
+                        </div>
+
+                        {editEarnings ? (
+                            <div>
+                                <input type="number" className='w-full p-3 h-11 rounded-md' value={newEarnings} onChange={(e) => setNewEarnings(e.target.value)} />
+                                <button className='text-md bg-gray-800 text-white font-semibold px-5 py-2 rounded-md mt-5' onClick={handleUpdateEarnings}>
+                                    Save
+                                </button>
+                                <button onClick={() => setEditEarnings(false)} className='text-md bg-sky-500 float-right text-white font-semibold px-5 py-2 rounded-md mt-5'>Cancel</button>
+                            </div>
+                        ) : (
+                            <div className='font-normal'>
+                                {course.courseEarn} EHT
+                            </div>
+                        )}
                     </div>
                 </div>
             </div>

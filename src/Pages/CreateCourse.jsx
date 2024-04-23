@@ -2,28 +2,36 @@ import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import { ref, uploadBytesResumable, getDownloadURL } from 'firebase/storage';
 import { storage } from '../firebase.jsx';
+import { useNavigate } from 'react-router-dom';
+
 
 function CreateCourse() {
+    const navigate = useNavigate();
     const [courseName, setCourseName] = useState('');
     const [courseDescription, setCourseDescription] = useState('');
     const [categoryId, setCategoryId] = useState('');
+    const [levelId, setLevelId] = useState('');
     const [featureImage, setFeatureImage] = useState(null);
     const [uploadProgress, setUploadProgress] = useState(0);
-    const [categories, setCategories] = useState([]); // State to hold categories
+    const [categories, setCategories] = useState([]);
+    const [levels, setLevels] = useState([]);
+    const [coursePrice, setCoursePrice] = useState(0); // State for course price
+    const [courseEarn, setCourseEarn] = useState(0); // State for potential earnings
 
     useEffect(() => {
-        // Fetch categories when the component mounts
         const fetchCategories = async () => {
             try {
-                const response = await axios.get('https://localhost:7291/api/Course/category');
-                setCategories(response.data.$values); // Update state with fetched categories
+                const responseCategory = await axios.get('https://localhost:7291/api/Course/category');
+                const responseLevel = await axios.get('https://localhost:7291/api/Course/level');
+                setCategories(responseCategory.data.$values);
+                setLevels(responseLevel.data.$values);
             } catch (error) {
                 console.error('Error fetching categories:', error);
             }
         };
 
         fetchCategories();
-    }, []); // Empty dependency array means this effect runs once on mount
+    }, []);
 
     const handleImageChange = (e) => {
         if (e.target.files[0]) {
@@ -56,9 +64,14 @@ function CreateCourse() {
                         courseName,
                         courseDescription,
                         categoryId,
-                        featureImage: downloadURL
+                        featureImage: downloadURL,
+                        courseLevelId: levelId,
+                        coursePrice, // Include course price in the API call
+                        courseEarn, // Include potential earnings in the API call
                     }, { withCredentials: true }).then(response => {
                         console.log(response.data);
+                        alert("Course created successfully");
+                        navigate('/Dashboard');
                     }).catch(error => {
                         console.error('Error creating course:', error);
                     });
@@ -81,6 +94,7 @@ function CreateCourse() {
                     <label htmlFor="courseDescription" className="block text-sm font-medium text-gray-700">Course Description</label>
                     <textarea id="courseDescription" value={courseDescription} onChange={(e) => setCourseDescription(e.target.value)} className="mt-1 block w-full border border-gray-300 rounded-md shadow-sm p-2" rows="3"></textarea>
                 </div>
+
                 <div>
                     <label htmlFor="categoryId" className="block text-sm font-medium text-gray-700">Category</label>
                     <select id="categoryId" value={categoryId} onChange={(e) => setCategoryId(e.target.value)} className="mt-1 block w-full border border-gray-300 rounded-md shadow-sm p-2">
@@ -90,6 +104,17 @@ function CreateCourse() {
                         ))}
                     </select>
                 </div>
+
+                <div>
+                    <label htmlFor="levelId" className="block text-sm font-medium text-gray-700">Course Level</label>
+                    <select id="levelId" value={levelId} onChange={(e) => setLevelId(e.target.value)} className="mt-1 block w-full border border-gray-300 rounded-md shadow-sm p-2">
+                        <option value="">Select a Level</option>
+                        {levels.map((level) => (
+                            <option key={level.courseLevelId} value={level.courseLevelId}>{level.courseLevelName}</option>
+                        ))}
+                    </select>
+                </div>
+
                 <div>
                     <label htmlFor="featureImage" className="block text-sm font-medium text-gray-700">Feature Image</label>
                     <input type="file" id="featureImage" onChange={handleImageChange} className="mt-1 block w-full border border-gray-300 rounded-md shadow-sm p-2" />
@@ -101,6 +126,14 @@ function CreateCourse() {
                         {uploadProgress < 100 ? <p>Uploading: {uploadProgress.toFixed(2)}%</p> : <p>Upload Complete</p>}
                     </div>
                 )}
+                <div>
+                    <label htmlFor="coursePrice" className="block text-sm font-medium text-gray-700">Course Price</label>
+                    <input type="number" id="coursePrice" value={coursePrice} onChange={(e) => setCoursePrice(e.target.value)} className="mt-1 block w-full border border-gray-300 rounded-md shadow-sm p-2" />
+                </div>
+                <div>
+                    <label htmlFor="courseEarn" className="block text-sm font-medium text-gray-700">Potential Earnings</label>
+                    <input type="number" id="courseEarn" value={courseEarn} onChange={(e) => setCourseEarn(e.target.value)} className="mt-1 block w-full border border-gray-300 rounded-md shadow-sm p-2" />
+                </div>
                 <button type="submit" className="px-4 py-2 bg-blue-500 text-white rounded-md hover:bg-blue-700">Create Course</button>
             </form>
         </div>
