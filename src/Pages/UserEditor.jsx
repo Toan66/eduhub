@@ -3,6 +3,7 @@ import axios from 'axios';
 import { useParams, useNavigate } from 'react-router-dom';
 import { ref, uploadBytesResumable, getDownloadURL } from 'firebase/storage';
 import { storage } from '../firebase.jsx';
+import Pencil from '../Components/Icons/Pencil.jsx';
 
 function UserEditor() {
     const { userId } = useParams();
@@ -19,6 +20,11 @@ function UserEditor() {
     const [newGender, setNewGender] = useState('');
     const [editAvatar, setEditAvatar] = useState(false);
     const [newAvatar, setNewAvatar] = useState('');
+    const [editAddress, setEditAddress] = useState(false);
+    const [newAddress, setNewAddress] = useState('');
+    const [editDescription, setEditDescription] = useState(false);
+    const [newDescription, setNewDescription] = useState('');
+
 
 
     const navigate = useNavigate();
@@ -26,7 +32,7 @@ function UserEditor() {
     useEffect(() => {
         const fetchUser = async () => {
             try {
-                const response = await axios.get(`https://localhost:7291/api/User/detail`, { withCredentials: true, });
+                const response = await axios.get(`https://localhost:7291/api/User/detail/edit`, { withCredentials: true, });
                 setUser(response.data);
             } catch (error) {
                 console.error('Error fetching user details:', error);
@@ -34,7 +40,7 @@ function UserEditor() {
         };
 
         fetchUser();
-    }, [userId, navigate, editName, editDateOfBirth, editEmail, editPhoneNumber, editGender]);
+    }, [userId, navigate, editName, editDateOfBirth, editEmail, editPhoneNumber, editGender, editAddress, editDescription]);
 
     const handleUpdateName = async () => {
         try {
@@ -143,6 +149,32 @@ function UserEditor() {
             console.error('Error updating user avatar:', error);
         }
     };
+    // Function to update the address
+    const handleUpdateAddress = async () => {
+        try {
+            await axios.put(`https://localhost:7291/api/User/updateAddress`, {
+                userAddress: newAddress,
+            }, { withCredentials: true });
+            setUser(prev => ({ ...prev, userInfo: { ...prev.userInfo, address: newAddress } }));
+            setEditAddress(false);
+        } catch (error) {
+            console.error('Error updating user address:', error);
+        }
+    };
+
+    // Function to update the description
+    const handleUpdateDescription = async () => {
+        try {
+            await axios.put(`https://localhost:7291/api/User/updateDescription`, {
+                userDescription: newDescription,
+            }, { withCredentials: true });
+            setUser(prev => ({ ...prev, userInfo: { ...prev.userInfo, description: newDescription } }));
+            setEditDescription(false);
+        } catch (error) {
+            console.error('Error updating user description:', error);
+        }
+    };
+
 
 
     if (!user) return <div className="container mx-auto px-4 sm:max-w-screen-lg">Loading...</div>;
@@ -156,6 +188,7 @@ function UserEditor() {
                     <div className='flex flex-row justify-between mb-4 text-lg'>
                         <div className='font-semibold w-1/2'>User Avatar</div>
                         <button onClick={() => { setEditAvatar(true); setNewAvatar(user.userInfo.Avata); }} className='font-semibold w-auto text-right items-center'>
+                            <span className='inline-block ml-2'><Pencil /></span>
                             Edit Avatar
                         </button>
                     </div>
@@ -182,6 +215,7 @@ function UserEditor() {
                     <div className='flex flex-row justify-between mb-4 text-lg'>
                         <div className='font-semibold w-1/2'>User Full Name</div>
                         <button onClick={() => { setEditName(true); setNewName(user.userInfo.fullName); }} className='font-semibold w-auto text-right items-center'>
+                            <span className='inline-block ml-2'><Pencil /></span>
                             Edit Full Name
                         </button>
                     </div>
@@ -205,6 +239,7 @@ function UserEditor() {
                     <div className='flex flex-row justify-between mb-4 text-lg'>
                         <div className='font-semibold w-1/2'>User Email</div>
                         <button onClick={() => { setEditEmail(true); setNewEmail(user.userInfo.email); }} className='font-semibold w-auto text-right items-center'>
+                            <span className='inline-block ml-2'><Pencil /></span>
                             Edit Email
                         </button>
                     </div>
@@ -230,6 +265,7 @@ function UserEditor() {
                     <div className='flex flex-row justify-between mb-4 text-lg'>
                         <div className='font-semibold w-1/2'>Date of Birth</div>
                         <button onClick={() => { setEditDateOfBirth(true); setNewDateOfBirth(user.userInfo.dateOfBirth); }} className='font-semibold w-auto text-right items-center'>
+                            <span className='inline-block ml-2'><Pencil /></span>
                             Edit
                         </button>
                     </div>
@@ -253,6 +289,7 @@ function UserEditor() {
                     <div className='flex flex-row justify-between mb-4 text-lg'>
                         <div className='font-semibold w-1/2'>Phone Number</div>
                         <button onClick={() => { setEditPhoneNumber(true); setNewPhoneNumber(user.userInfo.phoneNumber); }} className='font-semibold w-auto text-right items-center'>
+                            <span className='inline-block ml-2'><Pencil /></span>
                             Edit
                         </button>
                     </div>
@@ -276,6 +313,7 @@ function UserEditor() {
                     <div className='flex flex-row justify-between mb-4 text-lg'>
                         <div className='font-semibold w-1/2'>Gender</div>
                         <button onClick={() => { setEditGender(true); setNewGender(user.userInfo.gender); }} className='font-semibold w-auto text-right items-center'>
+                            <span className='inline-block ml-2'><Pencil /></span>
                             Edit
                         </button>
                     </div>
@@ -299,8 +337,54 @@ function UserEditor() {
                         </div>
                     )}
                 </div>
-            </div>
 
+                <div className="rounded-lg bg-indigo-50 p-3 mb-6">
+                    <div className='flex flex-row justify-between mb-4 text-lg'>
+                        <div className='font-semibold w-1/2'>User Address</div>
+                        <button onClick={() => { setEditAddress(true); setNewAddress(user.userInfo.userAddress || ''); }} className='font-semibold w-auto text-right items-center'>
+                            <span className='inline-block ml-2'><Pencil /></span>
+                            Edit Address
+                        </button>
+                    </div>
+                    {editAddress ? (
+                        <div>
+                            <input className='w-full p-3 h-11 rounded-md' type="text" value={newAddress} onChange={(e) => setNewAddress(e.target.value)} />
+                            <button className='text-md bg-gray-800 text-white font-semibold px-5 py-2 rounded-md mt-5' onClick={handleUpdateAddress}>
+                                Save
+                            </button>
+                            <button onClick={() => { setEditAddress(false) }} className='text-md bg-sky-500 float-right text-white font-semibold px-5 py-2 rounded-md mt-5'>Cancel</button>
+                        </div>
+                    ) : (
+                        <div className='font-normal'>
+                            {user.userInfo.userAddress}
+                        </div>
+                    )}
+                </div>
+
+                <div className="rounded-lg bg-indigo-50 p-3 mb-6">
+                    <div className='flex flex-row justify-between mb-4 text-lg'>
+                        <div className='font-semibold w-1/2'>User Description</div>
+                        <button onClick={() => { setEditDescription(true); setNewDescription(user.userInfo.userDescription || ''); }} className='font-semibold w-auto text-right items-center'>
+                            <span className='inline-block ml-2'><Pencil /></span>
+                            Edit Description
+                        </button>
+                    </div>
+                    {editDescription ? (
+                        <div>
+                            <textarea className='w-full p-3 h-24 rounded-md' value={newDescription} onChange={(e) => setNewDescription(e.target.value)} />
+                            <button className='text-md bg-gray-800 text-white font-semibold px-5 py-2 rounded-md mt-5' onClick={handleUpdateDescription}>
+                                Save
+                            </button>
+                            <button onClick={() => { setEditDescription(false) }} className='text-md bg-sky-500 float-right text-white font-semibold px-5 py-2 rounded-md mt-5'>Cancel</button>
+                        </div>
+                    ) : (
+                        <div className='font-normal'>
+                            {user.userInfo.userDescription}
+                        </div>
+                    )}
+                </div>
+
+            </div>
 
         </div>
     );

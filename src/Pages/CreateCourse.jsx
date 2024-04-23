@@ -71,7 +71,7 @@ function CreateCourse() {
                     }, { withCredentials: true }).then(response => {
                         console.log(response.data);
                         alert("Course created successfully");
-                        navigate('/Dashboard');
+                        navigate('/Profile');
                     }).catch(error => {
                         console.error('Error creating course:', error);
                     });

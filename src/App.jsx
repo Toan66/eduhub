@@ -7,13 +7,15 @@ import Register from './Pages/Register';
 import Courses from './Pages/Courses';
 import Unauthorized from './Pages/Unauthorize';
 import RequireAuth from './Components/RequireAuth';
-import Dashboard from './Pages/Dashboard';
+import Profile from './Pages/Profile';
 import CreateCourse from './Pages/CreateCourse';
 import CreateChapter from './Pages/CreateChapter';
 import CreateLesson from './Pages/CreateLesson';
 import CourseEditor from './Pages/CourseEditor';
 import ChapterEditor from './Pages/ChapterEditor';
 import UserEditor from './Pages/UserEditor';
+import Page404 from './Pages/Page404';
+import UserDetail from './Pages/UserDetail';
 
 function App() {
 	return (
@@ -22,16 +24,19 @@ function App() {
 
 				{/* public routes */}
 				{/* <Route index element={<Home />} /> */}
-				<Route path="Course" element={<Courses />} />
 				<Route path="/" element={<Home />} />
+				<Route path="Course" element={<Courses />} />
 				<Route path="Course/:courseId" element={<CourseDetail />} />
+				<Route path="User/:userId" element={<UserDetail />} />
 				<Route path="Register" element={<Register />} />
 				<Route path="Unauthorized" element={<Unauthorized />} />
 				<Route path="Login" element={<Login />} />
+				<Route path="*" element={<Page404 />} />
+
 
 				{/* private routes */}
 				<Route element={<RequireAuth allowedRoles={["Teacher", "Admin", "Student"]} />}>
-					<Route path="Dashboard" element={<Dashboard />} />
+					<Route path="Profile" element={<Profile />} />
 				</Route>
 
 				<Route path="Course/Create" element={<CreateCourse />} />
@@ -40,6 +45,7 @@ function App() {
 				<Route path="Chapter/:chapterId/Edit" element={<ChapterEditor />} />
 				<Route path="Chapter/:chapterId/Lesson/Create" element={<CreateLesson />} />
 				<Route path="User/:userId/Edit" element={<UserEditor />} />
+				
 
 
 
