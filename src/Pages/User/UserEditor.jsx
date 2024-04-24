@@ -2,8 +2,8 @@ import { useState, useEffect } from 'react';
 import axios from 'axios';
 import { useParams, useNavigate } from 'react-router-dom';
 import { ref, uploadBytesResumable, getDownloadURL } from 'firebase/storage';
-import { storage } from '../firebase.jsx';
-import Pencil from '../Components/Icons/Pencil.jsx';
+import { storage } from '../../firebase.jsx';
+import Pencil from '../../Components/Icons/Pencil.jsx';
 
 function UserEditor() {
     const { userId } = useParams();

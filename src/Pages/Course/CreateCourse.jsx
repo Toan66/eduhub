@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import { ref, uploadBytesResumable, getDownloadURL } from 'firebase/storage';
-import { storage } from '../firebase.jsx';
+import { storage } from '../../firebase.jsx';
 import { useNavigate } from 'react-router-dom';
 
 

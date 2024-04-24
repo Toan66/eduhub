@@ -1,8 +1,8 @@
 import { useEffect, useState } from 'react';
 import { Link, Navigate } from 'react-router-dom';
 import axios from 'axios';
-import Pencil from '../Components/Icons/Pencil';
-import { useAuth } from '../hooks/useAuth';
+import Pencil from '../../Components/Icons/Pencil';
+import { useAuth } from '../../hooks/useAuth';
 function Profile() {
     const [userData, setUserData] = useState(null);
     const [userCourses, setUserCourses] = useState([]);

@@ -2,20 +2,21 @@ import Login from './Pages/Login'
 import Layout from './Components/Layouts/Layout'
 import Home from './Pages/Home'
 import { Routes, Route } from 'react-router-dom';
-import CourseDetail from './Pages/CourseDetail';
+import CourseDetail from './Pages/Course/CourseDetail';
 import Register from './Pages/Register';
-import Courses from './Pages/Courses';
+import Courses from './Pages/Course/Courses';
 import Unauthorized from './Pages/Unauthorize';
 import RequireAuth from './Components/RequireAuth';
-import Profile from './Pages/Profile';
-import CreateCourse from './Pages/CreateCourse';
-import CreateChapter from './Pages/CreateChapter';
-import CreateLesson from './Pages/CreateLesson';
-import CourseEditor from './Pages/CourseEditor';
-import ChapterEditor from './Pages/ChapterEditor';
-import UserEditor from './Pages/UserEditor';
+import Profile from './Pages/User/Profile';
+import CreateCourse from './Pages/Course/CreateCourse';
+import CreateChapter from './Pages/Chapter/CreateChapter';
+import CreateLesson from './Pages/Lesson/CreateLesson';
+import CourseEditor from './Pages/Course/CourseEditor';
+import ChapterEditor from './Pages/Chapter/ChapterEditor';
+import UserEditor from './Pages/User/UserEditor';
 import Page404 from './Pages/Page404';
-import UserDetail from './Pages/UserDetail';
+import UserDetail from './Pages/User/UserDetail';
+import LessonEditor from './Pages/Lesson/LessonEditor';
 
 function App() {
 	return (
@@ -44,7 +45,9 @@ function App() {
 				<Route path="Course/:courseId/Chapter/Create" element={<CreateChapter />} />
 				<Route path="Chapter/:chapterId/Edit" element={<ChapterEditor />} />
 				<Route path="Chapter/:chapterId/Lesson/Create" element={<CreateLesson />} />
+				<Route path="Lesson/:lessonId/Edit" element={<LessonEditor />} />
 				<Route path="User/:userId/Edit" element={<UserEditor />} />
+				
 				
 
 

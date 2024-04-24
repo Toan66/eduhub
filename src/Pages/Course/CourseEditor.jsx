@@ -1,12 +1,12 @@
 import { useEffect, useState } from 'react';
 import { useParams, useNavigate, Link } from 'react-router-dom';
-import Pencil from '../Components/Icons/Pencil';
+import Pencil from '../../Components/Icons/Pencil.jsx';
 import axios from 'axios';
 import { ref, uploadBytesResumable, getDownloadURL } from 'firebase/storage';
-import { storage } from '../firebase.jsx';
-import IconAddCircleOutline from '../Components/Icons/IconAddCircleOutline';
+import { storage } from '../../firebase.jsx';
+import IconAddCircleOutline from '../../Components/Icons/IconAddCircleOutline.jsx';
 import { DragDropContext, Droppable, Draggable } from '@hello-pangea/dnd';
-import IconDragHandleDots2 from '../Components/Icons/IconDragHandleDots2';
+import IconDragHandleDots2 from '../../Components/Icons/IconDragHandleDots2.jsx';
 
 function CourseEditor() {
     const { courseId } = useParams();
@@ -58,7 +58,6 @@ function CourseEditor() {
                 const response = await axios.get('https://localhost:7291/api/Course/level', { withCredentials: true });
                 const levelsData = response.data.$values;
                 setLevels(levelsData);
-                console.log(levelsData);
             } catch (error) {
                 console.error('Error fetching levels:', error);
             }
@@ -445,9 +444,9 @@ function CourseEditor() {
                     <div className="rounded-lg bg-indigo-50 p-3 mb-6">
                         <div className='flex flex-row justify-between mb-4 text-lg'>
                             <div className='font-semibold w-1/2'>Course category</div>
-                            <button onClick={() => { setEditCategory(true); setSelectedCategory(course.courseCategoryId)}} className='font-semibold w-autobutton text-right items-center'>
+                            <button onClick={() => { setEditCategory(true); setSelectedCategory(course.categoryId);}} className='font-semibold w-autobutton text-right items-center'>
                                 <span className='inline-block mr-2'><Pencil /></span>
-                                Edit course Category
+                                Edit category
                             </button>
                         </div>
 

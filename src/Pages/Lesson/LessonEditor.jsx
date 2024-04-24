@@ -1,14 +1,14 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import { CKEditor } from '@ckeditor/ckeditor5-react';
 import ClassicEditor from '@ckeditor/ckeditor5-build-classic';
 
-
-import { storage } from '../firebase'; // Đảm bảo bạn đã cấu hình Firebase Storage
 import { ref, uploadBytesResumable, getDownloadURL } from 'firebase/storage';
+import { storage } from '../../firebase';
+import VideoPlayer from '../../Components/VideoPlayer';
 
-class FirebaseUploadAdapter {
+class MyUploadAdapter {
     constructor(loader) {
         this.loader = loader;
     }
@@ -20,13 +20,11 @@ class FirebaseUploadAdapter {
                 const storageRef = ref(storage, `images/${file.name}`);
                 const uploadTask = uploadBytesResumable(storageRef, file);
 
-                uploadTask.on(
-                    'state_changed',
+                uploadTask.on('state_changed',
                     (snapshot) => {
                         // Optional: Update progress
                     },
                     (error) => {
-                        console.error('Upload error:', error);
                         reject(error);
                     },
                     () => {
@@ -43,16 +41,34 @@ class FirebaseUploadAdapter {
 
 function MyCustomUploadAdapterPlugin(editor) {
     editor.plugins.get('FileRepository').createUploadAdapter = (loader) => {
-        return new FirebaseUploadAdapter(loader);
+        return new MyUploadAdapter(loader);
     };
 }
-function CreateLesson() {
-    const { chapterId } = useParams();
+
+function LessonEditor() {
+    const { lessonId } = useParams(); // Assuming the route is setup to capture lessonId
     const navigate = useNavigate();
     const [lessonTitle, setLessonTitle] = useState('');
     const [lessonContent, setLessonContent] = useState('');
     const [video, setVideo] = useState('');
     const [uploadProgress, setUploadProgress] = useState(0);
+
+    useEffect(() => {
+        const fetchLesson = async () => {
+            try {
+                const response = await axios.get(`https://localhost:7291/api/Lesson/${lessonId}`);
+                const lessonData = response.data;
+                setLessonTitle(lessonData.lessonTitle);
+                setLessonContent(lessonData.lessonContent);
+                setVideo(lessonData.video);
+            } catch (error) {
+                console.error('Error fetching lesson data:', error);
+                alert('Failed to load lesson data.');
+            }
+        };
+
+        fetchLesson();
+    }, [lessonId]);
 
     const handleVideoUpload = (e) => {
         const file = e.target.files[0];
@@ -64,7 +80,6 @@ function CreateLesson() {
         uploadTask.on(
             'state_changed',
             (snapshot) => {
-                // Tính toán phần trăm tiến trình upload
                 const progress = (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
                 setUploadProgress(progress);
             },
@@ -74,9 +89,8 @@ function CreateLesson() {
             },
             () => {
                 getDownloadURL(uploadTask.snapshot.ref).then((downloadURL) => {
-                    console.log('Video available at', downloadURL);
-                    setVideo(downloadURL); // Cập nhật state với URL của video
-                    setUploadProgress(0); // Reset tiến trình sau khi upload thành công
+                    setVideo(downloadURL);
+                    setUploadProgress(0);
                 });
             }
         );
@@ -85,25 +99,30 @@ function CreateLesson() {
     const handleSubmit = async (e) => {
         e.preventDefault();
         try {
-            const response = await axios.post(`https://localhost:7291/api/Lesson/Chapter/${chapterId}/addLesson`, {
+            await axios.put(`https://localhost:7291/api/Lesson/${lessonId}`, {
                 lessonTitle,
                 lessonContent,
                 video
             }, { withCredentials: true });
 
-            if (response.status === 200) {
-                alert('Lesson has been created successfully!');
-                navigate(-1); // Navigate back to the previous page
-            }
+            alert('Lesson has been updated successfully!');
+            navigate(-1); // Navigate back to the previous page
         } catch (error) {
-            console.error('Error creating lesson:', error);
-            alert('An error occurred while creating the lesson.');
+            console.error('Error updating lesson:', error);
+            alert('An error occurred while updating the lesson.');
         }
     };
 
     return (
-        <div className="container mx-auto max-w-screen-lg">
-            <h1 className="text-2xl font-bold mb-4">Create New Lesson</h1>
+        <div className="container mx-auto px-4 sm:max-w-screen-lg">
+            <button onClick={() => navigate(-1)} type="button" className="flex text-lg items-center">
+                <svg className="w-5 h-5 rtl:rotate-180" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth="1.5" stroke="currentColor">
+                    <path strokeLinecap="round" strokeLinejoin="round" d="M6.75 15.75L3 12m0 0l3.75-3.75M3 12h18" />
+                </svg>
+                <span>Back to Chapter Setup</span>
+            </button>
+
+            <h1 className="text-3xl font-bold mb-4">Edit Lesson</h1>
             <form onSubmit={handleSubmit}>
                 <div className="mb-4">
                     <label htmlFor="lessonTitle" className="block text-gray-700 text-sm font-bold mb-2">Lesson Title</label>
@@ -115,6 +134,7 @@ function CreateLesson() {
                         <CKEditor
                             editor={ClassicEditor}
                             data={lessonContent}
+                            
                             config={{
                                 extraPlugins: [MyCustomUploadAdapterPlugin]
                             }}
@@ -123,20 +143,25 @@ function CreateLesson() {
                                 setLessonContent(data);
                             }}
                         />
-                    </div>
 
+                    </div>
                 </div>
+
+
                 <div className="mb-4">
-                    <label htmlFor="video" className="block text-gray-700 text-sm font-bold mb-2">Video URL</label>
+
+                    <VideoPlayer videoUrl={video} />
+
+                    <label htmlFor="video" className="block text-gray-700 text-sm font-bold mb-2">Video URL: </label><p>{video}</p>
                     <input type="file" accept="video/*" onChange={handleVideoUpload} className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" />
                     {uploadProgress > 0 && (
                         <div className="text-sm text-gray-600">Uploading: {uploadProgress.toFixed(2)}%</div>
                     )}
                 </div>
-                <button type="submit" className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline">Create Lesson</button>
+                <button type="submit" className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline">Update Lesson</button>
             </form>
         </div>
     );
 }
 
-export default CreateLesson;
+export default LessonEditor;
