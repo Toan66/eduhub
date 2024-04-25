@@ -17,6 +17,7 @@ import UserEditor from './Pages/User/UserEditor';
 import Page404 from './Pages/Page404';
 import UserDetail from './Pages/User/UserDetail';
 import LessonEditor from './Pages/Lesson/LessonEditor';
+import CreateTest from './Pages/Test/CreateTest';
 
 function App() {
 	return (
@@ -46,6 +47,7 @@ function App() {
 				<Route path="Chapter/:chapterId/Edit" element={<ChapterEditor />} />
 				<Route path="Chapter/:chapterId/Lesson/Create" element={<CreateLesson />} />
 				<Route path="Lesson/:lessonId/Edit" element={<LessonEditor />} />
+				<Route path="Chapter/:chapterId/Test/Create" element={<CreateTest />} />
 				<Route path="User/:userId/Edit" element={<UserEditor />} />
 				
 				

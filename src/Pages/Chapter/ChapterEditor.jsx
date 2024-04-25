@@ -186,7 +186,7 @@ function ChapterEditor() {
                         <div className='flex flex-row justify-between items-center mb-4 text-lg'>
 
                             <div className='font-semibold w-1/2'>Chapter tests</div>
-                            <Link to={`/Chapter/${chapter.chapterId}/Lesson/Create`} className="font-semibold w-auto text-right items-center">
+                            <Link to={`/Chapter/${chapter.chapterId}/Test/Create`} className="font-semibold w-auto text-right items-center">
                                 <span className='inline-block mr-2'><IconAddCircleOutline height="16px" width="16px" /></span>
                                 Add a test
                             </Link>
@@ -207,38 +207,6 @@ function ChapterEditor() {
                     </div>
                 </div>
             </div>
-
-            <div className="flex">
-                <div className='w-full lg:w-1/2'>
-                    <h2 className="text-xl font-semibold inline-block mr-16">Lesson</h2>
-                    <Link to={`/Chapter/${chapter.chapterId}/Lesson/Create`} className=" bg-blue-500 hover:bg-blue-700 text-white font-bold p-2 inline-block rounded">
-                        Add Lesson
-                    </Link>
-                    {chapter.lessons && chapter.lessons.$values.map((lesson) => (
-                        <div key={lesson.lessonId} className="mb-4">
-                            <h3 className="text-lg font-semibold">{lesson.lessonTitle}</h3>
-
-                            {/* <div className='prose' dangerouslySetInnerHTML={{ __html: lesson.lessonContent }}></div>
-
-                        <p>{lesson.video}</p> */}
-                        </div>
-                    ))}
-                </div>
-
-                <div className='w-1/2 '>
-                    <h2 className="text-xl font-semibold inline-block mr-16">Test</h2>
-                    <Link to={`/Chapter/${chapter.chapterId}/Test/Create`} className=" bg-blue-500 hover:bg-blue-700 text-white font-bold p-2 inline-block rounded">
-                        Add Test
-                    </Link>
-                    {chapter.tests && chapter.tests.$values.map((test) => (
-                        <div key={test.testId} className="mb-4">
-                            <h3 className="text-lg font-semibold">{test.testTitle}</h3>
-                        </div>
-                    ))}
-                </div>
-
-            </div>
-
         </div>
     );
 }
