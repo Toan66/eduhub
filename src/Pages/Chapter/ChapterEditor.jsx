@@ -14,29 +14,26 @@ function ChapterEditor() {
     const navigate = useNavigate();
 
     useEffect(() => {
-        // Fetch thông tin chapter sử dụng API mới
         const fetchChapter = async () => {
             try {
-                // Sử dụng API mới để lấy thông tin chi tiết của chapter
-                const response = await axios.get(`https://localhost:7291/api/Chapter/${chapterId}/details`);
+                const response = await axios.get(`https://localhost:7291/api/Chapter/${chapterId}/details/edit`, {withCredentials :true});
                 setChapter(response.data);
-                // API trả về thông tin chi tiết của chapter bao gồm cả các bài học
             } catch (error) {
                 console.error('Error fetching chapter details:', error);
+                navigate("/Unauthorized");
             }
         };
 
         fetchChapter();
-    }, [chapterId]); // Chỉ cần chapterId vì API mới không yêu cầu courseId
+    }, [chapterId]);
 
     const handleDeleteChapter = async () => {
-        // Hiển thị hộp thoại xác nhận
         const isConfirmed = window.confirm('Are you sure you want to delete this chapter?');
         if (isConfirmed) {
             try {
                 await axios.delete(`https://localhost:7291/api/Chapter/${chapterId}`, { withCredentials: true });
                 alert('Chapter deleted');
-                navigate(-1); // Quay lại trang trước sau khi xóa
+                navigate(-1);
             } catch (error) {
                 console.error('Error deleting chapter:', error);
                 alert('Failed to delete chapter');
@@ -197,10 +194,10 @@ function ChapterEditor() {
                             {chapter.tests.$values.map((test) => (
                                 <div key={test.testId} className="mb-4 flex py-3 flex-row justify-between bg-indigo-100 p-2 rounded-lg">
                                     <h3 className=" font-semibold w-1/2">{test.testTitle}</h3>
-                                    {/* <Link to={`/Lesson/${lesson.lessonId}/Edit`} className="w-auto font-semibold text-right">
+                                    <Link to={`/Test/${test.testId}/Edit`} className="w-auto font-semibold text-right">
                                         Edit
                                         <span className='inline-block ml-2'><Pencil /></span>
-                                    </Link> */}
+                                    </Link>
                                 </div>
                             ))}
                         </div>

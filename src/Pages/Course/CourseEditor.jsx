@@ -193,32 +193,24 @@ function CourseEditor() {
     };
 
 
-    // Giả sử đây là hàm xử lý khi việc kéo và thả kết thúc
     async function handleOnDragEnd(result) {
-        // Kiểm tra xem phần tử được kéo có được thả vào một vị trí hợp lệ không
         if (!result.destination) return;
 
-        // Tạo một bản sao của mảng chapters hiện tại
         const items = Array.from(course.chapters.$values);
-        // Lấy ra phần tử được kéo
         const [reorderedItem] = items.splice(result.source.index, 1);
-        // Chèn phần tử vào vị trí mới
         items.splice(result.destination.index, 0, reorderedItem);
 
-        // Tạo JSON để gửi lên server với thứ tự mới
         const chaptersOrder = items.map((chapter, index) => ({
             chapterId: chapter.chapterId,
-            newOrder: index + 1 // Giả sử thứ tự bắt đầu từ 1
+            newOrder: index + 1
         }));
 
-        // Gửi dữ liệu thứ tự mới đến server
         try {
             const response = await axios.put(`https://localhost:7291/api/Chapter/Course/${courseId}/updateChapterOrder`, {
                 chaptersOrder: chaptersOrder
             }, { withCredentials: true });
 
             setEditChapterOrder(true);
-            // Xử lý phản hồi từ server ở đây, ví dụ: cập nhật UI, thông báo thành công, v.v...
             console.log('Chapter order updated successfully:', response.data);
 
         } catch (error) {

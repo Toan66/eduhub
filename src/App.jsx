@@ -18,6 +18,8 @@ import Page404 from './Pages/Page404';
 import UserDetail from './Pages/User/UserDetail';
 import LessonEditor from './Pages/Lesson/LessonEditor';
 import CreateTest from './Pages/Test/CreateTest';
+import TestEditor from './Pages/Test/TestEditor';
+import TestForm from './Pages/TestForm';
 
 function App() {
 	return (
@@ -39,6 +41,7 @@ function App() {
 				{/* private routes */}
 				<Route element={<RequireAuth allowedRoles={["Teacher", "Admin", "Student"]} />}>
 					<Route path="Profile" element={<Profile />} />
+					<Route path="User/:userId/Edit" element={<UserEditor />} />
 				</Route>
 
 				<Route path="Course/Create" element={<CreateCourse />} />
@@ -48,7 +51,10 @@ function App() {
 				<Route path="Chapter/:chapterId/Lesson/Create" element={<CreateLesson />} />
 				<Route path="Lesson/:lessonId/Edit" element={<LessonEditor />} />
 				<Route path="Chapter/:chapterId/Test/Create" element={<CreateTest />} />
-				<Route path="User/:userId/Edit" element={<UserEditor />} />
+				<Route path="Test/:testId/Edit" element={<TestEditor />} />
+
+				<Route path="TestForm" element={<TestForm />} />
+
 				
 				
 
