@@ -36,7 +36,7 @@ function ChapterEditor() {
                 navigate(-1);
             } catch (error) {
                 console.error('Error deleting chapter:', error);
-                alert('Failed to delete chapter');
+                alert(`Failed to delete chapter, ${error.response.data}`);
             }
         }
     };

@@ -12,7 +12,7 @@ const CreateTest = () => {
                 </svg>
                 <span>Back to Chapter Edit</span>
             </button>
-            <h1 className="text-3xl font-bold mb-4">Create New Lesson</h1>
+            <h1 className="text-3xl font-bold mb-4">Create New Test</h1>
 
             {chapterId}
         </div>
