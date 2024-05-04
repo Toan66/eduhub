@@ -1,0 +1,81 @@
+ <div className=' '>
+                <DragDropContext onDragEnd={handleOnDragEnd}>
+                    <Droppable droppableId="questions">
+                        {(provided) => (
+                            <div {...provided.droppableProps} ref={provided.innerRef}>
+                                {/* questions, answers mapping */}
+                                {testData.questions.map((question) => (
+                                    <Draggable key={question.questionId} draggableId={`question-${question.questionId}`} index={question.questionPosition - 1}>
+                                        {(provided) => (
+                                            <div
+                                                ref={provided.innerRef}
+                                                {...provided.draggableProps}
+                                                className="p-4 border-2 border-gray-200 rounded-lg shadow-sm space-y-4">
+                                                <div {...provided.dragHandleProps} className='align-middle text-center flex items-center justify-center'>
+                                                    <IconDragHorizontal />
+                                                </div>
+                                                <div className="flex justify-between">
+                                                    <input
+                                                        type="text"
+                                                        placeholder="Câu hỏi"
+                                                        value={question.questionContent}
+                                                        onChange={(e) => handleQuestionChange(e, question.questionId)}
+                                                        className="w-full p-2 border-2 border-gray-300 rounded-md focus:outline-none focus:border-blue-500 transition-colors"
+                                                    />
+                                                    <button type="button" onClick={() => handleRemoveQuestion(question.questionId)} className="ml-2 px-4 py-2 text-xl">
+                                                        <IconClose />
+                                                    </button>
+                                                </div>
+
+                                                <DragDropContext onDragEnd={(result) => handleOnDragEndAnswers(result, question.questionId)}>
+                                                    <Droppable droppableId={`answers-${question.questionId}`}>
+                                                        {(provided) => (
+                                                            <div {...provided.droppableProps} ref={provided.innerRef}>
+                                                                {question.answers.map((answer) => (
+                                                                    <Draggable key={answer.answerId} draggableId={`answer-${question.questionId}-${answer.answerId}`} index={answer.answerPosition - 1}>
+                                                                        {(provided) => (
+                                                                            <div
+                                                                                ref={provided.innerRef}
+                                                                                {...provided.draggableProps}
+                                                                                className="flex items-center space-x-2 my-3">
+                                                                                <div {...provided.dragHandleProps}>
+                                                                                    <IconDragHandleDots2 />
+                                                                                </div>
+                                                                                <input
+                                                                                    type="text"
+                                                                                    placeholder="Câu trả lời"
+                                                                                    value={answer.answerContent}
+                                                                                    onChange={(e) => handleAnswerChange(e, question.questionId, answer.answerId)}
+                                                                                    className="w-full p-2 border-2 border-gray-300 rounded-md focus:outline-none focus:border-blue-500 transition-colors"
+                                                                                />
+                                                                                <input
+                                                                                    type="radio"
+                                                                                    name={`correctAnswer-${question.questionId}`}
+                                                                                    checked={answer.isCorrect}
+                                                                                    onChange={() => handleSelectCorrectAnswer(question.questionId, answer.answerId)}
+                                                                                    className="form-radio"
+                                                                                />
+                                                                                <button type="button" onClick={() => handleRemoveAnswer(question.questionId, answer.answerId)} className="px-4 py-2 text-xl">
+                                                                                    <IconClose />
+                                                                                </button>
+                                                                            </div>
+                                                                        )}
+                                                                    </Draggable>
+                                                                ))}
+                                                                {provided.placeholder}
+                                                            </div>
+                                                        )}
+                                                    </Droppable>
+                                                </DragDropContext>
+
+                                            </div>
+                                        )}
+                                    </Draggable>
+                                ))}
+
+                                {provided.placeholder} {/* Ensure this is included */}
+                            </div>
+                        )}
+                    </Droppable>
+                </DragDropContext>
+            </div>

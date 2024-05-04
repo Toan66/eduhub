@@ -24,6 +24,8 @@ import TestForm from './Pages/TestForm';
 function App() {
 	return (
 		<Routes>
+			<Route path="/Unauthorized" element={<Unauthorized />} />
+			<Route path="*" element={<Page404 />} />
 			<Route path="/" element={<Layout />}>
 
 				{/* public routes */}
@@ -33,9 +35,7 @@ function App() {
 				<Route path="Course/:courseId" element={<CourseDetail />} />
 				<Route path="User/:userId" element={<UserDetail />} />
 				<Route path="Register" element={<Register />} />
-				<Route path="Unauthorized" element={<Unauthorized />} />
 				<Route path="Login" element={<Login />} />
-				<Route path="*" element={<Page404 />} />
 
 
 				{/* private routes */}
@@ -50,13 +50,13 @@ function App() {
 				<Route path="Chapter/:chapterId/Edit" element={<ChapterEditor />} />
 				<Route path="Chapter/:chapterId/Lesson/Create" element={<CreateLesson />} />
 				<Route path="Lesson/:lessonId/Edit" element={<LessonEditor />} />
-				<Route path="Chapter/:chapterId/Test/Create" element={<CreateTest />} />
+				<Route path="Chapter/:chapterId/Test/Create" element={<TestForm />} />
 				<Route path="Test/:testId/Edit" element={<TestEditor />} />
 
 				<Route path="TestForm" element={<TestForm />} />
 
-				
-				
+
+
 
 
 

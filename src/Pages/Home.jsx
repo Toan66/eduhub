@@ -45,10 +45,10 @@ function Home() {
                         {/* Course Card */}
                             {courses.slice(0, 4).map(course => (
                                 <div key={course.courseId} className="max-w-sm rounded overflow-hidden shadow-lg">
-                                    <img className="w-full" src="./src/assets/python_course.jpg" alt="Course Image" />
+                                    <img className="w-full h-40" src={course.featureImage} alt="Course Image" />
                                     <div className="px-6 py-4">
                                         <Link to={`/Course/${course.courseId}`} className="font-bold text-lg mb-2">{course.courseName}</Link>
-                                        <p className="text-gray-700 text-base line-clamp-3 text-justify">
+                                        <p className="text-gray-700 text-base line-clamp-2 text-justify">
                                             {course.courseDescription}
 
                                         </p>

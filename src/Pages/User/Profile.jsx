@@ -47,23 +47,29 @@ function Profile() {
 
                         </div>
                         <div className='w-full mb-5'>
-                            <img className='size-32 m-auto rounded-full' src={userData.userInfo.avatar} />
+                            {userData.userInfo?.avatar ? (
+                                <img className='size-32 m-auto rounded-full' src={userData.userInfo.avatar} />
+                            ) : (
+                                <>
+                                    Don't have an avatar
+                                </>
+                            )}
                             <div className='mt-5 text-center'>
-                                <p className=''><strong>Description: </strong> {userData.userInfo.userDescription}</p>
+                                <p className=''><strong>Description: </strong> {userData.userInfo?.userDescription}</p>
                             </div>
                         </div>
 
                         <div className='w-full md:w-1/2 inline-block'>
-                            <p><strong>Full Name:</strong> {userData.userInfo.fullName}</p>
-                            <p><strong>Date of Birth:</strong> {new Date(userData.userInfo.dateOfBirth).toLocaleDateString()}</p>
-                            <p><strong>Gender:</strong> {userData.userInfo.gender}</p>
-                            <p><strong>Phone Number:</strong> {userData.userInfo.phoneNumber}</p>
+                            <p><strong>Full Name:</strong> {userData.userInfo?.fullName}</p>
+                            <p><strong>Date of Birth:</strong> {new Date(userData.userInfo?.dateOfBirth).toLocaleDateString()}</p>
+                            <p><strong>Gender:</strong> {userData.userInfo?.gender}</p>
+                            <p><strong>Phone Number:</strong> {userData.userInfo?.phoneNumber}</p>
                         </div>
                         <div className='w-full md:w-1/2 float-right inline-block'>
-                            <p><strong>Address:</strong> {userData.userInfo.userAddress}</p>
-                            <p><strong>User Type:</strong> {userData.userType}</p>
-                            <p><strong>Username:</strong> {userData.username}</p>
-                            <p><strong>Email:</strong> {userData.userInfo.email}</p>
+                            <p><strong>Address:</strong> {userData.userInfo?.userAddress}</p>
+                            <p><strong>User Type:</strong> {userData?.userType}</p>
+                            <p><strong>Username:</strong> {userData?.username}</p>
+                            <p><strong>Email:</strong> {userData.userInfo?.email}</p>
                         </div>
 
                         <div className='mt-5 ml-auto'>

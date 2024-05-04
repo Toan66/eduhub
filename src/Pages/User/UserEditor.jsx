@@ -187,7 +187,7 @@ function UserEditor() {
                 <div className="rounded-lg bg-indigo-50 p-3 mb-6">
                     <div className='flex flex-row justify-between mb-4 text-lg'>
                         <div className='font-semibold w-1/2'>User Avatar</div>
-                        <button onClick={() => { setEditAvatar(true); setNewAvatar(user.userInfo.Avata); }} className='font-semibold w-auto text-right items-center'>
+                        <button onClick={() => { setEditAvatar(true); setNewAvatar(user.userInfo.avatar); }} className='font-semibold w-auto text-right items-center'>
                             <span className='inline-block ml-2'><Pencil /></span>
                             Edit Avatar
                         </button>

@@ -3,21 +3,26 @@ import { DragDropContext, Droppable, Draggable } from '@hello-pangea/dnd';
 import IconClose from '../Components/Icons/IconClose';
 import IconDragHandleDots2 from '../Components/Icons/IconDragHandleDots2';
 import IconDragHorizontal from '../Components/Icons/IconDragHorizontal';
+import { useNavigate, useParams } from 'react-router-dom';
+import axios from 'axios';
 
 function TestForm() {
+    const { chapterId } = useParams();
     const [testTitle, setTestTitle] = useState('');
     const [testDescription, setTestDescription] = useState('');
+    const navigate = useNavigate();
+
     const [questions, setQuestions] = useState([
         {
             questionText: '',
-            answers: [{ answerText: '', isCorrect: false }],
+            answers: [{ answerText: '', isCorrect: true }],
         },
     ]);
 
     const handleAddQuestion = () => {
         setQuestions([
             ...questions,
-            { questionText: '', answers: [{ answerText: '', isCorrect: false }] },
+            { questionText: '', answers: [{ answerText: '', isCorrect: true }] },
         ]);
     };
 
@@ -41,11 +46,9 @@ function TestForm() {
 
     const handleSelectCorrectAnswer = (questionIndex, answerIndex) => {
         const newQuestions = [...questions];
-        // Đặt tất cả câu trả lời trong câu hỏi này thành false
         newQuestions[questionIndex].answers.forEach(answer => {
             answer.isCorrect = false;
         });
-        // Đặt câu trả lời được chọn thành true
         newQuestions[questionIndex].answers[answerIndex].isCorrect = true;
         setQuestions(newQuestions);
     };
@@ -60,14 +63,33 @@ function TestForm() {
         setQuestions(newQuestions);
     };
 
-    const handleSubmit = (e) => {
+    const handleSubmit = async (e) => {
         e.preventDefault();
         // Xử lý submit form ở đây
-        console.log(questions);
+        const data = {
+            testTitle: testTitle,
+            testDescription: testDescription,
+            questions: questions,
+        }
+        try {
+            const response = await axios.post(`https://localhost:7291/api/Test/Chapter/${chapterId}/addTest`, {
+                testTitle: testTitle,
+                testDescription: testDescription,
+                questions: questions,
+            }, { withCredentials: true });
+
+            if (response.status === 200) {
+                alert('Test has been created successfully!');
+                navigate(-1); // Navigate back to the previous page
+            }
+        } catch (error) {
+            console.error('Error creating lesson:', error);
+            alert('An error occurred while creating the test.');
+        }
     };
 
     const handleOnDragEnd = (result) => {
-        if (!result.destination) return; // Nếu không có điểm đến, không làm gì cả
+        if (!result.destination) return;
 
         const items = Array.from(questions);
         const [reorderedItem] = items.splice(result.source.index, 1);
@@ -76,7 +98,7 @@ function TestForm() {
         setQuestions(items);
     };
     const handleOnDragEndAnswers = (result) => {
-        if (!result.destination) return; // Nếu không có điểm đến, không làm gì cả
+        if (!result.destination) return;
 
         const { source, destination } = result;
         // Giả sử droppableId được đặt theo định dạng "answers-questionIndex"
