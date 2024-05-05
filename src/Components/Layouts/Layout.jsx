@@ -1,17 +1,25 @@
+import { useEffect } from "react";
+import { useLocation } from "react-router-dom";
 import Header from "./Header";
 import Footer from "./Footer";
-import {Outlet} from "react-router-dom";
+import { Outlet } from "react-router-dom";
 import Breadcrumbs from "../Breadcrumbs";
 
 const Layout = () => {
-    return (
-        <>
-            <Header />
-            <Breadcrumbs />
-            <Outlet />
-            <Footer />
-        </>
-    )
-}
+	const location = useLocation();
 
-export default Layout
+	useEffect(() => {
+		window.scrollTo(0, 0);
+	}, [location]); // Cuộn lên đầu trang mỗi khi đường dẫn thay đổi
+
+	return (
+		<>
+			<Header />
+			<Breadcrumbs />
+			<Outlet />
+			<Footer />
+		</>
+	);
+};
+
+export default Layout;

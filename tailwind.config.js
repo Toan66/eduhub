@@ -5,7 +5,12 @@ export default {
 		"./src/**/*.{js,ts,jsx,tsx}",
 	],
 	theme: {
-		extend: {},
+		extend: {
+			fontFamily: {
+				varela: ['"Varela Round"'],
+				poppins: ['"Poppins"']
+			  }		
+		},
 		screens: {
 			'sm': '640px',
 			// => @media (min-width: 640px) { ... }
