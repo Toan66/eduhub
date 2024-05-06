@@ -16,7 +16,7 @@ import IconMoneyBillWave from "../../Components/Icons/IconMoneyBillWave";
 import IconPricetags from "../../Components/Icons/IconPricetags";
 // import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip } from 'recharts';
 
-function CourseDetail() {
+function CoursePreview() {
 	const { courseId } = useParams();
 	const [course, setCourse] = useState(null);
 	const [teacher, setTeacher] = useState({});
@@ -48,7 +48,7 @@ function CourseDetail() {
 		const fetchCourse = async () => {
 			try {
 				const response = await axios.get(
-					`https://localhost:7291/api/course/${courseId}/details`
+					`https://localhost:7291/api/course/${courseId}/preview/details`
 				);
 				console.log(response.data);
 				setCourse(response.data);
@@ -135,8 +135,8 @@ function CourseDetail() {
 			</div>
 
 			<div className="container mx-auto px-4 sm:max-w-screen-lg">
-				<div className="flex lg:flex-row flex-col justify-between">
-					<div className="w-full lg:w-7/12">
+				<div className="flex flex-row justify-between">
+					<div className=" w-7/12">
 						<div className="flex flex-row items-center mt-10 text-lg">
 							<Link
 								to={`/Teacher/${course.teacherId}`}
@@ -344,7 +344,7 @@ function CourseDetail() {
 						</div>
 					</div>
 
-					<div className="w-full lg:w-4/12 text-gray-500">
+					<div className=" w-4/12 text-gray-500">
 						<div className="justify-between flex flex-col border p-5 mt-5 rounded-xl shadow-xl">
 							<img className="mb-5" src={course.featureImage} />
 							<p className="border-0 border-b mt-4 py-3 flex items-center justify-between">
@@ -436,4 +436,4 @@ function CourseDetail() {
 	);
 }
 
-export default CourseDetail;
+export default CoursePreview;

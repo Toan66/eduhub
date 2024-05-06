@@ -21,6 +21,7 @@ import CreateTest from "./Pages/Test/CreateTest";
 import TestEditor from "./Pages/Test/TestEditor";
 import TestForm from "./Pages/TestForm";
 import TeacherDetail from "./Pages/User/TeacherDetail";
+import CoursePreview from "./Pages/Course/CoursePreview";
 
 function App() {
 	return (
@@ -29,7 +30,7 @@ function App() {
 			<Route path="*" element={<Page404 />} />
 			<Route path="/" element={<Layout />}>
 				{/* public routes */}
-				{/* <Route index element={<Home />} /> */}
+
 				<Route path="/" element={<Home />} />
 				<Route path="Course" element={<Courses />} />
 				<Route path="Course/:courseId" element={<CourseDetail />} />
@@ -64,6 +65,7 @@ function App() {
 				<Route path="Test/:testId/Edit" element={<TestEditor />} />
 
 				<Route path="TestForm" element={<TestForm />} />
+				<Route path="Course/:courseId/Preview" element={<CoursePreview />} />
 
 				{/* <Route element={<RequireAuth allowedRoles={["Teacher", "Admin"]} />}>
 					<Route path="Course/Create" element={<CreateCourse />} />
