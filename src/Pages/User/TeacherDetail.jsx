@@ -10,6 +10,7 @@ import IconBxsBookContent from "../../Components/Icons/IconBxsBookContent";
 function TeacherDetail() {
 	const { userId } = useParams();
 	const [userCourses, setUserCourses] = useState([]);
+	const courseLevelMap = {};
 	const navigate = useNavigate();
 	const [userData, setUserData] = useState(null);
 	const [userReviews, setUserReviews] = useState([]);
@@ -40,8 +41,22 @@ function TeacherDetail() {
 					`https://localhost:7291/api/Course/${userId}/TeacherCourses`,
 					{ withCredentials: true }
 				);
-				setUserCourses(response.data.$values);
-				console.log(response.data.$values);
+				const courses = response.data.$values;
+
+				courses.forEach((course) => {
+					if (course.courseLevel && course.courseLevel.$id) {
+						courseLevelMap[course.courseLevel.$id] = course.courseLevel;
+					}
+				});
+
+				courses.forEach((course) => {
+					if (course.courseLevel && course.courseLevel.$ref) {
+						course.courseLevel = courseLevelMap[course.courseLevel.$ref];
+					}
+				});
+
+				setUserCourses(courses); // Cập nhật state với dữ liệu đã được xử lý
+				console.log(courses);
 			} catch (error) {
 				console.error("Error fetching user courses:", error);
 			}
@@ -73,7 +88,6 @@ function TeacherDetail() {
 			userReviews.length > 0
 				? (totalRating / userReviews.length).toFixed(1)
 				: 0;
-		console.log(`Total Rating: , Average Rating: `);
 	}, [userReviews]);
 
 	const indexOfLastCourse = currentPageCourses * itemsPerPage;
@@ -192,11 +206,8 @@ function TeacherDetail() {
 									className="bg-gray-50 rounded-lg shadow-md"
 								>
 									{course.featureImage && (
-										<div className="m-4">
-											<Link
-												to={`/Course/${course.courseId}`}
-												className="overflow-hidden"
-											>
+										<div className="m-4 overflow-hidden">
+											<Link to={`/Course/${course.courseId}`}>
 												<p className="absolute m-3 px-3 z-10 py-1 bg-blue-500 rounded-md text-white font-semibold text-sm">
 													{course.courseLevel.courseLevelName}
 												</p>

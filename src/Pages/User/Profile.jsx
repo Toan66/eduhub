@@ -110,40 +110,22 @@ function Profile() {
 
 					{userRole === "Teacher" && userCourses.length > 0 && (
 						<div className="mt-20">
-							<h3 className="text-2xl font-semibold mb-4">Your Courses</h3>
-							<div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 shadow-md rounded-lg p-6">
-								{userCourses.map((course) => (
-									<div
-										key={course.courseId}
-										className="bg-gray-100 rounded-lg p-4 shadow"
-									>
-										<h4 className="text-lg font-semibold">
-											{course.courseName}
-										</h4>
-										<p className="text-sm text-gray-600">
-											{course.courseDescription}
-										</p>
-										<p className="text-sm">
-											{course.approvalStatus ? "Approved" : "Pending Approval"}
-										</p>
-										{course.featureImage && (
-											<img
-												src={course.featureImage}
-												alt="Course"
-												className="w-full h-32 object-cover mt-2 rounded"
-											/>
-										)}
-										<div className="mt-4">
-											<Link
-												to={`/Course/${course.courseId}/Edit`}
-												className="inline-block bg-blue-500 text-white py-2 px-4 rounded hover:bg-blue-700 transition-colors"
-											>
-												Edit
-											</Link>
-										</div>
-									</div>
-								))}
-							</div>
+							<Link
+								className="px-5 py-2 rounded-md text-white font-semibold bg-blue-500 text-2xl"
+								to="/Teacher/MyCourse"
+							>
+								My Course
+							</Link>
+						</div>
+					)}
+					{userRole === "Admin" && (
+						<div className="my-10">
+							<Link
+								className="px-5 py-2 rounded-md text-white font-semibold bg-blue-500 text-2xl"
+								to="/Admin/DashBoard"
+							>
+								Admin Dashboard
+							</Link>
 						</div>
 					)}
 				</div>

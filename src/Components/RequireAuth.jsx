@@ -1,19 +1,23 @@
-import { Navigate, Outlet } from 'react-router-dom';
-import { useAuth } from '../Contexts/AuthContext'
+import { Navigate, Outlet } from "react-router-dom";
+import { useAuth } from "../Contexts/AuthContext";
 
 const RequireAuth = ({ allowedRoles }) => {
-    const { userRole } = useAuth();
+	const { userRole, isAuthenticating } = useAuth();
 
-    if (!userRole) {
-        return <Navigate to="/Login" replace />;
-    }
+	if (isAuthenticating) {
+		// Hiển thị spinner hoặc trả về null trong khi chờ đợi
+		return <div>Loading...</div>; // Hoặc trả về null hoặc một spinner
+	}
 
-    if (!allowedRoles.includes(userRole)) {
-        return <Navigate to="/Unauthorized" replace />;
-    }
+	if (!userRole) {
+		return <Navigate to="/Login" replace />;
+	}
 
-    // Nếu người dùng đã đăng nhập và có role phù hợp, cho phép truy cập vào trang
-    return <Outlet />;
+	if (!allowedRoles.includes(userRole)) {
+		return <Navigate to="/Unauthorized" replace />;
+	}
+
+	return <Outlet />;
 };
 
-export default RequireAuth
+export default RequireAuth;

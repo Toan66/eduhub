@@ -10,7 +10,6 @@ import IconAccountGroup from "../../Components/Icons/IconAccountGroup";
 import IconBxsBookContent from "../../Components/Icons/IconBxsBookContent";
 import IconBxsBarChartAlt2 from "../../Components/Icons/IconBxsBarChartAlt2";
 import IconFileQuestionOutline from "../../Components/Icons/IconFileQuestionOutline";
-import IconShapes from "../../Components/Icons/IconShapes";
 import IconUserTie from "../../Components/Icons/IconUserTie";
 import IconMoneyBillWave from "../../Components/Icons/IconMoneyBillWave";
 import IconPricetags from "../../Components/Icons/IconPricetags";
@@ -122,10 +121,47 @@ function CoursePreview() {
 		setTestCount(totalTests);
 	};
 
+	const CourseApproveHandle = () => {
+		axios
+			.post(
+				`https://localhost:7291/api/course/${courseId}/approve`,
+				{},
+				{ withCredentials: true }
+			)
+			.then((response) => {
+				console.log(response.data);
+				window.location.reload();
+			})
+			.catch((error) => {
+				console.error("Error approving course:", error);
+			});
+	};
+
 	if (!course) return <div>Loading...</div>;
 
 	return (
 		<>
+			{!course.approvalStatus ? (
+				<div className="p-10 text-2xl font-semibold text-white bg-red-600">
+					<span>This course hasn't been approved yet.</span>
+					<button
+						onClick={() => CourseApproveHandle()}
+						className="float-right px-4 py-1 rounded-md text-white font-semibold bg-green-500"
+					>
+						Approve Course
+					</button>
+				</div>
+			) : (
+				<div className="p-10 text-2xl font-semibold text-white bg-green-600">
+					<span>This Course has been approved.</span>
+					{/* <button
+						onClick={() => CourseApproveHandle()}
+						className="float-right px-4 py-1 rounded-md text-white font-semibold bg-green-500"
+					>
+						Approve
+					</button> */}
+				</div>
+			)}
 			<div className="flex flex-row justify-around">
 				<img
 					className="w-full h-auto rounded-xl "

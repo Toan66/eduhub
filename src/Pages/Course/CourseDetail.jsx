@@ -239,7 +239,7 @@ function CourseDetail() {
 								<div className="w-7/12 flex flex-col justify-between">
 									<Link
 										to={`/Teacher/${course.teacherId}`}
-										className="font-semibold text-2xl"
+										className="font-semibold text-2xl hover:text-blue-500"
 									>
 										{teacher.fullName}
 									</Link>
@@ -354,7 +354,9 @@ function CourseDetail() {
 									</span>
 									Enrolled
 								</span>
-								<span className="float-right">{}</span>
+								<span className="float-right">
+									{course.enrollments.$values.length}
+								</span>
 							</p>
 							<p className="border-0 border-b mt-4 py-3 flex items-center justify-between">
 								<span className="flex items-center">

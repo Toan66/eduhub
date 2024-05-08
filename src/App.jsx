@@ -22,6 +22,9 @@ import TestEditor from "./Pages/Test/TestEditor";
 import TestForm from "./Pages/TestForm";
 import TeacherDetail from "./Pages/User/TeacherDetail";
 import CoursePreview from "./Pages/Course/CoursePreview";
+import AdminDashboard from "./Pages/Admin/AdminDashboard";
+import UnapprovalCourses from "./Pages/Admin/CourseApproval/UnapprovalCourses";
+import MyCourse from "./Pages/Course/MyCourse";
 
 function App() {
 	return (
@@ -66,6 +69,12 @@ function App() {
 
 				<Route path="TestForm" element={<TestForm />} />
 				<Route path="Course/:courseId/Preview" element={<CoursePreview />} />
+
+				<Route path="Admin/DashBoard" element={<AdminDashboard />} />
+
+				<Route path="Admin/Courses/Unapprove" element={<UnapprovalCourses />} />
+
+				<Route path="Teacher/MyCourse" element={<MyCourse />} />
 
 				{/* <Route element={<RequireAuth allowedRoles={["Teacher", "Admin"]} />}>
 					<Route path="Course/Create" element={<CreateCourse />} />
