@@ -31,6 +31,7 @@ function App() {
 		<Routes>
 			<Route path="/Unauthorized" element={<Unauthorized />} />
 			<Route path="*" element={<Page404 />} />
+
 			<Route path="/" element={<Layout />}>
 				{/* public routes */}
 
@@ -43,64 +44,32 @@ function App() {
 				<Route path="Teacher/:userId" element={<TeacherDetail />} />
 
 				{/* private routes */}
-				<Route
-					element={
-						<RequireAuth allowedRoles={["Teacher", "Admin", "Student"]} />
-					}
-				>
+				<Route element={<RequireAuth allowedRoles={["Teacher", "Admin", "Student"]} />} >
 					<Route path="Profile" element={<Profile />} />
 					<Route path="User/:userId/Edit" element={<UserEditor />} />
 				</Route>
 
-				<Route path="Course/Create" element={<CreateCourse />} />
-				<Route path="Course/:courseId/Edit" element={<CourseEditor />} />
-				<Route
-					path="Course/:courseId/Chapter/Create"
-					element={<CreateChapter />}
-				/>
-				<Route path="Chapter/:chapterId/Edit" element={<ChapterEditor />} />
-				<Route
-					path="Chapter/:chapterId/Lesson/Create"
-					element={<CreateLesson />}
-				/>
-				<Route path="Lesson/:lessonId/Edit" element={<LessonEditor />} />
-				<Route path="Chapter/:chapterId/Test/Create" element={<TestForm />} />
-				<Route path="Test/:testId/Edit" element={<TestEditor />} />
+				
 
-				<Route path="TestForm" element={<TestForm />} />
-				<Route path="Course/:courseId/Preview" element={<CoursePreview />} />
-
-				<Route path="Admin/DashBoard" element={<AdminDashboard />} />
-
-				<Route path="Admin/Courses/Unapprove" element={<UnapprovalCourses />} />
-
-				<Route path="Teacher/MyCourse" element={<MyCourse />} />
-
-				{/* <Route element={<RequireAuth allowedRoles={["Teacher", "Admin"]} />}>
+				<Route element={<RequireAuth allowedRoles={["Teacher", "Admin"]} />}>
 					<Route path="Course/Create" element={<CreateCourse />} />
 					<Route path="Course/:courseId/Edit" element={<CourseEditor />} />
 					<Route path="Course/:courseId/Chapter/Create" element={<CreateChapter />} />
 					<Route path="Chapter/:chapterId/Edit" element={<ChapterEditor />} />
 					<Route path="Chapter/:chapterId/Lesson/Create" element={<CreateLesson />} />
-				</Route> */}
-
-				{/* we want to protect these routes
-				<Route element={<RequireAuth allowedRoles={[ROLES.User]} />}>
-					<Route path="/" element={<Home />} />
+					<Route path="Chapter/:chapterId/Test/Create" element={<TestForm />} />
+					<Route path="Lesson/:lessonId/Edit" element={<LessonEditor />} />
+					<Route path="Test/:testId/Edit" element={<TestEditor />} />
+					<Route path="TestForm" element={<TestForm />} />
+					<Route path="Course/:courseId/Preview" element={<CoursePreview />} />
+					<Route path="Teacher/MyCourse" element={<MyCourse />} />
 				</Route>
 
-				<Route element={<RequireAuth allowedRoles={[ROLES.Editor]} />}>
-					<Route path="editor" element={<Editor />} />
+				<Route element={<RequireAuth allowedRoles={["Admin"]} />}>
+					<Route path="Admin/DashBoard" element={<AdminDashboard />} />
+					<Route path="Admin/Courses/Unapprove" element={<UnapprovalCourses />} />
 				</Route>
 
-
-				<Route element={<RequireAuth allowedRoles={[ROLES.Admin]} />}>
-					<Route path="admin" element={<Admin />} />
-				</Route>
-
-				<Route element={<RequireAuth allowedRoles={[ROLES.Editor, ROLES.Admin]} />}>
-					<Route path="lounge" element={<Lounge />} />
-				</Route> */}
 			</Route>
 		</Routes>
 	);

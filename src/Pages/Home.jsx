@@ -52,11 +52,17 @@ function Home() {
 									key={course.courseId}
 									className="max-w-sm rounded overflow-hidden shadow-lg"
 								>
-									<img
-										className="w-full h-40"
-										src={course.featureImage}
-										alt="Course Image"
-									/>
+									<Link
+										to={`/Course/${course.courseId}`}
+										className="font-bold text-lg mb-2"
+									>
+										<img
+											className="w-full h-40"
+											src={course.featureImage}
+											alt="Course Image"
+										/>
+									</Link>
+
 									<div className="px-6 py-4">
 										<Link
 											to={`/Course/${course.courseId}`}

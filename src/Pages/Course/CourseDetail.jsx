@@ -1,4 +1,4 @@
-import { Link, useParams } from "react-router-dom";
+import { Link, Navigate, useNavigate, useParams } from "react-router-dom";
 import { useEffect, useState } from "react";
 import axios from "axios";
 import Rating from "../../Components/Rating";
@@ -18,6 +18,7 @@ import IconPricetags from "../../Components/Icons/IconPricetags";
 
 function CourseDetail() {
 	const { courseId } = useParams();
+	const navigate = useNavigate();
 	const [course, setCourse] = useState(null);
 	const [teacher, setTeacher] = useState({});
 	const [reviews, setReviews] = useState([]);
@@ -25,6 +26,7 @@ function CourseDetail() {
 	const [lessonCount, setLessonCount] = useState(0);
 	const [testCount, setTestCount] = useState(0);
 	const [filterRating, setFilterRating] = useState(null);
+	const [isEnrolled, setIsEnrolled] = useState(false);
 	const handleRatingFilter = (rating) => {
 		if (filterRating === rating) {
 			setFilterRating(null);
@@ -81,9 +83,24 @@ function CourseDetail() {
 			}
 		};
 
+		const checkEnroll = async () => {
+			try {
+				// Ensure the URL is correctly pointing to the course ID
+				const response = await axios.get(
+					`https://localhost:7291/api/course/${courseId}/isEnrolled`,
+					{ withCredentials: true }
+				);
+				console.log(response.data);
+				setIsEnrolled(response.data.isEnrolled);
+			} catch (error) {
+				console.error("Error fetching reviews:", error);
+			}
+		};
+
 		fetchCourse();
 		fetchTeacher();
 		fetchReviews();
+		checkEnroll();
 	}, [courseId]);
 
 	// const processDataForChart = (reviews) => {
@@ -122,11 +139,30 @@ function CourseDetail() {
 		setTestCount(totalTests);
 	};
 
+	const handleEnroll = async () => {
+		try {
+			const response = await axios.post(
+				"https://localhost:7291/api/Course/enroll",
+				{
+					courseId: courseId, // Giả sử courseId được lấy từ useParams hoặc state
+				},
+				{ withCredentials: true }
+			); // Sử dụng withCredentials nếu API yêu cầu cookies, sessions, etc.
+			console.log(response.data);
+			// Xử lý sau khi gọi API thành công, ví dụ: thông báo cho người dùng, chuyển hướng, v.v.
+			alert("You have successfully enrolled in this course!");
+			navigate(0);
+		} catch (error) {
+			console.error("Error enrolling in course:", error);
+			// Xử lý lỗi, ví dụ: thông báo lỗi cho người dùng
+		}
+	};
+
 	if (!course) return <div>Loading...</div>;
 
 	return (
 		<>
-			<div className="flex flex-row justify-around">
+			<div className="m-auto w-11/12">
 				<img
 					className="w-full h-auto rounded-xl "
 					src={course.featureImage}
@@ -427,9 +463,23 @@ function CourseDetail() {
 								</span>
 								<span className="float-right">{course.coursePrice} EHT</span>
 							</p>
-							<button className="border mt-4 py-3 rounded-xl bg-blue-500 text-white hover:bg-black duration-500 font-semibold text-2xl">
-								Enroll
-							</button>
+							{!isEnrolled ? (
+								<button
+									onClick={() => handleEnroll()}
+									className="border mt-4 py-3 rounded-xl bg-blue-500 text-white hover:bg-black duration-500 font-semibold text-2xl"
+								>
+									Enroll
+								</button>
+							) : (
+								<div>
+									<button className="border w-full mt-4 py-3 rounded-xl  text-white bg-black duration-500 font-semibold text-2xl">
+										You are enrolled
+									</button>
+									<div>
+										<Link to="/"> Learn</Link>
+									</div>
+								</div>
+							)}
 						</div>
 					</div>
 				</div>

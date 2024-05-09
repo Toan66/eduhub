@@ -24,6 +24,14 @@ const MyCourse = () => {
 	return (
 		<div className="container mx-auto px-4 sm:max-w-screen-lg">
 			<h2 className="text-2xl font-bold mb-4">My Courses</h2>
+			<div className="my-10">
+				<Link
+					to="/Course/Create"
+					className="px-5 py-2 rounded-md text-white font-semibold bg-black hover:bg-blue-500 text-lg"
+				>
+					+ Create New Course
+				</Link>
+			</div>
 
 			<table className="min-w-full">
 				<thead className="border-b font-semibold">
