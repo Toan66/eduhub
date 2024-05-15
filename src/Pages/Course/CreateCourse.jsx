@@ -81,7 +81,7 @@ function CreateCourse() {
 						.then((response) => {
 							console.log(response.data);
 							alert("Course created successfully");
-							navigate("/Profile");
+							navigate("/Teacher/MyCourse");
 						})
 						.catch((error) => {
 							console.error("Error creating course:", error);

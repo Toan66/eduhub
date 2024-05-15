@@ -170,7 +170,7 @@ function CoursePreview() {
 				/>
 			</div>
 
-			<div className="container mx-auto px-4 sm:max-w-screen-lg">
+			<div className="container mx-auto sm:max-w-screen-lg">
 				<div className="flex flex-row justify-between">
 					<div className=" w-7/12">
 						<div className="flex flex-row items-center mt-10 text-lg">

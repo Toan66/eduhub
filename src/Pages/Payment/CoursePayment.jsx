@@ -30,7 +30,6 @@ function CreatePayment() {
 			if (response.data && response.data.url) {
 				window.location.href = response.data.url;
 			} else {
-				// Xử lý trường hợp không nhận được URL
 				console.error("URL thanh toán không khả dụng.");
 			}
 		} catch (error) {

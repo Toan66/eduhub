@@ -43,7 +43,7 @@ function Profile() {
 	}, [userData]);
 
 	return (
-		<div className="container mx-auto px-4 sm:max-w-screen-lg">
+		<div className="container mx-auto sm:max-w-screen-lg">
 			{userData ? (
 				<div className="bg-white h-auto">
 					<h2 className="text-2xl font-bold mb-4">User Profile</h2>

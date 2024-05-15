@@ -284,13 +284,11 @@ function CourseEditor() {
 
 	if (!course)
 		return (
-			<div className="container mx-auto px-4 sm:max-w-screen-lg">
-				Loading ...
-			</div>
+			<div className="container mx-auto sm:max-w-screen-lg">Loading ...</div>
 		);
 
 	return (
-		<div className="container mx-auto px-4 sm:max-w-screen-lg">
+		<div className="container mx-auto sm:max-w-screen-lg">
 			<div className="text-3xl font-bold mb-4 flex align-middle items-center justify-between">
 				Course Setup
 				<button

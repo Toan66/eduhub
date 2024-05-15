@@ -172,7 +172,7 @@ export default () => {
 														Dashboard
 													</Link>
 													<Link
-														to="#"
+														to="/MyOrder"
 														className="block px-4 py-4 text-xl hover:bg-gray-100"
 													>
 														Order History

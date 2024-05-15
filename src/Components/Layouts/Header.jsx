@@ -204,7 +204,7 @@ export default () => {
 												</svg>
 											</button>
 
-											<div className="absolute right-0 w-80 origin-top-left bg-white divide-y divide-gray-100 rounded-md shadow-lg opacity-0 invisible group-hover:opacity-100 group-hover:visible transition duration-300">
+											<div className="absolute z-10 right-0 w-80 origin-top-left bg-white divide-y divide-gray-100 rounded-md shadow-lg opacity-0 invisible group-hover:opacity-100 group-hover:visible transition duration-300">
 												<div className="py-1">
 													<div className="pl-3 py-4 text-xl flex flex-row items-center justify-between border-black border-b">
 														<div className="w-2/12">
@@ -225,7 +225,7 @@ export default () => {
 														Dashboard
 													</Link>
 													<Link
-														to="#"
+														to="/MyOrder"
 														className="block px-4 py-4 text-xl hover:bg-gray-100"
 													>
 														Order History

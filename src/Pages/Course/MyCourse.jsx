@@ -22,7 +22,7 @@ const MyCourse = () => {
 	}, []);
 
 	return (
-		<div className="container mx-auto px-4 sm:max-w-screen-lg">
+		<div className="container mx-auto sm:max-w-screen-lg">
 			<h2 className="text-2xl font-bold mb-4">My Courses</h2>
 			<div className="my-10">
 				<Link

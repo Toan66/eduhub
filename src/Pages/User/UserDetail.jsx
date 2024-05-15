@@ -27,7 +27,7 @@ function UserDetail() {
 	const goBack = () => navigate(-1);
 
 	return (
-		<div className="container mx-auto px-4 sm:max-w-screen-lg">
+		<div className="container mx-auto sm:max-w-screen-lg">
 			{userData ? (
 				<>
 					<div className="bg-white h-auto">

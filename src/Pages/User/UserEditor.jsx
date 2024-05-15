@@ -239,13 +239,11 @@ function UserEditor() {
 
 	if (!user)
 		return (
-			<div className="container mx-auto px-4 sm:max-w-screen-lg">
-				Loading...
-			</div>
+			<div className="container mx-auto sm:max-w-screen-lg">Loading...</div>
 		);
 
 	return (
-		<div className="container mx-auto px-4 sm:max-w-screen-lg flex flex-row flex-wrap justify-between">
+		<div className="container mx-auto sm:max-w-screen-lg flex flex-row flex-wrap justify-between">
 			<div className="text-2xl w-full font-bold mb-4">User Info Edit</div>
 
 			<div className="w-full lg:w-5/12">

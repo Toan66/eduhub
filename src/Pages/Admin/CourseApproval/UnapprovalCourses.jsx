@@ -21,7 +21,7 @@ function UnapprovalCourses() {
 	}, []);
 
 	return (
-		<div className="container mx-auto px-4 sm:max-w-screen-lg">
+		<div className="container mx-auto sm:max-w-screen-lg">
 			<div>
 				{unapproveCourses.length > 0 ? (
 					<>

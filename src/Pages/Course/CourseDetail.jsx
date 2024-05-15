@@ -124,7 +124,7 @@ function CourseDetail() {
 		if (course) {
 			updateLessonAndTestCounts(course);
 		}
-	}, [course]); // Thêm useEffect này
+	}, [course]);
 
 	const updateLessonAndTestCounts = (courseData) => {
 		let totalLessons = 0;
@@ -139,18 +139,20 @@ function CourseDetail() {
 		setTestCount(totalTests);
 	};
 
-	const handleEnroll = async () => {
+	const handleBuy = async () => {
 		try {
 			const response = await axios.post(
-				"https://localhost:7291/api/Course/enroll",
+				"https://localhost:7291/api/Payment/addOrder",
 				{
 					courseId: courseId,
+					amount: course.coursePrice,
+					status: "Pending",
 				},
 				{ withCredentials: true }
 			);
 			console.log(response.data);
-			alert("You have successfully enrolled in this course!");
-			navigate(0);
+			alert("Purchase your order to enroll this course!");
+			navigate("/MyOrder");
 		} catch (error) {
 			console.error("Error enrolling in course:", error);
 		}
@@ -168,7 +170,7 @@ function CourseDetail() {
 				/>
 			</div>
 
-			<div className="container mx-auto px-4 sm:max-w-screen-lg">
+			<div className="container mx-auto sm:max-w-screen-lg">
 				<div className="flex lg:flex-row flex-col justify-between">
 					<div className="w-full lg:w-7/12">
 						<div className="flex flex-row items-center mt-10 text-lg">
@@ -463,19 +465,24 @@ function CourseDetail() {
 							</p>
 							{!isEnrolled ? (
 								<button
-									onClick={() => handleEnroll()}
+									onClick={() => handleBuy()}
 									className="border mt-4 py-3 rounded-xl bg-blue-500 text-white hover:bg-black duration-500 font-semibold text-2xl"
 								>
-									Enroll
+									Buy Now
 								</button>
 							) : (
 								<div>
-									<button className="border w-full mt-4 py-3 rounded-xl  text-white bg-black duration-500 font-semibold text-2xl">
-										You are enrolled
-									</button>
-									<div>
-										<Link to={`/Learn/Course/${course.courseId}`}> Learn</Link>
+									<div className="border w-full mt-4 py-3 rounded-xl text-center text-white bg-black duration-500 font-semibold text-2xl">
+										You already enrolled
 									</div>
+									{/* <div className="mt-10">
+										<Link
+											className="border w-full mt-20 py-3 rounded-xl  text-white bg-black duration-500 font-semibold text-2xl"
+											to={`/Learn/Course/${course.courseId}`}
+										>
+											Learn
+										</Link>
+									</div> */}
 								</div>
 							)}
 						</div>

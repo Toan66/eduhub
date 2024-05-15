@@ -31,7 +31,9 @@ import CourseLearn from "./Pages/Learn/CourseLearn";
 import ChapterLearn from "./Pages/Learn/ChapterLearn";
 import LessonLearn from "./Pages/Learn/LessonLearn";
 import TestLearn from "./Pages/Learn/TestLearn";
-
+import PaymentResult from "./Pages/Payment/PaymentResult";
+import MyOrder from "./Pages/Payment/MyOrder";
+import OrderPay from "./Pages/Payment/OrderPay";
 
 function App() {
 	return (
@@ -56,6 +58,9 @@ function App() {
 					<Route path="Profile" element={<Profile />} />
 					<Route path="User/:userId/Edit" element={<UserEditor />} />
 					<Route path="Order" element={<CoursePayment />} />
+					<Route path="PaymentResult" element={<PaymentResult />} />
+					<Route path="MyOrder" element={<MyOrder />} />
+					<Route path="Order/:orderId/Payment" element={<OrderPay />} />
 				</Route>
 
 				<Route element={<RequireAuth allowedRoles={["Teacher", "Admin"]} />}>

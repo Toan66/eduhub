@@ -265,7 +265,7 @@ function TeacherDetail() {
 									</div>
 									<div className="flex items-center text-lg justify-between m-4">
 										<div className="px-4 py-1 rounded-md text-white font-semibold bg-blue-500">
-											{course.coursePrice} <VND></VND>
+											{course.coursePrice.toLocaleString()} VND
 										</div>
 										<div>
 											<Link
