@@ -459,7 +459,7 @@ function CoursePreview() {
 									</span>
 									Price
 								</span>
-								<span className="float-right">{course.coursePrice} EHT</span>
+								<span className="float-right">{course.coursePrice} VND</span>
 							</p>
 							<button className="border mt-4 py-3 rounded-xl bg-blue-500 text-white hover:bg-black duration-500 font-semibold text-2xl">
 								Enroll

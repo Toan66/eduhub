@@ -25,6 +25,13 @@ import CoursePreview from "./Pages/Course/CoursePreview";
 import AdminDashboard from "./Pages/Admin/AdminDashboard";
 import UnapprovalCourses from "./Pages/Admin/CourseApproval/UnapprovalCourses";
 import MyCourse from "./Pages/Course/MyCourse";
+import CoursePayment from "./Pages/Payment/CoursePayment";
+import LayoutLearn from "./Components/Layouts/LayoutLearn";
+import CourseLearn from "./Pages/Learn/CourseLearn";
+import ChapterLearn from "./Pages/Learn/ChapterLearn";
+import LessonLearn from "./Pages/Learn/LessonLearn";
+import TestLearn from "./Pages/Learn/TestLearn";
+
 
 function App() {
 	return (
@@ -32,6 +39,7 @@ function App() {
 			<Route path="/Unauthorized" element={<Unauthorized />} />
 			<Route path="*" element={<Page404 />} />
 
+			{/* Normal Layout */}
 			<Route path="/" element={<Layout />}>
 				{/* public routes */}
 
@@ -47,9 +55,8 @@ function App() {
 				<Route element={<RequireAuth allowedRoles={["Teacher", "Admin", "Student"]} />} >
 					<Route path="Profile" element={<Profile />} />
 					<Route path="User/:userId/Edit" element={<UserEditor />} />
+					<Route path="Order" element={<CoursePayment />} />
 				</Route>
-
-				
 
 				<Route element={<RequireAuth allowedRoles={["Teacher", "Admin"]} />}>
 					<Route path="Course/Create" element={<CreateCourse />} />
@@ -71,6 +78,21 @@ function App() {
 				</Route>
 
 			</Route>
+
+			{/* Learn Layout */}
+			<Route path="/" element={<LayoutLearn />}>
+
+				<Route element={<RequireAuth allowedRoles={["Teacher", "Admin", "Student"]} />} >
+					
+					<Route path="Learn/Course/:courseId" element={<CourseLearn />} />
+					<Route path="Learn/Course/:courseId/Chapter/:chapterId" element={<ChapterLearn />} />
+					<Route path="Learn/Course/:courseId/Chapter/:chapterId/Lesson/:lessonId" element={<LessonLearn />} />
+					<Route path="Learn/Course/:courseId/Chapter/:chapterId/Test/:testId" element={<TestLearn />} />
+					
+				</Route>
+
+			</Route>
+
 		</Routes>
 	);
 }

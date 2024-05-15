@@ -6,7 +6,7 @@ const Breadcrumbs = () => {
 	const pathnames = location.pathname.split("/").filter((x) => x);
 
 	return (
-		<div className="bg-gray-100 text-gray-700">
+		<div className="bg-gray-100 z-0 text-gray-700">
 			<nav
 				aria-label="breadcrumb"
 				className="mx-auto text-lg font-medium container px-4 py-8 sm:max-w-screen-lg"

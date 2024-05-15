@@ -692,7 +692,7 @@ function CourseEditor() {
 								</button>
 							</div>
 						) : (
-							<div className="font-normal">{course.coursePrice} EHT</div>
+							<div className="font-normal">{course.coursePrice} VND</div>
 						)}
 					</div>
 
@@ -735,7 +735,7 @@ function CourseEditor() {
 								</button>
 							</div>
 						) : (
-							<div className="font-normal">{course.courseEarn} EHT</div>
+							<div className="font-normal">{course.courseEarn} VND</div>
 						)}
 					</div>
 

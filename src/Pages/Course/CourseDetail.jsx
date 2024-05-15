@@ -144,17 +144,15 @@ function CourseDetail() {
 			const response = await axios.post(
 				"https://localhost:7291/api/Course/enroll",
 				{
-					courseId: courseId, // Giả sử courseId được lấy từ useParams hoặc state
+					courseId: courseId,
 				},
 				{ withCredentials: true }
-			); // Sử dụng withCredentials nếu API yêu cầu cookies, sessions, etc.
+			);
 			console.log(response.data);
-			// Xử lý sau khi gọi API thành công, ví dụ: thông báo cho người dùng, chuyển hướng, v.v.
 			alert("You have successfully enrolled in this course!");
 			navigate(0);
 		} catch (error) {
 			console.error("Error enrolling in course:", error);
-			// Xử lý lỗi, ví dụ: thông báo lỗi cho người dùng
 		}
 	};
 
@@ -461,7 +459,7 @@ function CourseDetail() {
 									</span>
 									Price
 								</span>
-								<span className="float-right">{course.coursePrice} EHT</span>
+								<span className="float-right">{course.coursePrice} VND</span>
 							</p>
 							{!isEnrolled ? (
 								<button
@@ -476,7 +474,7 @@ function CourseDetail() {
 										You are enrolled
 									</button>
 									<div>
-										<Link to="/"> Learn</Link>
+										<Link to={`/Learn/Course/${course.courseId}`}> Learn</Link>
 									</div>
 								</div>
 							)}

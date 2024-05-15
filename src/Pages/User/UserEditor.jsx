@@ -192,6 +192,7 @@ function UserEditor() {
 				userInfo: { ...prev.userInfo, avatar: imageUrl },
 			}));
 			setEditAvatar(false); // Ẩn form chỉnh sửa
+			navigate(0);
 		} catch (error) {
 			console.error("Error updating user avatar:", error);
 		}
