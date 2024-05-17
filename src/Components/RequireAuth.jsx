@@ -5,8 +5,7 @@ const RequireAuth = ({ allowedRoles }) => {
 	const { userRole, isAuthenticating } = useAuth();
 
 	if (isAuthenticating) {
-		// Hiển thị spinner hoặc trả về null trong khi chờ đợi
-		return <div>Loading...</div>; // Hoặc trả về null hoặc một spinner
+		return <div>Loading...</div>;
 	}
 
 	if (!userRole) {

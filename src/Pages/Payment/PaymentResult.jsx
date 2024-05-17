@@ -105,9 +105,12 @@ function PaymentResult() {
 	};
 
 	return (
-		<div className="w-full lg:max-w-screen-lg m-auto">
-			<h2>Payment Details</h2>
+		<div className="w-full lg:max-w-screen-lg m-auto text-xl">
+			<h2 className="text-3xl font-semibold">Payment Details</h2>
 			<div>Order ID: {paymentDetails.orderId}</div>
+			<div>Amount: {paymentDetails.amount} VND</div>
+			<div>Order Info: {paymentDetails.orderInfo}</div>
+			<div>Message: {paymentDetails.message}</div>
 			<button
 				onClick={() => handleOk()}
 				className="mt-5 text-xl bg-blue-500 py-3 px-6 text-white font-semibold rounded-lg"

@@ -29,13 +29,13 @@ function CourseLearn() {
 				<div className="flex">
 					<div className="w-full lg:w-2/3">
 						<div className=" mb-8">
-							<h2 className="text-3xl font-bold">{courseDetails.courseName}</h2>
+							<h2 className="text-5xl font-bold">{courseDetails.courseName}</h2>
 							<p className="text-xl mt-2">{courseDetails.courseDescription}</p>
 							<p className="text-lg mt-2">
-								Price: {courseDetails.coursePrice} VND
+								Price: {courseDetails.coursePrice.toLocaleString()} VND
 							</p>
 							<p className="text-lg mt-2 flex items-center">
-								Average Rating: {courseDetails.averageRating}
+								Average Rating: {courseDetails.averageRating || 0}
 								<span>
 									<IconStar />
 								</span>

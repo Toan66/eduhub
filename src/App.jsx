@@ -34,6 +34,7 @@ import TestLearn from "./Pages/Learn/TestLearn";
 import PaymentResult from "./Pages/Payment/PaymentResult";
 import MyOrder from "./Pages/Payment/MyOrder";
 import OrderPay from "./Pages/Payment/OrderPay";
+import DashBoard from "./Pages/User/DashBoard";
 
 function App() {
 	return (
@@ -52,13 +53,15 @@ function App() {
 				<Route path="Register" element={<Register />} />
 				<Route path="Login" element={<Login />} />
 				<Route path="Teacher/:userId" element={<TeacherDetail />} />
+				<Route path="PaymentResult" element={<PaymentResult />} />
+
 
 				{/* private routes */}
 				<Route element={<RequireAuth allowedRoles={["Teacher", "Admin", "Student"]} />} >
 					<Route path="Profile" element={<Profile />} />
+					<Route path="DashBoard" element={<DashBoard />} />
 					<Route path="User/:userId/Edit" element={<UserEditor />} />
 					<Route path="Order" element={<CoursePayment />} />
-					<Route path="PaymentResult" element={<PaymentResult />} />
 					<Route path="MyOrder" element={<MyOrder />} />
 					<Route path="Order/:orderId/Payment" element={<OrderPay />} />
 				</Route>

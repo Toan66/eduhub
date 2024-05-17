@@ -15,8 +15,10 @@ import IconUserTie from "../../Components/Icons/IconUserTie";
 import IconMoneyBillWave from "../../Components/Icons/IconMoneyBillWave";
 import IconPricetags from "../../Components/Icons/IconPricetags";
 // import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip } from 'recharts';
+import { useAuth } from "../../Contexts/AuthContext";
 
 function CourseDetail() {
+	const { userRole } = useAuth();
 	const { courseId } = useParams();
 	const navigate = useNavigate();
 	const [course, setCourse] = useState(null);
@@ -140,6 +142,10 @@ function CourseDetail() {
 	};
 
 	const handleBuy = async () => {
+		if (!userRole) {
+			navigate("/Login");
+			return;
+		}
 		try {
 			const response = await axios.post(
 				"https://localhost:7291/api/Payment/addOrder",
@@ -461,7 +467,9 @@ function CourseDetail() {
 									</span>
 									Price
 								</span>
-								<span className="float-right">{course.coursePrice} VND</span>
+								<span className="float-right">
+									{course.coursePrice.toLocaleString()} VND
+								</span>
 							</p>
 							{!isEnrolled ? (
 								<button
@@ -475,14 +483,11 @@ function CourseDetail() {
 									<div className="border w-full mt-4 py-3 rounded-xl text-center text-white bg-black duration-500 font-semibold text-2xl">
 										You already enrolled
 									</div>
-									{/* <div className="mt-10">
-										<Link
-											className="border w-full mt-20 py-3 rounded-xl  text-white bg-black duration-500 font-semibold text-2xl"
-											to={`/Learn/Course/${course.courseId}`}
-										>
+									<div className="mt-8 border w-full py-3 rounded-xl text-center text-white bg-black duration-500 font-semibold text-2xl">
+										<Link className="" to={`/Learn/Course/${course.courseId}`}>
 											Learn
 										</Link>
-									</div> */}
+									</div>
 								</div>
 							)}
 						</div>

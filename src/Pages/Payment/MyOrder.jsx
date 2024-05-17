@@ -49,6 +49,12 @@ function MyOrder() {
 						</th>
 					</tr>
 				</thead>
+				{!userOrders.length ? (
+					<div className="text-xl">You don't have any order yet!</div>
+				) : (
+					<></>
+				)}
+
 				<tbody>
 					{userOrders.map((order) => (
 						<tr className="border-b" key={order.orderId}>
