@@ -80,7 +80,7 @@ function CreateCourse() {
 						)
 						.then((response) => {
 							console.log(response.data);
-							alert("Course created successfully");
+							Swal.fire("Created", "Course created successfully", "success");
 							navigate("/Teacher/MyCourse");
 						})
 						.catch((error) => {

@@ -4,6 +4,7 @@ import { Link, useNavigate, useParams } from "react-router-dom";
 import IconPlayCircle from "../../Components/Icons/IconPlayCircle";
 import IconCheck2Circle from "../../Components/Icons/IconCheck2Circle";
 import ProgressBar from "../../Components/ProgressBar";
+import IconCheckCircleFill from "../../Components/Icons/IconCheckCircleFill";
 
 export default () => {
 	const navigate = useNavigate();
@@ -179,7 +180,7 @@ export default () => {
 									<button
 										key={lesson.lessonId}
 										onClick={() => handleSelectItem(lesson, "lesson")}
-										className={`w-full flex items-center text-xl py-6 px-4 hover:font-bold hover:bg-gray-100 ${
+										className={`w-full flex items-center justify-between text-xl py-6 px-4 hover:font-bold hover:bg-gray-100 ${
 											selectedItem &&
 											selectedItem.id === lesson.lessonId &&
 											selectedItem.type === "lesson"
@@ -187,14 +188,16 @@ export default () => {
 												: "font-semibold"
 										}`}
 									>
-										<IconPlayCircle height="25px" width="25px" />
-										<div className="ml-3">{lesson.lessonTitle}</div>
+										<div className="flex">
+											<IconPlayCircle height="25px" width="25px" />
+											<div className="ml-3">{lesson.lessonTitle}</div>
+										</div>
 
 										{completedItems.completedLessons.includes(
 											lesson.lessonId
 										) && (
 											<div className="text-green-500">
-												<IconCheck2Circle height="21px" width="21px" />
+												<IconCheckCircleFill height="21px" width="21px" />
 											</div>
 										)}
 									</button>
@@ -203,7 +206,7 @@ export default () => {
 									<button
 										key={test.testId}
 										onClick={() => handleSelectItem(test, "test")}
-										className={`w-full flex items-center text-xl py-6 px-4 hover:font-bold hover:bg-gray-100 ${
+										className={`w-full flex items-center justify-between text-xl py-6 px-4 hover:font-bold hover:bg-gray-100 ${
 											selectedItem &&
 											selectedItem.id === test.testId &&
 											selectedItem.type === "test"
@@ -211,11 +214,13 @@ export default () => {
 												: "font-semibold"
 										}`}
 									>
-										<IconPlayCircle height="25px" width="25px" />
-										<div className="ml-3">{test.testTitle}</div>
+										<div className="flex items-center">
+											<IconPlayCircle height="25px" width="25px" />
+											<div className="ml-3">{test.testTitle}</div>
+										</div>
 										{completedItems.completedTests.includes(test.testId) && (
 											<div className="text-green-500">
-												<IconCheck2Circle height="21px" width="21px" />
+												<IconCheckCircleFill height="21px" width="21px" />
 											</div>
 										)}
 									</button>
@@ -271,7 +276,7 @@ export default () => {
 											</div>
 											<div className="flex">
 												<Link
-													className="text-xl items-center flex text-white font-semibold bg-green-700 rounded-lg px-4 py-2 duration-500 hover:bg-green-500"
+													className="text-xl items-center flex text-white font-semibold bg-blue-700 rounded-lg px-4 py-2 duration-500 hover:bg-blue-500"
 													to={`/Learn/Course/${courseId}/Chapter/${chapterId}/Test/${selectedItem.testId}`}
 												>
 													Do test
@@ -279,7 +284,7 @@ export default () => {
 												{completedItems.completedTests.includes(
 													selectedItem.testId
 												) && (
-													<div className="text-xl items-center flex text-white font-semibold rounded-lg px-4 py-2 duration-500 bg-green-500">
+													<div className="text-xl ml-5 items-center flex text-white font-semibold rounded-lg px-4 py-2 duration-500 bg-green-500">
 														Completed
 														<IconCheck2Circle height="21px" width="21px" />
 													</div>

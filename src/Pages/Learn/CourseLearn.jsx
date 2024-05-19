@@ -6,7 +6,6 @@ import IconBxsBarChartAlt2 from "../../Components/Icons/IconBxsBarChartAlt2";
 import IconMoneyBillWave from "../../Components/Icons/IconMoneyBillWave";
 import IconPricetags from "../../Components/Icons/IconPricetags";
 import ProgressBar from "../../Components/ProgressBar";
-import IconCheck2Circle from "../../Components/Icons/IconCheck2Circle";
 import IconCheckCircleFill from "../../Components/Icons/IconCheckCircleFill";
 
 function CourseLearn() {

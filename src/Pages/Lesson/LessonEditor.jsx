@@ -68,7 +68,7 @@ function LessonEditor() {
 				setVideo(lessonData.video);
 			} catch (error) {
 				console.error("Error fetching lesson data:", error);
-				alert("Failed to load lesson data.");
+				Swal.fire("Failed to load lesson data.");
 			}
 		};
 
@@ -91,7 +91,7 @@ function LessonEditor() {
 			},
 			(error) => {
 				console.error("Upload error:", error);
-				alert("Error uploading video: ", error.message);
+				Swal.fire("Error uploading video: ", error.message);
 			},
 			() => {
 				getDownloadURL(uploadTask.snapshot.ref).then((downloadURL) => {
@@ -115,11 +115,11 @@ function LessonEditor() {
 				{ withCredentials: true }
 			);
 
-			alert("Lesson has been updated successfully!");
+			Swal.fire("Lesson has been updated successfully!");
 			navigate(-1); // Navigate back to the previous page
 		} catch (error) {
 			console.error("Error updating lesson:", error);
-			alert("An error occurred while updating the lesson.");
+			Swal.fire("An error occurred while updating the lesson.");
 		}
 	};
 

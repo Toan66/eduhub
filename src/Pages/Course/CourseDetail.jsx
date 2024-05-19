@@ -141,11 +141,31 @@ function CourseDetail() {
 		setTestCount(totalTests);
 	};
 
-	const handleBuy = async () => {
+	const handlePressBuy = () => {
 		if (!userRole) {
 			navigate("/Login");
 			return;
 		}
+
+		// Display confirmation dialog to the user
+		Swal.fire({
+			title: "Are you sure?",
+			text: "You want to buy this course?",
+			icon: "question",
+			showCancelButton: true,
+			confirmButtonColor: "#3085d6",
+			cancelButtonColor: "#d33",
+			confirmButtonText: "Yes, buy it!",
+		}).then((result) => {
+			if (result.isConfirmed) {
+				handleBuy();
+			} else {
+				console.log("Canceled.");
+			}
+		});
+	};
+
+	const handleBuy = async () => {
 		try {
 			const response = await axios.post(
 				"https://localhost:7291/api/Payment/addOrder",
@@ -157,7 +177,7 @@ function CourseDetail() {
 				{ withCredentials: true }
 			);
 			console.log(response.data);
-			alert("Purchase your order to enroll this course!");
+			Swal.fire("Purchase your order to enroll this course!");
 			navigate("/MyOrder");
 		} catch (error) {
 			console.error("Error enrolling in course:", error);
@@ -473,7 +493,7 @@ function CourseDetail() {
 							</p>
 							{!isEnrolled ? (
 								<button
-									onClick={() => handleBuy()}
+									onClick={() => handlePressBuy()}
 									className="border mt-4 py-3 rounded-xl bg-blue-500 text-white hover:bg-black duration-500 font-semibold text-2xl"
 								>
 									Buy Now

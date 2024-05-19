@@ -99,7 +99,7 @@ function CourseEditor() {
 			setEditTitle(false); // Ẩn form chỉnh sửa
 		} catch (error) {
 			console.error("Error updating course title:", error);
-			alert(error);
+			Swal.fire(error);
 		}
 	};
 
@@ -178,7 +178,7 @@ function CourseEditor() {
 			setEditCategory(false);
 		} catch (error) {
 			console.error("Error updating course category:", error);
-			alert("Failed to update category");
+			Swal.fire("Failed to update category");
 		}
 	};
 	// Example function to update the course level
@@ -195,7 +195,7 @@ function CourseEditor() {
 			setEditLevel(false);
 		} catch (error) {
 			console.error("Error updating course level:", error);
-			alert("Failed to update level");
+			Swal.fire("Failed to update level");
 		}
 	};
 
@@ -213,7 +213,7 @@ function CourseEditor() {
 			setEditPrice(false);
 		} catch (error) {
 			console.error("Error updating course price:", error);
-			alert("Failed to update price");
+			Swal.fire("Failed to update price");
 		}
 	};
 
@@ -231,7 +231,7 @@ function CourseEditor() {
 			setEditEarnings(false);
 		} catch (error) {
 			console.error("Error updating course earnings:", error);
-			alert("Failed to update earnings");
+			Swal.fire("Failed to update earnings");
 		}
 	};
 
@@ -264,22 +264,31 @@ function CourseEditor() {
 	}
 
 	const handleDeleteCourse = async () => {
-		// Hiển thị hộp thoại xác nhận
-		const isConfirmed = window.confirm(
-			"Are you sure you want to delete this chapter?"
-		);
-		if (isConfirmed) {
-			try {
-				await axios.delete(`https://localhost:7291/api/Course/${courseId}`, {
-					withCredentials: true,
-				});
-				alert("Course deleted successfully");
-				navigate(-1); // Quay lại trang trước sau khi xóa
-			} catch (error) {
-				console.error("Error deleting course:", error);
-				alert("Failed to delete course");
+		// Display confirmation dialog using Swal
+		Swal.fire({
+			title: "Are you sure?",
+			text: "You want to delete this course?",
+			icon: "warning",
+			showCancelButton: true,
+			confirmButtonColor: "#3085d6",
+			cancelButtonColor: "#d33",
+			confirmButtonText: "Yes, delete it!",
+		}).then((result) => {
+			if (result.isConfirmed) {
+				axios
+					.delete(`https://localhost:7291/api/Course/${courseId}`, {
+						withCredentials: true,
+					})
+					.then(() => {
+						Swal.fire("Deleted!", "Course deleted successfully.", "success");
+						navigate(-1); // Navigate back after deletion
+					})
+					.catch((error) => {
+						console.error("Error deleting course:", error);
+						Swal.fire("Failed!", "Failed to delete course.", "error");
+					});
 			}
-		}
+		});
 	};
 
 	if (!course)

@@ -31,21 +31,32 @@ function ChapterEditor() {
 	}, [chapterId]);
 
 	const handleDeleteChapter = async () => {
-		const isConfirmed = window.confirm(
-			"Are you sure you want to delete this chapter?"
-		);
-		if (isConfirmed) {
-			try {
-				await axios.delete(`https://localhost:7291/api/Chapter/${chapterId}`, {
-					withCredentials: true,
-				});
-				alert("Chapter deleted");
-				navigate(-1);
-			} catch (error) {
-				console.error("Error deleting chapter:", error);
-				alert(`Failed to delete chapter, ${error.response.data}`);
+		Swal.fire({
+			title: "Are you sure?",
+			text: "You want to delete this chapter?",
+			icon: "question",
+			showCancelButton: true,
+			confirmButtonColor: "#3085d6",
+			cancelButtonColor: "#d33",
+			confirmButtonText: "Yes, delete it!",
+		}).then(async (result) => {
+			// Mark this function as async
+			if (result.isConfirmed) {
+				try {
+					await axios.delete(
+						`https://localhost:7291/api/Chapter/${chapterId}`,
+						{
+							withCredentials: true,
+						}
+					);
+					Swal.fire("Deleted", "Chapter deleted", "success");
+					navigate(-1);
+				} catch (error) {
+					console.error("Error deleting chapter:", error);
+					Swal.fire(`Failed to delete chapter, ${error.response.data}`);
+				}
 			}
-		}
+		});
 	};
 
 	const handleUpdateTitle = async () => {
@@ -62,7 +73,7 @@ function ChapterEditor() {
 			setEditTitle(false); // Ẩn form chỉnh sửa
 		} catch (error) {
 			console.error("Error updating chapter title:", error);
-			alert(error);
+			Swal.fire(error);
 		}
 	};
 

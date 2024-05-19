@@ -8,7 +8,7 @@ const ProgressBar = ({ completed }) => {
 				className="bg-green-500 h-7 rounded-full text-white items-center flex justify-center font-semibold"
 				style={{ width: `${completedPercentage}%` }}
 			>
-				{completedPercentage}%
+				{completedPercentage === 0 ? null : completedPercentage + "%"}
 			</div>
 		</div>
 	);

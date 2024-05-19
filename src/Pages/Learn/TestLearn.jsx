@@ -8,6 +8,7 @@ export default () => {
 	const [test, setTest] = useState(null);
 	const [showTest, setShowTest] = useState(false);
 	const [selectedAnswers, setSelectedAnswers] = useState([]);
+	const [startTest, setStartTest] = useState(true);
 
 	useEffect(() => {
 		const fetchTestDetails = async () => {
@@ -46,6 +47,7 @@ export default () => {
 
 	const handleStartTest = () => {
 		setShowTest(true);
+		setStartTest(false);
 	};
 
 	const handleAnswerChange = (questionId, answerId) => {
@@ -59,8 +61,23 @@ export default () => {
 	};
 
 	const handleSubmitTest = () => {
-		console.log(selectedAnswers);
-		submitTest(); // Gọi function submitTest khi nộp bài
+		// Display confirmation dialog to the user using Swal
+		Swal.fire({
+			title: "Are you sure?",
+			text: "Do you want to submit your answers?",
+			icon: "question",
+			showCancelButton: true,
+			confirmButtonColor: "#3085d6",
+			cancelButtonColor: "#d33",
+			confirmButtonText: "Yes, submit it!",
+		}).then((result) => {
+			if (result.isConfirmed) {
+				console.log(selectedAnswers);
+				submitTest();
+			} else {
+				console.log("Test submission cancelled by the user.");
+			}
+		});
 	};
 
 	const submitTest = async () => {
@@ -76,10 +93,11 @@ export default () => {
 				{ withCredentials: true }
 			);
 			console.log("Submit response:", response.data);
-			// Xử lý sau khi submit thành công, ví dụ: thông báo hoặc chuyển hướng người dùng
+			navigate(
+				`/Learn/Course/${courseId}/Chapter/${chapterId}/Test/${testId}/Result`
+			);
 		} catch (error) {
 			console.error("Error submitting test:", error);
-			// Xử lý lỗi, ví dụ: thông báo lỗi cho người dùng
 		}
 	};
 
@@ -115,12 +133,17 @@ export default () => {
 						<span className="font-semibold">Test Description: </span>
 						{test.testDescription}
 					</div>
-					<button
-						onClick={handleStartTest}
-						className="mt-4 px-4 py-2 bg-blue-500 text-white rounded-lg text-2xl font-semibold"
-					>
-						Do Test
-					</button>
+
+					{startTest && (
+						<div className="text-center">
+							<button
+								onClick={handleStartTest}
+								className="mt-4 px-4 py-2 bg-blue-500 text-white rounded-lg text-2xl font-semibold"
+							>
+								Start Test
+							</button>
+						</div>
+					)}
 
 					{showTest && (
 						<div className="mt-4 text-2xl px-32">
