@@ -1,6 +1,7 @@
 import { useEffect } from "react";
 import { Outlet, useLocation } from "react-router-dom";
 import HeaderLearn from "./HeaderLearn";
+import Footer from "./Footer";
 
 const LayoutLearn = () => {
 	const location = useLocation();
@@ -13,6 +14,7 @@ const LayoutLearn = () => {
 		<>
 			<HeaderLearn />
 			<Outlet />
+			<Footer />
 		</>
 	);
 };

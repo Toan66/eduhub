@@ -49,11 +49,6 @@ function MyOrder() {
 						</th>
 					</tr>
 				</thead>
-				{!userOrders.length ? (
-					<div className="text-xl">You don't have any order yet!</div>
-				) : (
-					<></>
-				)}
 
 				<tbody>
 					{userOrders.map((order) => (
@@ -103,6 +98,11 @@ function MyOrder() {
 					))}
 				</tbody>
 			</table>
+			{!userOrders.length ? (
+				<div className="text-xl">You don't have any order yet!</div>
+			) : (
+				<></>
+			)}
 		</div>
 	);
 }

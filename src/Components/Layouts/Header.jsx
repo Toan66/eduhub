@@ -91,7 +91,7 @@ export default () => {
 				<div className="flex items-center justify-between py-3 md:py-5 md:block">
 					<Link to="/">
 						<img
-							src="../../src/assets/logo_eduhub.jpg"
+							src="/images/logo.jpg"
 							width={120}
 							height={50}
 							alt="eduhub logo"
@@ -236,12 +236,12 @@ export default () => {
 													>
 														Profile
 													</Link>
-													<Link
+													<button
 														onClick={logoutHandle}
-														className="block pointer-events-auto px-4 py-4 text-xl hover:bg-gray-100"
+														className="w-full text-left block pointer-events-auto px-4 py-4 text-xl hover:bg-gray-100"
 													>
 														Log out
-													</Link>
+													</button>
 												</div>
 											</div>
 										</div>

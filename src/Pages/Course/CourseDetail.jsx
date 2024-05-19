@@ -316,7 +316,7 @@ function CourseDetail() {
 												return (
 													<div
 														key={star}
-														className="flex justify-between items-center"
+														className="flex justify-between items-center hover:bg-gray-200"
 														onClick={() => handleRatingFilter(star)} // Thêm sự kiện click vào đây
 														style={{ cursor: "pointer" }} // Thêm style để biết có thể click
 													>
@@ -479,15 +479,17 @@ function CourseDetail() {
 									Buy Now
 								</button>
 							) : (
-								<div>
+								<div className="flex flex-col">
 									<div className="border w-full mt-4 py-3 rounded-xl text-center text-white bg-black duration-500 font-semibold text-2xl">
 										You already enrolled
 									</div>
-									<div className="mt-8 border w-full py-3 rounded-xl text-center text-white bg-black duration-500 font-semibold text-2xl">
-										<Link className="" to={`/Learn/Course/${course.courseId}`}>
-											Learn
-										</Link>
-									</div>
+
+									<Link
+										to={`/Learn/Course/${course.courseId}`}
+										className="text-2xl font-semibold bg-blue-500 text-white rounded-xl py-3 w-full text-center mt-6 hover:bg-blue-800 duration-500"
+									>
+										Learn
+									</Link>
 								</div>
 							)}
 						</div>

@@ -1,11 +1,45 @@
 import { useEffect, useState } from "react";
-import { useParams } from "react-router-dom";
+import { Link, useNavigate, useParams } from "react-router-dom";
 import axios from "axios";
-import IconStar from "../../Components/Icons/IconStar";
+import IconBxsBookContent from "../../Components/Icons/IconBxsBookContent";
+import IconBxsBarChartAlt2 from "../../Components/Icons/IconBxsBarChartAlt2";
+import IconMoneyBillWave from "../../Components/Icons/IconMoneyBillWave";
+import IconPricetags from "../../Components/Icons/IconPricetags";
+import ProgressBar from "../../Components/ProgressBar";
+import IconCheck2Circle from "../../Components/Icons/IconCheck2Circle";
+import IconCheckCircleFill from "../../Components/Icons/IconCheckCircleFill";
 
 function CourseLearn() {
 	const { courseId } = useParams();
 	const [courseDetails, setCourseDetails] = useState(null);
+	const [completedPercentage, setCompletedPercentage] = useState(0);
+	const [completedChapters, setCompletedChapters] = useState([]);
+	const navigate = useNavigate();
+
+	// Function to find the next chapter ID
+	const findNextChapterId = () => {
+		// Assuming chapters are sorted
+		const nextChapter = courseDetails.chapters.$values.find(
+			(chapter) => !completedChapters.includes(chapter.chapterId)
+		);
+		if (!nextChapter) {
+			console.log("All chapters completed.");
+			return null;
+		} else {
+			console.log(nextChapter);
+		}
+		return nextChapter ? nextChapter.chapterId : null;
+	};
+
+	// Handler for the Resume Course button
+	const handleResumeCourse = () => {
+		const nextChapterId = findNextChapterId();
+		if (nextChapterId) {
+			navigate(`/Learn/Course/${courseId}/Chapter/${nextChapterId}`);
+		} else {
+			console.log("All chapters completed or no next chapter found.");
+		}
+	};
 
 	useEffect(() => {
 		const fetchCourseDetails = async () => {
@@ -20,6 +54,37 @@ function CourseLearn() {
 			}
 		};
 
+		const fetchCompletedChapters = async () => {
+			try {
+				const response = await axios.get(
+					`https://localhost:7291/api/Course/${courseId}/completedChapters`,
+					{ withCredentials: true }
+				);
+				setCompletedChapters(response.data.$values);
+			} catch (error) {
+				console.error("Error fetching completed chapters:", error);
+			}
+		};
+
+		const checkEnroll = async () => {
+			try {
+				const response = await axios.get(
+					`https://localhost:7291/api/course/${courseId}/isEnrolled`,
+					{ withCredentials: true }
+				);
+				console.log(response.data);
+				setCompletedPercentage(response.data.completedPercentage);
+				if (!response.data.isEnrolled) {
+					navigate("/Unauthorized");
+					return;
+				}
+			} catch (error) {
+				console.error("Error fetching reviews:", error);
+			}
+		};
+
+		checkEnroll();
+		fetchCompletedChapters();
 		fetchCourseDetails();
 	}, [courseId]);
 
@@ -28,29 +93,75 @@ function CourseLearn() {
 			{courseDetails && (
 				<div className="flex">
 					<div className="w-full lg:w-2/3">
-						<div className=" mb-8">
-							<h2 className="text-5xl font-bold">{courseDetails.courseName}</h2>
-							<p className="text-xl mt-2">{courseDetails.courseDescription}</p>
-							<p className="text-lg mt-2">
-								Price: {courseDetails.coursePrice.toLocaleString()} VND
-							</p>
-							<p className="text-lg mt-2 flex items-center">
-								Average Rating: {courseDetails.averageRating || 0}
-								<span>
-									<IconStar />
-								</span>
-							</p>
+						<div className="text-5xl font-bold">{courseDetails.courseName}</div>
+						<div className="my-5 ">
+							<ProgressBar completed={completedPercentage} />
 						</div>
+
+						{completedPercentage === 100 ? (
+							<div className="justify-center items-center my-5">
+								<div className="text-2xl font-bold py-7 w-full text-center shadow-md rounded-lg bg-green-500 text-white">
+									Congratulations! You've completed this Course.
+								</div>
+								<div className="text-right">
+									<button className="bg-blue-500 py-3 px-4 text-white font-semibold text-xl mt-5 rounded-lg">
+										Get Cetificate
+									</button>
+								</div>
+							</div>
+						) : completedPercentage > 0 ? (
+							<div className="flex text-2xl justify-between font-bold py-7 px-5 shadow-md items-center rounded-lg my-5">
+								<div className="w-7/12">Pick up where you left off</div>
+								<div>
+									<button
+										onClick={handleResumeCourse}
+										className="bg-red-500 hover:bg-red-800 duration-500 font-semibold py-3 px-3 rounded-lg text-white"
+									>
+										Resume course
+									</button>
+								</div>
+							</div>
+						) : (
+							<></>
+						)}
+
+						<div className="text-lg py-7 px-5 text-justify bg-amber-100 shadow-md items-center rounded-lg my-5">
+							<span className="font-semibold">Course Description: </span>
+							{courseDetails.courseDescription}
+						</div>
+
 						<div className="flex flex-col">
 							{courseDetails.chapters.$values.map((chapter) => (
 								<div
 									key={chapter.chapterId}
 									className="border p-4 rounded-lg mb-5"
 								>
-									<h3 className="font-semibold text-xl mb-2">
-										{chapter.chapterTitle}
-									</h3>
-									{chapter.lessons.$values.length > 0 && (
+									<div className="flex justify-between items-center font-semibold text-xl">
+										<div className="flex items-center ">
+											<div>
+												{completedChapters.includes(chapter.chapterId) ? (
+													<div className="flex items-center">
+														<IconCheckCircleFill fill="green" />
+													</div>
+												) : (
+													<div>
+														<IconCheckCircleFill />
+													</div>
+												)}
+											</div>
+											<div className="text-2xl ml-2">
+												{chapter.chapterTitle}
+											</div>
+										</div>
+										<Link
+											to={`/Learn/Course/${courseDetails.courseId}/Chapter/${chapter.chapterId}`}
+											className="bg-blue-500 text-white hover:bg-blue-800 px-4 py-2 rounded-lg duration-500"
+										>
+											Learn
+										</Link>
+									</div>
+									<div>{chapter.chapterDescription}</div>
+									{/* {chapter.lessons.$values.length > 0 && (
 										<div>
 											<h4 className="font-semibold">Lessons:</h4>
 											<ul className="list-disc list-inside">
@@ -69,17 +180,61 @@ function CourseLearn() {
 												))}
 											</ul>
 										</div>
-									)}
+									)} */}
 								</div>
 							))}
 						</div>
 					</div>
 
-					<div className="w-full lg:w-1/3 lg:pl-5">
+					<div className="w-full lg:w-1/3 lg:pl-5 ml-5 justify-between flex flex-col border p-5 mt-5 rounded-xl shadow-xl">
 						<img
 							src={courseDetails.featureImage}
 							className="w-full rounded-md"
 						/>
+						<p className="border-0 border-b mt-4 py-3 flex items-center justify-between">
+							<span className="flex items-center">
+								<span className="mr-2">
+									<IconBxsBarChartAlt2 fill="DodgerBlue" />
+								</span>
+								Skill Level
+							</span>
+							<span className="float-right">
+								{courseDetails.courseLevel.courseLevelName}
+							</span>
+						</p>
+						<p className="border-0 border-b mt-4 py-3 flex items-center justify-between">
+							<span className="flex items-center">
+								<span className="mr-2">
+									<IconBxsBookContent fill="DodgerBlue" />
+								</span>
+								Chapters
+							</span>
+							<span className="float-right">
+								{courseDetails.chapters.$values.length}
+							</span>
+						</p>
+						<p className="border-0 border-b mt-4 py-3 flex items-center justify-between">
+							<span className="flex items-center">
+								<span className="mr-2">
+									<IconPricetags fill="DodgerBlue" />
+								</span>
+								Category
+							</span>
+							<span className="float-right">
+								{courseDetails.category.courseCategoryName}
+							</span>
+						</p>
+						<p className="py-3 mt-4 flex items-center justify-between">
+							<span className="flex items-center">
+								<span className="mr-2">
+									<IconMoneyBillWave fill="DodgerBlue" />
+								</span>
+								Price
+							</span>
+							<span className="float-right">
+								{courseDetails.coursePrice.toLocaleString()} VND
+							</span>
+						</p>
 					</div>
 				</div>
 			)}

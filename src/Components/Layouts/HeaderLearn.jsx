@@ -87,12 +87,12 @@ export default () => {
 	};
 
 	return (
-		<header className="bg-white shadow-xl border-b w-full md:static md:text-sm md:border-none">
+		<header className="bg-white z-10 shadow-xl border-b w-full md:static md:text-sm md:border-none">
 			<div className="items-center px-4 mx-auto flex justify-between">
 				<div className="flex items-center justify-between py-3 md:py-5 md:block">
 					<Link to="/">
 						<img
-							src="../../src/assets/logo_eduhub.jpg"
+							src="/images/logo.jpg"
 							width={120}
 							height={50}
 							alt="eduhub logo"
@@ -151,7 +151,7 @@ export default () => {
 												</svg>
 											</button>
 
-											<div className="absolute right-0 w-80 origin-top-left bg-white divide-y divide-gray-100 rounded-lg shadow-xl opacity-0 invisible group-hover:opacity-100 group-hover:visible transition duration-300">
+											<div className="absolute z-10 right-0 w-80 origin-top-left bg-white divide-y divide-gray-100 rounded-lg shadow-xl opacity-0 invisible group-hover:opacity-100 group-hover:visible transition duration-300">
 												<div className="py-1">
 													<div className="pl-3 py-4 text-xl flex flex-row items-center justify-between border-black border-b">
 														<div className="w-2/12">
@@ -183,12 +183,12 @@ export default () => {
 													>
 														Profile
 													</Link>
-													<Link
+													<button
 														onClick={logoutHandle}
-														className="block pointer-events-auto px-4 py-4 text-xl hover:bg-gray-100"
+														className="w-full text-left block pointer-events-auto px-4 py-4 text-xl hover:bg-gray-100"
 													>
 														Log out
-													</Link>
+													</button>
 												</div>
 											</div>
 										</div>

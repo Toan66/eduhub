@@ -91,7 +91,7 @@ export default () => {
 							Get newsletter straight to your inbox.
 						</h3>
 					</div>
-					<div className="flex-1 mt-6 md:mt-0">
+					<div className="flex-1 mt-6 md:mt-0 z-0">
 						<form
 							onSubmit={(e) => e.preventDefault()}
 							className="flex z-0 items-center gap-x-3 md:justify-end"
@@ -115,7 +115,7 @@ export default () => {
 									type="email"
 									required
 									placeholder="Enter your email"
-									className="w-full pl-12 pr-3 py-2 text-gray-500 bg-white outline-none border focus:border-indigo-600 shadow-sm rounded-lg"
+									className="w-full pl-12 pr-3 py-2 z-0 text-gray-500 bg-white outline-none border focus:border-indigo-600 shadow-sm rounded-lg"
 								/>
 							</div>
 							<button className="block w-auto py-3 px-4 font-medium text-sm text-center text-white bg-indigo-600 hover:bg-indigo-500 active:bg-indigo-700 active:shadow-none rounded-lg shadow">
