@@ -71,8 +71,8 @@ export default () => {
 				{ withCredentials: true }
 			);
 
-			if (response.status === 200) {
-				// console.log('Đã đăng xuất thành công');
+			if (response.data.message == "success" && response.status === 200) {
+				console.log("Đã đăng xuất thành công");
 				localStorage.clear();
 				Cookies.remove("jwt");
 				navigate("/");

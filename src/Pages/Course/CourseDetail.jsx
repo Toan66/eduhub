@@ -378,6 +378,9 @@ function CourseDetail() {
                                 <Bar dataKey="Reviews" fill="orange" />
                             </BarChart> */}
 							<p className=" my-5 font-semibold text-2xl">Reviews</p>
+							{filteredReviews.length === 0 && (
+								<div className="text-center">No reviews yet</div>
+							)}
 							{filteredReviews.map((review) => (
 								<div
 									key={review.reviewId}
@@ -400,6 +403,10 @@ function CourseDetail() {
 											</div>
 										</div>
 										<p className="my-3">{review.comment}</p>
+										<div className="text-gray-400">
+											Posted on{" "}
+											{new Date(review.reviewDate).toLocaleDateString()}
+										</div>
 									</div>
 								</div>
 							))}
@@ -491,7 +498,7 @@ function CourseDetail() {
 									{course.coursePrice.toLocaleString()} VND
 								</span>
 							</p>
-							{!isEnrolled ? (
+							{!isEnrolled || !userRole ? (
 								<button
 									onClick={() => handlePressBuy()}
 									className="border mt-4 py-3 rounded-xl bg-blue-500 text-white hover:bg-black duration-500 font-semibold text-2xl"

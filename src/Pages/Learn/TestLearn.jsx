@@ -61,7 +61,6 @@ export default () => {
 	};
 
 	const handleSubmitTest = () => {
-		// Display confirmation dialog to the user using Swal
 		Swal.fire({
 			title: "Are you sure?",
 			text: "Do you want to submit your answers?",
@@ -92,9 +91,10 @@ export default () => {
 				submitData,
 				{ withCredentials: true }
 			);
-			console.log("Submit response:", response.data);
+			console.log("Submit response:", response.data.id);
+			Swal.fire("Submitted", "Submit test successfully", "success");
 			navigate(
-				`/Learn/Course/${courseId}/Chapter/${chapterId}/Test/${testId}/Result`
+				`/Learn/Course/${courseId}/Chapter/${chapterId}/Test/${testId}/Result/${response.data.id}`
 			);
 		} catch (error) {
 			console.error("Error submitting test:", error);

@@ -106,17 +106,30 @@ function PaymentResult() {
 
 	return (
 		<div className="w-full lg:max-w-screen-lg m-auto text-xl">
-			<h2 className="text-3xl font-semibold">Payment Details</h2>
-			<div>Order ID: {paymentDetails.orderId}</div>
-			<div>Amount: {paymentDetails.amount} VND</div>
-			<div>Order Info: {paymentDetails.orderInfo}</div>
-			<div>Message: {paymentDetails.message}</div>
-			<button
-				onClick={() => handleOk()}
-				className="mt-5 text-xl bg-blue-500 py-3 px-6 text-white font-semibold rounded-lg"
-			>
-				OK
-			</button>{" "}
+			<h2 className="text-3xl font-semibold text-center my-8">
+				Payment Details
+			</h2>
+			<div className="bg-white shadow-md rounded-lg p-8 mb-6">
+				<div className="mb-4">
+					<span className="font-bold">Order ID:</span> {paymentDetails.orderId}
+				</div>
+				<div className="mb-4">
+					<span className="font-bold">Amount:</span> {paymentDetails.amount} VND
+				</div>
+				<div className="mb-4">
+					<span className="font-bold">Order Info:</span>{" "}
+					{paymentDetails.orderInfo}
+				</div>
+				<div className="mb-4">
+					<span className="font-bold">Message:</span> {paymentDetails.message}
+				</div>
+				<button
+					onClick={() => handleOk()}
+					className="mt-5 text-xl bg-blue-500 hover:bg-blue-700 py-3 px-6 text-white font-semibold rounded-lg transition duration-300 ease-in-out"
+				>
+					OK
+				</button>
+			</div>
 		</div>
 	);
 }

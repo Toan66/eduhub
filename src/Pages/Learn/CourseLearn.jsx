@@ -13,6 +13,7 @@ function CourseLearn() {
 	const [courseDetails, setCourseDetails] = useState(null);
 	const [completedPercentage, setCompletedPercentage] = useState(0);
 	const [completedChapters, setCompletedChapters] = useState([]);
+	const [canReview, setCanReview] = useState(false);
 	const navigate = useNavigate();
 
 	// Function to find the next chapter ID
@@ -87,6 +88,27 @@ function CourseLearn() {
 		fetchCourseDetails();
 	}, [courseId]);
 
+	const reviewHandle = async () => {
+		try {
+			const response = await axios.get(
+				`https://localhost:7291/api/Review/${courseId}/canReview`,
+				{ withCredentials: true }
+			);
+			console.log(response.data);
+			if (response.data.canReview == true) {
+				navigate(`/Course/${courseId}/Review`);
+			} else {
+				Swal.fire(
+					"Not allow",
+					"You have already reviewed this course",
+					"error"
+				);
+			}
+		} catch (error) {
+			console.error("Error fetching reviews:", error);
+		}
+	};
+
 	return (
 		<div className=" mx-auto p-3">
 			{courseDetails && (
@@ -99,10 +121,16 @@ function CourseLearn() {
 
 						{completedPercentage === 100 ? (
 							<div className="justify-center items-center my-5">
-								<div className="text-2xl font-bold py-7 w-full text-center shadow-md rounded-lg bg-green-500 text-white">
+								<div className="text-2xl font-bold py-7 w-full text-center shadow-md rounded-lg bg-green-600 text-white">
 									Congratulations! You've completed this Course.
 								</div>
 								<div className="text-right">
+									<button
+										onClick={reviewHandle}
+										className="bg-red-400 mr-10 py-3 px-4 text-white font-semibold text-xl mt-5 rounded-lg"
+									>
+										Leave a review
+									</button>
 									<button className="bg-blue-500 py-3 px-4 text-white font-semibold text-xl mt-5 rounded-lg">
 										Get Cetificate
 									</button>
@@ -185,7 +213,7 @@ function CourseLearn() {
 						</div>
 					</div>
 
-					<div className="w-full lg:w-1/3 lg:pl-5 ml-5 justify-between flex flex-col border p-5 mt-5 rounded-xl shadow-xl">
+					<div className="w-full lg:w-1/3 lg:pl-5 ml-5 justify-between flex flex-col text-gray-600 border p-5 mt-5 text-xl rounded-xl shadow-xl">
 						<img
 							src={courseDetails.featureImage}
 							className="w-full rounded-md"

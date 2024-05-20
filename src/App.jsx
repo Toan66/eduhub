@@ -36,6 +36,7 @@ import MyOrder from "./Pages/Payment/MyOrder";
 import OrderPay from "./Pages/Payment/OrderPay";
 import DashBoard from "./Pages/User/DashBoard";
 import TestResult from "./Pages/Learn/TestResult";
+import ReviewForm from "./Pages/Review/ReviewForm";
 
 function App() {
 	return (
@@ -65,6 +66,8 @@ function App() {
 					<Route path="Order" element={<CoursePayment />} />
 					<Route path="MyOrder" element={<MyOrder />} />
 					<Route path="Order/:orderId/Payment" element={<OrderPay />} />
+					
+					<Route path="Course/:courseId/Review" element={<ReviewForm />} />
 				</Route>
 
 				<Route element={<RequireAuth allowedRoles={["Teacher", "Admin"]} />}>
@@ -97,7 +100,8 @@ function App() {
 					<Route path="Learn/Course/:courseId/Chapter/:chapterId" element={<ChapterLearn />} />
 					<Route path="Learn/Course/:courseId/Chapter/:chapterId/Lesson/:lessonId" element={<LessonLearn />} />
 					<Route path="Learn/Course/:courseId/Chapter/:chapterId/Test/:testId" element={<TestLearn />} />
-					<Route path="Learn/Course/:courseId/Chapter/:chapterId/Test/:testId/Result" element={<TestResult />} />
+					<Route path="Learn/Course/:courseId/Chapter/:chapterId/Test/:testId/Result/:resultId" element={<TestResult />} />
+					
 
 					
 				</Route>
