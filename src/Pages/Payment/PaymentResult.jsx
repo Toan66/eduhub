@@ -101,7 +101,7 @@ function PaymentResult() {
 			createEnroll();
 			updateOrder();
 		}
-		window.location.href = "/Profile";
+		window.location.href = "/DashBoard/MyCourses";
 	};
 
 	return (

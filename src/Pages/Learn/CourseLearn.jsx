@@ -115,10 +115,11 @@ function CourseLearn() {
 				<div className="flex">
 					<div className="w-full lg:w-2/3">
 						<div className="text-5xl font-bold">{courseDetails.courseName}</div>
-						<div className="my-5 ">
-							<ProgressBar completed={completedPercentage} />
-						</div>
-
+						{completedPercentage > 0 && (
+							<div className="my-5 ">
+								<ProgressBar completed={completedPercentage} />
+							</div>
+						)}
 						{completedPercentage === 100 ? (
 							<div className="justify-center items-center my-5">
 								<div className="text-2xl font-bold py-7 w-full text-center shadow-md rounded-lg bg-green-600 text-white">
@@ -131,9 +132,12 @@ function CourseLearn() {
 									>
 										Leave a review
 									</button>
-									<button className="bg-blue-500 py-3 px-4 text-white font-semibold text-xl mt-5 rounded-lg">
+									<Link
+										to={`/Learn/Course/${courseId}/Certificate`}
+										className="bg-blue-500 py-3 px-4 text-white font-semibold text-xl mt-5 rounded-lg"
+									>
 										Get Cetificate
-									</button>
+									</Link>
 								</div>
 							</div>
 						) : completedPercentage > 0 ? (

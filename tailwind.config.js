@@ -9,7 +9,11 @@ export default {
 			fontFamily: {
 				varela: ['"Varela Round"'],
 				poppins: ['"Poppins"']
-			  }		
+			  },
+				backgroundImage: {
+					'certi': "url('/images/certi.jpg')",
+				}
+	
 		},
 		screens: {
 			'sm': '640px',

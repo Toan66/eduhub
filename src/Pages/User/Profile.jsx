@@ -108,26 +108,38 @@ function Profile() {
 						</div>
 					</div>
 
-					{userRole === "Teacher" && userCourses.length > 0 && (
-						<div className="mt-20">
-							<Link
-								className="px-5 py-2 rounded-md text-white font-semibold bg-blue-500 text-2xl"
-								to="/Teacher/MyCourse"
-							>
-								My Course
-							</Link>
-						</div>
-					)}
-					{userRole === "Admin" && (
-						<div className="my-10">
-							<Link
-								className="px-5 py-2 rounded-md text-white font-semibold bg-blue-500 text-2xl"
-								to="/Admin/DashBoard"
-							>
-								Admin Dashboard
-							</Link>
-						</div>
-					)}
+					<div className="flex items-center">
+						{userRole === "Teacher" && (
+							<div className="mt-20">
+								<Link
+									className="px-5 py-2 rounded-md text-white font-semibold bg-blue-500 text-2xl"
+									to="/Teacher/DashBoard"
+								>
+									Teacher Dashboard
+								</Link>
+							</div>
+						)}
+						{userRole === "Admin" && (
+							<>
+								<div className="mt-20">
+									<Link
+										className="px-5 py-2 rounded-md text-white font-semibold bg-blue-500 text-2xl"
+										to="/Teacher/DashBoard"
+									>
+										Teacher Dashboard
+									</Link>
+								</div>
+								<div className="mt-20 ml-20">
+									<Link
+										className="px-5 py-2 rounded-md text-white font-semibold bg-blue-500 text-2xl"
+										to="/Admin/DashBoard"
+									>
+										Admin Dashboard
+									</Link>
+								</div>
+							</>
+						)}
+					</div>
 				</div>
 			) : (
 				<></>

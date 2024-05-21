@@ -21,7 +21,7 @@ function UnapprovalCourses() {
 	}, []);
 
 	return (
-		<div className="container mx-auto sm:max-w-screen-lg">
+		<div className="p-10">
 			<div>
 				{unapproveCourses.length > 0 ? (
 					<>
@@ -45,7 +45,9 @@ function UnapprovalCourses() {
 						</div>
 					</>
 				) : (
-					<div>No unapproved courses found.</div>
+					<div className="text-4xl font-semibold">
+						No unapproved courses found.
+					</div>
 				)}
 			</div>
 		</div>

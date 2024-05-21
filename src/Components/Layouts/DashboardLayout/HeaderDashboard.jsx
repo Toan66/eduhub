@@ -2,8 +2,7 @@ import { useEffect, useState } from "react";
 import { Link, useNavigate, useLocation } from "react-router-dom";
 import axios from "axios";
 import Cookies from "js-cookie";
-import IconSearch from "../../Components/Icons/IconSearch";
-import { useAuth } from "../../Contexts/AuthContext";
+import { useAuth } from "../../../Contexts/AuthContext";
 
 export default () => {
 	const [state, setState] = useState(false);
@@ -12,16 +11,11 @@ export default () => {
 	const [userName, setUserName] = useState("");
 	const [userEmail, setUserEmail] = useState("");
 	const [userAvatar, setUserAvatar] = useState("");
-	const [searchQuery, setSearchQuery] = useState("");
 
 	const location = useLocation();
-	const jwt = localStorage.getItem("jwt");
+	const lastPathItem = location.pathname.split("/").pop();
 
-	const handleSearch = (e) => {
-		e.preventDefault();
-		navigate(`/Search?query=${encodeURIComponent(searchQuery)}`);
-		setSearchQuery("");
-	};
+	const jwt = localStorage.getItem("jwt");
 
 	useEffect(() => {
 		setState(false);
@@ -37,6 +31,7 @@ export default () => {
 				if (response.status === 200) {
 					setUserName(response.data.name);
 					setUserEmail(response.data.email);
+					console.log(response.data);
 				} else {
 					console.error("Error");
 				}
@@ -67,7 +62,7 @@ export default () => {
 
 	const navigation = [
 		{ title: "Course", path: "/Course" },
-		// { title: "Create Course", path: "/Course/Create" },
+		{ title: "Create Course", path: "/Course/Create" },
 		{ title: "Customers", path: "#" },
 		{ title: "Pricing", path: "#" },
 	];
@@ -79,8 +74,8 @@ export default () => {
 				{ withCredentials: true }
 			);
 
-			if (response.data.message == "success" && response.status === 200) {
-				console.log("Đã đăng xuất thành công");
+			if (response.status === 200) {
+				// console.log('Đã đăng xuất thành công');
 				localStorage.clear();
 				Cookies.remove("jwt");
 				navigate("/");
@@ -94,119 +89,14 @@ export default () => {
 	};
 
 	return (
-		<header className="bg-white z-10 shadow-xl border-b w-full md:static md:text-sm md:border-none">
-			<div className="items-center max-w-screen-lg mx-auto md:flex justify-center">
-				<div className="flex items-center justify-between py-3 md:py-5 md:block">
-					<Link to="/">
-						<img
-							src="/images/logo.jpg"
-							width={120}
-							height={50}
-							alt="eduhub logo"
-						/>
-					</Link>
-
-					<div className="md:hidden flex justify-center ml-20 ">
-						<form
-							onSubmit={handleSearch}
-							className="text-xl border-2 border-gray-300 rounded-3xl flex"
-						>
-							<input
-								type="text"
-								value={searchQuery}
-								onChange={(e) => setSearchQuery(e.target.value)}
-								placeholder="Search for course..."
-								className="text-xl rounded-l-3xl px-4 py-2"
-							/>
-							<button
-								type="submit"
-								className="md:w-auto text-xl px-2 bg-blue-300 rounded-r-3xl"
-							>
-								<IconSearch />
-							</button>
-						</form>
-					</div>
-
-					<div className="md:hidden">
-						<button
-							className="text-gray-500 hover:text-gray-800"
-							onClick={() => setState(!state)}
-						>
-							{state ? (
-								<svg
-									xmlns="http://www.w3.org/2000/svg"
-									className="h-6 w-6"
-									viewBox="0 0 20 20"
-									fill="currentColor"
-								>
-									<path
-										fillRule="evenodd"
-										d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z"
-										clipRule="evenodd"
-									/>
-								</svg>
-							) : (
-								<svg
-									xmlns="http://www.w3.org/2000/svg"
-									fill="none"
-									viewBox="0 0 24 24"
-									strokeWidth={1.5}
-									stroke="currentColor"
-									className="w-6 h-6"
-								>
-									<path
-										strokeLinecap="round"
-										strokeLinejoin="round"
-										d="M3.75 6.75h16.5M3.75 12h16.5m-16.5 5.25h16.5"
-									/>
-								</svg>
-							)}
-						</button>
-					</div>
+		<header className="bg-white z-10 border-b w-full h-20">
+			<div className="items-center flex justify-between p-3">
+				<div className="flex items-center text-4xl font-bold">
+					{lastPathItem}
 				</div>
-
-				<div className="md:flex hidden justify-center ml-20 ">
-					<form
-						onSubmit={handleSearch}
-						className="text-xl border-2 border-gray-300 rounded-3xl flex"
-					>
-						<input
-							type="text"
-							value={searchQuery}
-							onChange={(e) => setSearchQuery(e.target.value)}
-							placeholder="Search for course..."
-							className="text-xl rounded-l-3xl px-4 py-2"
-						/>
-						<button
-							type="submit"
-							className="md:w-auto text-xl px-2 bg-blue-300 rounded-r-3xl"
-						>
-							<IconSearch />
-						</button>
-					</form>
-				</div>
-
-				<div
-					className={`flex-1 pb-3  mt-8 md:block  md:pb-0 md:mt-0  ${
-						state ? "block" : "hidden"
-					}`}
-				>
-					<ul className="justify-end items-center space-y-6 md:flex md:space-x-6 md:space-y-0">
-						{navigation.map((item, idx) => {
-							return (
-								<li
-									key={idx}
-									className="text-gray-700 hover:text-indigo-600 font-semibold"
-								>
-									<Link to={item.path} className="block text-lg">
-										{item.title}
-									</Link>
-								</li>
-							);
-						})}
-
-						<span className=" w-px h-6 bg-gray-300 md:block"></span>
-						<div className="space-y-3 items-center gap-x-6 md:flex md:space-y-0">
+				<div className="flex items-center">
+					<ul className="justify-end items-center">
+						<div className="items-center gap-x-6">
 							{/* role */}
 							{!userRole ? (
 								<>
@@ -235,9 +125,8 @@ export default () => {
 										<div className="group">
 											<button
 												type="button"
-												className="inline-flex justify-center items-center w-full px-4 py-2 text-sm font-medium text-white bg-gray-800 hover:bg-gray-700 focus:outline-none focus:bg-gray-700"
+												className="inline-flex justify-center items-center w-full px-4 py-2 text-sm font-medium border text-white hover:bg-gray-800 focus:outline-none focus:bg-gray-700"
 											>
-												<div className="mr-3 font-semibold">{userName}</div>
 												{/* avatar */}
 												<img
 													title="avatar"
@@ -246,16 +135,16 @@ export default () => {
 												/>
 
 												<svg
-													className="w-4 h-4 ml-2 -mr-1"
+													className="w-4 h-4 ml-2 -mr-1 hover:white"
 													xmlns="http://www.w3.org/2000/svg"
 													viewBox="0 0 20 20"
-													fill="currentColor"
+													fill="black"
 												>
 													<path fillRule="evenodd" d="M10 12l-5-5h10l-5 5z" />
 												</svg>
 											</button>
 
-											<div className="absolute z-10 right-0 w-80 origin-top-left bg-white divide-y divide-gray-100 rounded-md shadow-lg opacity-0 invisible group-hover:opacity-100 group-hover:visible transition duration-300">
+											<div className="absolute z-10 right-0 w-80 origin-top-left bg-white divide-y divide-gray-100 rounded-lg shadow-xl opacity-0 invisible group-hover:opacity-100 group-hover:visible transition duration-300">
 												<div className="py-1">
 													<div className="pl-3 py-4 text-xl flex flex-row items-center justify-between border-black border-b">
 														<div className="w-2/12">

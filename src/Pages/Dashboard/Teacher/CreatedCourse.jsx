@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import axios from "axios";
 
-const MyCourse = () => {
+const CreatedCourse = () => {
 	const [userCourses, setUserCourses] = useState([]);
 
 	useEffect(() => {
@@ -22,7 +22,7 @@ const MyCourse = () => {
 	}, []);
 
 	return (
-		<div className="container mx-auto sm:max-w-screen-lg">
+		<div className="p-4">
 			<div className="my-10">
 				<Link
 					to="/Course/Create"
@@ -88,4 +88,4 @@ const MyCourse = () => {
 	);
 };
 
-export default MyCourse;
+export default CreatedCourse;

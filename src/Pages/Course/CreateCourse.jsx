@@ -81,7 +81,7 @@ function CreateCourse() {
 						.then((response) => {
 							console.log(response.data);
 							Swal.fire("Created", "Course created successfully", "success");
-							navigate("/Teacher/MyCourse");
+							navigate("/Teacher/CreatedCourse");
 						})
 						.catch((error) => {
 							console.error("Error creating course:", error);

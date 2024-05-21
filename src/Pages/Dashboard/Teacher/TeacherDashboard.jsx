@@ -1,6 +1,6 @@
 import { Link } from "react-router-dom";
 
-function AdminDashboard() {
+function TeacherDashboard() {
 	return (
 		<div className="">
 			<div>Nothing</div>
@@ -8,4 +8,4 @@ function AdminDashboard() {
 	);
 }
 
-export default AdminDashboard;
+export default TeacherDashboard;

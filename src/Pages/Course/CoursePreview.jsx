@@ -14,8 +14,10 @@ import IconUserTie from "../../Components/Icons/IconUserTie";
 import IconMoneyBillWave from "../../Components/Icons/IconMoneyBillWave";
 import IconPricetags from "../../Components/Icons/IconPricetags";
 // import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip } from 'recharts';
+import { useAuth } from "../../Contexts/AuthContext";
 
 function CoursePreview() {
+	const { userRole } = useAuth();
 	const { courseId } = useParams();
 	const [course, setCourse] = useState(null);
 	const [teacher, setTeacher] = useState({});
@@ -144,12 +146,14 @@ function CoursePreview() {
 			{!course.approvalStatus ? (
 				<div className="p-10 text-2xl font-semibold text-white bg-red-600">
 					<span>This course hasn't been approved yet.</span>
-					<button
-						onClick={() => CourseApproveHandle()}
-						className="float-right px-4 py-1 rounded-md text-white font-semibold bg-green-500"
-					>
-						Approve Course
-					</button>
+					{userRole === "Admin" && (
+						<button
+							onClick={() => CourseApproveHandle()}
+							className="float-right px-4 py-1 rounded-md text-white font-semibold bg-green-500"
+						>
+							Approve Course
+						</button>
+					)}
 				</div>
 			) : (
 				<div className="p-10 text-2xl font-semibold text-white bg-green-600">
