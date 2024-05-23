@@ -13,6 +13,9 @@ export default () => {
 	const [userEmail, setUserEmail] = useState("");
 	const [userAvatar, setUserAvatar] = useState("");
 	const [searchQuery, setSearchQuery] = useState("");
+	const [categories, setCategories] = useState([]);
+
+	const [isCategoriesVisible, setIsCategoriesVisible] = useState(false);
 
 	const location = useLocation();
 	const jwt = localStorage.getItem("jwt");
@@ -65,10 +68,29 @@ export default () => {
 		fetchUserName();
 	}, [[location.pathname]]);
 
+	useEffect(() => {
+		setIsCategoriesVisible(false);
+	}, [location.pathname]);
+
+	useEffect(() => {
+		const fetchCategories = async () => {
+			try {
+				const responseCategory = await axios.get(
+					"https://localhost:7291/api/Course/category"
+				);
+				setCategories(responseCategory.data.$values);
+				console.log(responseCategory.data.$values);
+			} catch (error) {
+				console.error("Error fetching categories:", error);
+			}
+		};
+
+		fetchCategories();
+	}, []);
+
 	const navigation = [
 		{ title: "Course", path: "/Course" },
-		// { title: "Create Course", path: "/Course/Create" },
-		{ title: "Customers", path: "#" },
+		{ title: "About Us", path: "/AboutUs" },
 		{ title: "Pricing", path: "#" },
 	];
 
@@ -80,16 +102,16 @@ export default () => {
 			);
 
 			if (response.data.message == "success" && response.status === 200) {
-				console.log("Đã đăng xuất thành công");
+				console.log("Logout successfully");
 				localStorage.clear();
 				Cookies.remove("jwt");
 				navigate("/");
 				navigate(0);
 			} else {
-				console.error("Lỗi khi đăng xuất:", response);
+				console.error("error logout:", response);
 			}
 		} catch (error) {
-			console.error("Lỗi khi đăng xuất:", error);
+			console.error("error logout:", error);
 		}
 	};
 
@@ -106,21 +128,21 @@ export default () => {
 						/>
 					</Link>
 
-					<div className="md:hidden flex justify-center ml-20 ">
+					<div className="md:hidden flex justify-center ">
 						<form
 							onSubmit={handleSearch}
-							className="text-xl border-2 border-gray-300 rounded-3xl flex"
+							className="text-md border-2 border-gray-300 rounded-3xl flex"
 						>
 							<input
 								type="text"
 								value={searchQuery}
 								onChange={(e) => setSearchQuery(e.target.value)}
 								placeholder="Search for course..."
-								className="text-xl rounded-l-3xl px-4 py-2"
+								className="text-md rounded-l-3xl px-4 py-2"
 							/>
 							<button
 								type="submit"
-								className="md:w-auto text-xl px-2 bg-blue-300 rounded-r-3xl"
+								className="md:w-auto text-md px-2 bg-blue-300 rounded-r-3xl"
 							>
 								<IconSearch />
 							</button>
@@ -165,7 +187,31 @@ export default () => {
 					</div>
 				</div>
 
-				<div className="md:flex hidden justify-center ml-20 ">
+				<div className="hidden ml-10 md:block relative">
+					<button
+						className="text-gray-700 hover:text-indigo-600 text-lg"
+						onClick={() => setIsCategoriesVisible(!isCategoriesVisible)}
+					>
+						Categories
+					</button>
+					{isCategoriesVisible && (
+						<div className="absolute left-0 w-64 bg-white border rounded shadow-lg mt-8">
+							<div className="flex flex-col ">
+								{categories.map((category) => (
+									<Link
+										key={category.courseCategoryId}
+										to={`/Category/${category.courseCategoryId}`}
+										className="px-4 py-3 hover:bg-gray-100 text-lg"
+									>
+										<span>{category.courseCategoryName}</span>
+									</Link>
+								))}
+							</div>
+						</div>
+					)}
+				</div>
+
+				<div className="md:flex hidden justify-center ml-4 ">
 					<form
 						onSubmit={handleSearch}
 						className="text-xl border-2 border-gray-300 rounded-3xl flex"
@@ -213,7 +259,7 @@ export default () => {
 									<li>
 										<Link
 											to="/Login"
-											className="text-gray-700 hover:text-indigo-600 font-semibold"
+											className="text-gray-700 text-lg hover:text-indigo-600 font-semibold"
 										>
 											Log in
 										</Link>
@@ -221,7 +267,7 @@ export default () => {
 									<li>
 										<Link
 											to="/Register"
-											className="block py-3 px-4 font-semibold text-center text-white bg-indigo-600 hover:bg-indigo-500 active:bg-indigo-700 active:shadow-none rounded-lg shadow md:inline w-auto"
+											className="block py-3 px-4 text-lg font-semibold text-center text-white bg-indigo-600 hover:bg-indigo-500 active:bg-indigo-700 active:shadow-none rounded-lg shadow md:inline w-auto"
 										>
 											Register
 										</Link>
@@ -231,7 +277,16 @@ export default () => {
 								<li className="flex items-center">
 									{/* <div className="inline-block text-center text-base font-medium mr-2">Hello {userName}</div> */}
 
-									<div className="relative text-left ">
+									<div className="relative  md:hidden block">
+										<Link
+											to="/DashBoard"
+											className="text-gray-700 hover:text-indigo-600 font-semibold"
+										>
+											Dashboard
+										</Link>
+									</div>
+
+									<div className="relative text-left hidden md:block">
 										<div className="group">
 											<button
 												type="button"

@@ -47,6 +47,8 @@ import AllCourse from "./Pages/Admin/CourseApproval/AllCourse";
 import TeacherDashboard from "./Pages/Dashboard/Teacher/TeacherDashboard";
 import Certificate from "./Pages/Certificate/Certificate";
 import SearchResult from "./Pages/SearchResult";
+import CourseCategory from "./Pages/CourseCategory";
+import AboutUs from "./Pages/AboutUs";
 
 
 function App() {
@@ -68,6 +70,8 @@ function App() {
 				<Route path="Teacher/:userId" element={<TeacherDetail />} />
 				<Route path="Search" element={<SearchResult />} />
 				<Route path="PaymentResult" element={<PaymentResult />} />
+				<Route path="Category/:categoryId" element={<CourseCategory />} />
+				<Route path="AboutUs" element={<AboutUs />} />
 
 
 
@@ -82,7 +86,7 @@ function App() {
 				</Route>
 
 				<Route element={<RequireAuth allowedRoles={["Teacher", "Admin"]} />}>
-					<Route path="Course/Create" element={<CreateCourse />} />
+					{/* <Route path="Course/Create" element={<CreateCourse />} />
 					<Route path="Course/:courseId/Edit" element={<CourseEditor />} />
 					<Route path="Course/:courseId/Chapter/Create" element={<CreateChapter />} />
 					<Route path="Chapter/:chapterId/Edit" element={<ChapterEditor />} />
@@ -92,7 +96,7 @@ function App() {
 					<Route path="Test/:testId/Edit" element={<TestEditor />} />
 					<Route path="TestForm" element={<TestForm />} />
 					<Route path="Course/:courseId/Preview" element={<CoursePreview />} />
-					<Route path="Teacher/MyCourse" element={<MyCourse />} />
+					<Route path="Teacher/MyCourse" element={<MyCourse />} /> */}
 				</Route>
 			</Route>
 
@@ -121,6 +125,18 @@ function App() {
         <Route element={<RequireAuth allowedRoles={["Teacher", "Admin"]} />} >
 					<Route path="Teacher/DashBoard" element={<TeacherDashboard />} />
           <Route path="Teacher/CreatedCourse" element={<CreatedCourse />} />
+
+					<Route path="Course/Create" element={<CreateCourse />} />
+					<Route path="Course/:courseId/Edit" element={<CourseEditor />} />
+					<Route path="Course/:courseId/Chapter/Create" element={<CreateChapter />} />
+					<Route path="Chapter/:chapterId/Edit" element={<ChapterEditor />} />
+					<Route path="Chapter/:chapterId/Lesson/Create" element={<CreateLesson />} />
+					<Route path="Chapter/:chapterId/Test/Create" element={<TestForm />} />
+					<Route path="Lesson/:lessonId/Edit" element={<LessonEditor />} />
+					<Route path="Test/:testId/Edit" element={<TestEditor />} />
+					<Route path="TestForm" element={<TestForm />} />
+					<Route path="Course/:courseId/Preview" element={<CoursePreview />} />
+					<Route path="Teacher/MyCourse" element={<MyCourse />} />
         </Route>
       </Route>
 

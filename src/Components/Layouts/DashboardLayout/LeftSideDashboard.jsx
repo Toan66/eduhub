@@ -14,7 +14,7 @@ export default () => {
 	return (
 		<div className="flex border-r">
 			{/* Sidebar */}
-			<div className="text-xl font-semibold flex flex-col">
+			<div className="text-lg font-semibold flex flex-col">
 				<div className="mt-3">
 					<Link to="/" className="text-center flex items-center justify-center">
 						<img
@@ -27,7 +27,7 @@ export default () => {
 				<div className="flex flex-col px-5 mt-20 h-screen">
 					<Link
 						to={`/DashBoard`}
-						className={`mt-10 px-3 py-4 flex items-center rounded-xl hover:text-blue-500 hover:bg-gray-200 duration-200 ${
+						className={`mt-5 px-3 py-4 flex items-center rounded-xl hover:text-blue-500 hover:bg-gray-200 duration-200 ${
 							isActive("/DashBoard") ? "text-white bg-blue-500 " : ""
 						}`}
 					>
@@ -38,7 +38,7 @@ export default () => {
 					</Link>
 					<Link
 						to={`/DashBoard/MyCourses`}
-						className={`mt-10 px-3 py-4 flex items-center rounded-xl hover:text-blue-500 hover:bg-gray-200 duration-200 ${
+						className={`mt-5 px-3 py-4 flex items-center rounded-xl hover:text-blue-500 hover:bg-gray-200 duration-200 ${
 							isActive("/DashBoard/MyCourses") ? "text-white bg-blue-500 " : ""
 						}`}
 					>
@@ -49,7 +49,7 @@ export default () => {
 					</Link>
 					<Link
 						to={`/DashBoard/Order`}
-						className={`mt-10 px-3 py-4 flex items-center rounded-xl hover:text-blue-500 hover:bg-gray-200 duration-200 ${
+						className={`mt-5 px-3 py-4 flex items-center rounded-xl hover:text-blue-500 hover:bg-gray-200 duration-200 ${
 							isActive("/DashBoard/Order") ? "text-white bg-blue-500 " : ""
 						}`}
 					>

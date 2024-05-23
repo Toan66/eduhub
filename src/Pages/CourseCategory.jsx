@@ -1,37 +1,33 @@
+import { Link, useParams } from "react-router-dom";
+import IconAccountGroup from "../Components/Icons/IconAccountGroup";
+import IconStar from "../Components/Icons/IconStar";
+import IconBxsBookContent from "../Components/Icons/IconBxsBookContent";
 import React, { useState, useEffect } from "react";
 import axios from "axios";
-import { Link, useSearchParams } from "react-router-dom";
-import IconStar from "../Components/Icons/IconStar";
-import IconAccountGroup from "../Components/Icons/IconAccountGroup";
-import IconBxsBookContent from "../Components/Icons/IconBxsBookContent";
 
-function SearchResults() {
-	const [searchParams, setSearchParams] = useSearchParams();
-	const query = searchParams.get("query");
+function CourseCategory() {
+	const { categoryId } = useParams();
 	const [courses, setCourses] = useState([]);
 
 	useEffect(() => {
-		if (query) {
-			const fetchResults = async () => {
-				try {
-					const response = await axios.get(
-						`https://localhost:7291/api/Course/search?query=${query}`
-					);
-					setCourses(response.data.$values);
-					console.log(response.data.$values);
-				} catch (error) {
-					console.error("Error fetching search courses:", error);
-					setCourses([]);
-				}
-			};
+		const fetchCourses = async () => {
+			try {
+				const response = await axios.get(
+					`https://localhost:7291/api/course/category/${categoryId}`
+				);
+				setCourses(response.data.$values);
+			} catch (error) {
+				console.error("Error fetching courses:", error);
+				setCourses([]); // Clear courses if there's an error
+			}
+		};
 
-			fetchResults();
-		}
-	}, [query]);
+		fetchCourses();
+	}, [categoryId]);
 
 	return (
 		<div className="container mx-auto px-4 py-8 sm:max-w-screen-lg">
-			<h2 className="text-3xl font-semibold">Search Results for: {query}</h2>
+			<h2 className="text-3xl font-semibold">Courses in Category</h2>
 			<div className="grid lg:grid-cols-3 lg:gap-5 grid-cols-1 gap-6">
 				{courses.map((course) => (
 					<div
@@ -106,9 +102,9 @@ function SearchResults() {
 					</div>
 				))}
 			</div>
-			{courses.length === 0 && <p>No results found.</p>}
+			{courses.length === 0 && <p>No courses found in this category.</p>}
 		</div>
 	);
 }
 
-export default SearchResults;
+export default CourseCategory;

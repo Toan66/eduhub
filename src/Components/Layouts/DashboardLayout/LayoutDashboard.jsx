@@ -13,10 +13,10 @@ const LayoutDashBoard = () => {
 	return (
 		<>
 			<div className="flex">
-				<div className="w-1/5">
+				<div className="w-1/6">
 					<LeftSideDashboard />
 				</div>
-				<div className="w-4/5 flex flex-col">
+				<div className="w-5/6 flex flex-col">
 					<HeaderDashboard />
 					<Outlet />
 				</div>

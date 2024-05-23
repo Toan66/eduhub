@@ -13,12 +13,12 @@ const LayoutTeacherDashboard = () => {
 	return (
 		<>
 			<div className="flex">
-				<div className="w-1/5">
+				<div className="w-1/6">
 					<TeacherSideBar />
 				</div>
-				<div className="w-4/5 flex flex-col">
+				<div className="w-5/6 flex flex-col">
 					<HeaderDashboard />
-					<div>
+					<div className="m-2">
 						<Outlet />
 					</div>
 				</div>
