@@ -190,7 +190,7 @@ function CourseDetail() {
 		<>
 			<div className="m-auto w-11/12">
 				<img
-					className="w-full h-auto rounded-xl "
+					className="w-full max-h-screen rounded-xl "
 					src={course.featureImage}
 					alt="Course Image"
 				/>

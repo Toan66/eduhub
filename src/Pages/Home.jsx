@@ -169,7 +169,7 @@ function Home() {
 
 							<span className="font-semibold text-xl">Programming</span>
 						</Link>
-						<Link to="/Category/5">
+						<Link to="/Category/13">
 							<div className="overflow-hidden">
 								<img
 									className="hover:scale-110 duration-300 overflow-hidden"
@@ -180,7 +180,7 @@ function Home() {
 
 							<span className="font-semibold text-xl">Design</span>
 						</Link>
-						<Link to="/Category/3">
+						<Link to="/Category/15">
 							<div className="overflow-hidden">
 								<img
 									className="hover:scale-110 duration-300 overflow-hidden"
@@ -191,7 +191,7 @@ function Home() {
 
 							<span className="font-semibold text-xl">Marketing</span>
 						</Link>
-						<Link to="/Category/2">
+						<Link to="/Category/20">
 							<div className="overflow-hidden">
 								<img
 									className="hover:scale-110 duration-300 overflow-hidden"
@@ -200,9 +200,9 @@ function Home() {
 								/>
 							</div>
 
-							<span className="font-semibold text-xl">Skill</span>
+							<span className="font-semibold text-xl">IT & Software</span>
 						</Link>
-						<Link to="/Category/10">
+						<Link to="/Category/17">
 							<div className="overflow-hidden">
 								<img
 									className="hover:scale-110 duration-300 overflow-hidden"
@@ -213,7 +213,7 @@ function Home() {
 
 							<span className="font-semibold text-xl">Business</span>
 						</Link>
-						<Link to="/Category/7">
+						<Link to="/Category/16">
 							<div className="overflow-hidden">
 								<img
 									className="hover:scale-110 duration-300 overflow-hidden"
@@ -222,9 +222,11 @@ function Home() {
 								/>
 							</div>
 
-							<span className="font-semibold text-xl">Health and Fitness</span>
+							<span className="font-semibold text-xl">
+								Personal Development
+							</span>
 						</Link>
-						<Link to="/Category/9">
+						<Link to="/Category/18">
 							<div className="overflow-hidden">
 								<img
 									className="hover:scale-110 duration-300 overflow-hidden"
@@ -235,7 +237,7 @@ function Home() {
 
 							<span className="font-semibold text-xl">Photography & Video</span>
 						</Link>
-						<Link to="/Category/4">
+						<Link to="/Category/19">
 							<div className="overflow-hidden">
 								<img
 									className="hover:scale-110 duration-300 overflow-hidden"

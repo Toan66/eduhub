@@ -11,6 +11,7 @@ import {
 	Tooltip,
 	Legend,
 } from "chart.js";
+import { Link } from "react-router-dom";
 
 ChartJS.register(
 	CategoryScale,
@@ -82,6 +83,7 @@ const AdminReport = () => {
 						<th className="px-4 py-2">Order ID</th>
 						<th className="px-4 py-2">User ID</th>
 						<th className="px-4 py-2">Course ID</th>
+						<th className="px-4 py-2">Course</th>
 						<th className="px-4 py-2">Order Date</th>
 						<th className="px-4 py-2">Amount</th>
 						<th className="px-4 py-2">Status</th>
@@ -93,6 +95,14 @@ const AdminReport = () => {
 							<td className="border px-4 py-2 text-center">{order.orderId}</td>
 							<td className="border px-4 py-2 text-center">{order.userId}</td>
 							<td className="border px-4 py-2 text-center">{order.courseId}</td>
+							<td className="border px-4 py-2 text-center">
+								<Link
+									to={`/Course/${order.courseId}`}
+									className="hover:underline hover:text-blue-500"
+								>
+									Course
+								</Link>
+							</td>
 							<td className="border px-4 py-2 text-center">
 								{new Date(order.orderDate).toLocaleDateString()}
 							</td>

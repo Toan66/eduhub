@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { Link, useNavigate, useLocation } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import axios from "axios";
 
 export default () => {
@@ -22,12 +22,25 @@ export default () => {
 		fetchCategories();
 	}, []);
 
+	const handleDelete = async (id) => {
+		try {
+			await axios.delete(`https://localhost:7291/api/Course/category/${id}`, {
+				withCredentials: true,
+			});
+			Swal.fire("Success", "Category deleted successfully", "success");
+			navigate(0);
+		} catch (error) {
+			Swal.fire("Error", "Failed to delete category" + { error }, "error");
+			console.error("Error deleting category:", error);
+		}
+	};
+
 	return (
 		<div className="p-3">
 			<div>
 				<button
 					className="bg-blue-500 text-white text-lg font-semibold px-4 py-2 rounded mb-4"
-					onClick={() => navigate("/Category/new")}
+					onClick={() => navigate("/Admin/AddCategory")}
 				>
 					+ Add New Category
 				</button>
@@ -36,7 +49,8 @@ export default () => {
 						<tr>
 							<th className="py-2">ID</th>
 							<th className="py-2">Category Name</th>
-							<th className="py-2">Actions</th>
+							<th className="py-2">View</th>
+							<th className="py-2">Delete</th>
 						</tr>
 					</thead>
 					<tbody>
@@ -50,11 +64,19 @@ export default () => {
 								</td>
 								<td className="border px-4 py-2">
 									<Link
-										to={`/Category/${category.id}`}
-										className="text-blue-500 hover:underline"
+										to={`/Category/${category.courseCategoryId}`}
+										className="text-blue-500 hover:underline mr-10"
 									>
 										View
 									</Link>
+								</td>
+								<td className="border px-4 py-2">
+									<button
+										onClick={() => handleDelete(category.courseCategoryId)}
+										className="text-blue-500 hover:underline"
+									>
+										Delete
+									</button>
 								</td>
 							</tr>
 						))}

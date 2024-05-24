@@ -56,12 +56,15 @@ import AllUsers from "./Pages/Admin/AllUsers";
 import AllTeachers from "./Pages/Admin/AllTeachers";
 import Student from "./Pages/Dashboard/Teacher/Student";
 import AdminCategory from "./Pages/Admin/AdminCategory";
+import AddCategory from "./Pages/Admin/AddCategory";
 
 function App() {
 	return (
 		<Routes>
 			<Route path="/Unauthorized" element={<Unauthorized />} />
 			<Route path="*" element={<Page404 />} />
+			<Route path="Login" element={<Login />} />
+			<Route path="Register" element={<Register />} />
 
 			{/* Normal Layout */}
 			<Route path="/" element={<Layout />}>
@@ -71,8 +74,6 @@ function App() {
 				<Route path="Course" element={<Courses />} />
 				<Route path="Course/:courseId" element={<CourseDetail />} />
 				<Route path="User/:userId" element={<UserDetail />} />
-				<Route path="Register" element={<Register />} />
-				<Route path="Login" element={<Login />} />
 				<Route path="Teacher/:userId" element={<TeacherDetail />} />
 				<Route path="Search" element={<SearchResult />} />
 				<Route path="PaymentResult" element={<PaymentResult />} />
@@ -153,6 +154,7 @@ function App() {
 					<Route path="Admin/AllUsers" element={<AllUsers />} />
 					<Route path="Admin/AllTeachers" element={<AllTeachers />} />
 					<Route path="Admin/Category" element={<AdminCategory />} />
+					<Route path="Admin/AddCategory" element={<AddCategory />} />
 
 					<Route path="/Admin/Course/:courseId/Preview" element={<CoursePreview />} />
         </Route>
