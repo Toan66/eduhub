@@ -191,7 +191,6 @@ function CourseLearn() {
 											Learn
 										</Link>
 									</div>
-									<div>{chapter.chapterDescription}</div>
 									{/* {chapter.lessons.$values.length > 0 && (
 										<div>
 											<h4 className="font-semibold">Lessons:</h4>

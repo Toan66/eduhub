@@ -24,6 +24,8 @@ function UserEditor() {
 	const [newAddress, setNewAddress] = useState("");
 	const [editDescription, setEditDescription] = useState(false);
 	const [newDescription, setNewDescription] = useState("");
+	const [editExpertise, setEditExpertise] = useState(false);
+	const [newExpertise, setNewExpertise] = useState("");
 
 	const navigate = useNavigate();
 
@@ -51,6 +53,7 @@ function UserEditor() {
 		editGender,
 		editAddress,
 		editDescription,
+		editExpertise,
 	]);
 
 	const handleUpdateName = async () => {
@@ -234,6 +237,26 @@ function UserEditor() {
 			setEditDescription(false);
 		} catch (error) {
 			console.error("Error updating user description:", error);
+		}
+	};
+
+	// Function to update the expertise
+	const handleUpdateExpertise = async () => {
+		try {
+			await axios.put(
+				`https://localhost:7291/api/User/updateExpertise`,
+				{
+					expertise: newExpertise,
+				},
+				{ withCredentials: true }
+			);
+			setUser((prev) => ({
+				...prev,
+				userInfo: { ...prev.userInfo, expertise: newExpertise },
+			}));
+			setEditExpertise(false);
+		} catch (error) {
+			console.error("Error updating user expertise:", error);
 		}
 	};
 
@@ -615,6 +638,49 @@ function UserEditor() {
 						</div>
 					) : (
 						<div className="font-normal">{user.userInfo?.userDescription}</div>
+					)}
+				</div>
+
+				<div className="rounded-lg bg-indigo-50 p-3 mb-6">
+					<div className="flex flex-row justify-between mb-4 text-lg">
+						<div className="font-semibold w-1/2">Expertise</div>
+						<button
+							onClick={() => {
+								setEditExpertise(true);
+								setNewExpertise(user.userInfo?.expertise || "");
+							}}
+							className="font-semibold w-auto text-right items-center"
+						>
+							<span className="inline-block ml-2">
+								<Pencil />
+							</span>
+							Edit Expertise
+						</button>
+					</div>
+					{editExpertise ? (
+						<div>
+							<textarea
+								className="w-full p-3 h-24 rounded-md"
+								value={newExpertise}
+								onChange={(e) => setNewExpertise(e.target.value)}
+							/>
+							<button
+								className="text-md bg-gray-800 text-white font-semibold px-5 py-2 rounded-md mt-5"
+								onClick={handleUpdateExpertise}
+							>
+								Save
+							</button>
+							<button
+								onClick={() => {
+									setEditExpertise(false);
+								}}
+								className="text-md bg-sky-500 float-right text-white font-semibold px-5 py-2 rounded-md mt-5"
+							>
+								Cancel
+							</button>
+						</div>
+					) : (
+						<div className="font-normal">{user.userInfo?.expertise}</div>
 					)}
 				</div>
 			</div>

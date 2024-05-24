@@ -178,7 +178,7 @@ function CourseDetail() {
 			);
 			console.log(response.data);
 			Swal.fire("Purchase your order to enroll this course!");
-			navigate("/MyOrder");
+			navigate("/DashBoard/Order");
 		} catch (error) {
 			console.error("Error enrolling in course:", error);
 		}
@@ -295,7 +295,7 @@ function CourseDetail() {
 									<img
 										src={teacher.avatar}
 										alt="Teacher Avatar"
-										className="size-50"
+										className="size-50 hover:border-4 border-orange-500 duration-300 rounded-full"
 									/>
 								</Link>
 								<div className="w-7/12 flex flex-col justify-between">
@@ -305,6 +305,7 @@ function CourseDetail() {
 									>
 										{teacher.fullName}
 									</Link>
+									<p>{teacher.expertise}</p>
 									<p>Address: {teacher.userAddress}</p>
 									<p className="text-justify">{teacher.userDescription}</p>
 									<p>Phone Number: {teacher.phoneNumber}</p>
@@ -390,7 +391,7 @@ function CourseDetail() {
 										<img
 											src={review.user.userInfo.avatar}
 											alt="User Avatar"
-											className="size-20 rounded-full"
+											className="size-20 rounded-full "
 										/>
 									</div>
 									<div className="w-9/12">

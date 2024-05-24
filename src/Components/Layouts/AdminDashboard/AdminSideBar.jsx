@@ -4,6 +4,10 @@ import { useAuth } from "../../../Contexts/AuthContext";
 import IconBxsBook from "./../../Icons/IconBxsBook";
 import IconShoppingCart from "./../../Icons/IconShoppingCart";
 import IconDashboard3Fill from "./../../Icons/IconDashboard3Fill";
+import IconBarChart from "./../../Icons/IconBarChart";
+import IconAccountGroup from "../../Icons/IconAccountGroup";
+import IconUserTie from "../../Icons/IconUserTie";
+import IconPricetags from "../../Icons/IconPricetags";
 
 export default () => {
 	const location = useLocation();
@@ -61,17 +65,50 @@ export default () => {
 						</span>
 						Unapprove Courses
 					</Link>
-					{/* <Link
-						to={`/Admin/CreatedCourse`}
-						className={`mt-10 px-2 py-4 flex items-center rounded-xl hover:text-blue-500 hover:bg-gray-200 duration-200 ${
-							isActive("/Admin/CreatedCourse") ? "text-white bg-blue-500 " : ""
+					<Link
+						to={`/Admin/AllUsers`}
+						className={`mt-5 px-2 py-4 flex items-center rounded-xl hover:text-blue-500 hover:bg-gray-200 duration-200 ${
+							isActive("/Admin/AllUsers") ? "text-white bg-blue-500 " : ""
 						}`}
 					>
 						<span className="mr-3">
-							<IconBxsBook />
+							<IconAccountGroup width="1em" height="1em" />
 						</span>
-						Created Course
-					</Link> */}
+						Users
+					</Link>
+					<Link
+						to={`/Admin/AllTeachers`}
+						className={`mt-5 px-2 py-4 flex items-center rounded-xl hover:text-blue-500 hover:bg-gray-200 duration-200 ${
+							isActive("/Admin/AllTeachers") ? "text-white bg-blue-500 " : ""
+						}`}
+					>
+						<span className="mr-3">
+							<IconUserTie width="1em" height="1em" />
+						</span>
+						Teachers
+					</Link>
+					<Link
+						to={`/Admin/Category`}
+						className={`mt-5 px-2 py-4 flex items-center rounded-xl hover:text-blue-500 hover:bg-gray-200 duration-200 ${
+							isActive("/Admin/Category") ? "text-white bg-blue-500 " : ""
+						}`}
+					>
+						<span className="mr-3">
+							<IconPricetags width="1em" height="1em" />
+						</span>
+						Category
+					</Link>
+					<Link
+						to={`/Admin/AdminReport`}
+						className={`mt-5 px-2 py-4 flex items-center rounded-xl hover:text-blue-500 hover:bg-gray-200 duration-200 ${
+							isActive("/Admin/AdminReport") ? "text-white bg-blue-500 " : ""
+						}`}
+					>
+						<span className="mr-3">
+							<IconBarChart />
+						</span>
+						Report
+					</Link>
 				</div>
 			</div>
 		</div>

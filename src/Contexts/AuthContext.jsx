@@ -7,11 +7,20 @@ export const AuthProvider = ({ children }) => {
 	const [isAuthenticating, setIsAuthenticating] = useState(true);
 
 	useEffect(() => {
-		const role = localStorage.getItem("role");
-		if (role) {
-			setUserRole(role);
+		const fetchUserRole = async () => {
+			const role = await localStorage.getItem("role");
+			if (!role) {
+				setUserRole(null);
+				setIsAuthenticating(false);
+			}
+			if (role) {
+				setUserRole(role);
+				setIsAuthenticating(false);
+			}
 			setIsAuthenticating(false);
-		}
+		};
+
+		fetchUserRole();
 	}, []);
 
 	return (

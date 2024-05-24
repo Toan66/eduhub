@@ -105,30 +105,59 @@ function PaymentResult() {
 	};
 
 	return (
-		<div className="w-full lg:max-w-screen-lg m-auto text-xl">
+		<div className="w-full lg:max-w-screen-sm m-auto text-xl shadow-xl">
 			<h2 className="text-3xl font-semibold text-center my-8">
-				Payment Details
+				{paymentDetails.errorCode === "0" ? (
+					<>
+						<div className="flex justify-center">
+							<img src="/images/greencheck.png" className="size-20" />
+						</div>
+						<div className="text-green-600">Payment successful</div>
+					</>
+				) : (
+					<>
+						<div className="flex justify-center">
+							<img src="/images/Cross_red_circle.svg.png" className="size-20" />
+						</div>
+						<div className="text-red-600">Payment failled</div>
+					</>
+				)}
 			</h2>
-			<div className="bg-white shadow-md rounded-lg p-8 mb-6">
-				<div className="mb-4">
+			<div className="bg-white rounded-lg p-8 mb-6">
+				<div className="mb-4 flex justify-between">
+					<span className="font-bold">Payment type:</span>
+					{paymentDetails.partnerCode} QR CODE
+				</div>
+				<div className="mb-4 flex justify-between">
+					<span className="font-bold">Amount paid:</span>{" "}
+					{paymentDetails.amount} VND
+				</div>
+				<div className="mb-4 flex justify-between">
 					<span className="font-bold">Order ID:</span> {paymentDetails.orderId}
 				</div>
-				<div className="mb-4">
-					<span className="font-bold">Amount:</span> {paymentDetails.amount} VND
+				<div className="mb-4 flex justify-between">
+					<span className="font-bold">Transaction ID:</span>{" "}
+					{paymentDetails.transId}
 				</div>
-				<div className="mb-4">
-					<span className="font-bold">Order Info:</span>{" "}
+				<div className="mb-4 flex justify-between">
+					<span className="font-bold">Response time:</span>{" "}
+					{paymentDetails.responseTime}
+				</div>
+				<div className="mb-4 flex justify-between">
+					<span className="font-bold">Order Info:</span>
 					{paymentDetails.orderInfo}
 				</div>
-				<div className="mb-4">
+				<div className="mb-4 flex justify-between">
 					<span className="font-bold">Message:</span> {paymentDetails.message}
 				</div>
-				<button
-					onClick={() => handleOk()}
-					className="mt-5 text-xl bg-blue-500 hover:bg-blue-700 py-3 px-6 text-white font-semibold rounded-lg transition duration-300 ease-in-out"
-				>
-					OK
-				</button>
+				<div className="text-center">
+					<button
+						onClick={() => handleOk()}
+						className="mt-5 text-xl bg-blue-500 hover:bg-blue-700 py-3 px-6 text-white font-semibold rounded-lg transition duration-300 ease-in-out"
+					>
+						OK
+					</button>{" "}
+				</div>
 			</div>
 		</div>
 	);

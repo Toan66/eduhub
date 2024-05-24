@@ -84,6 +84,9 @@ const CreatedCourse = () => {
 					))}
 				</tbody>
 			</table>
+			{userCourses.length === 0 && (
+				<div className="mt-10 text-xl">You haven't created any course yet!</div>
+			)}
 		</div>
 	);
 };

@@ -22,14 +22,14 @@ function AllCourse() {
 	}, []);
 
 	return (
-		<div className="p-10">
+		<div className="p-2">
 			<div className="">
 				{courses.length > 0 ? (
 					<>
 						<div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
 							{courses.map((course) => (
 								<div key={course.courseId} className="shadow-lg p-1">
-									<img className="w-full h-28" src={course.featureImage} />
+									<img className="w-full h-32" src={course.featureImage} />
 									<div className="text-lg font-semibold line-clamp-1	">
 										{course.courseName}
 									</div>
@@ -45,7 +45,7 @@ function AllCourse() {
 										)}
 									</div>
 									<Link
-										to={`/Course/${course.courseId}/Preview`}
+										to={`/Admin/Course/${course.courseId}/Preview`}
 										className="px-4 py-3 rounded-md text-white font-semibold bg-blue-500 float-right"
 									>
 										Preview

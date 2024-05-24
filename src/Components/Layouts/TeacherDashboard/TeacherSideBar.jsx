@@ -2,8 +2,9 @@ import { useEffect, useState } from "react";
 import { Link, useNavigate, useLocation } from "react-router-dom";
 import { useAuth } from "../../../Contexts/AuthContext";
 import IconBxsBook from "./../../Icons/IconBxsBook";
-import IconShoppingCart from "./../../Icons/IconShoppingCart";
 import IconDashboard3Fill from "./../../Icons/IconDashboard3Fill";
+import IconBarChart from "./../../Icons/IconBarChart";
+import IconAccountGroup from "../../Icons/IconAccountGroup";
 
 export default () => {
 	const location = useLocation();
@@ -48,6 +49,28 @@ export default () => {
 							<IconBxsBook />
 						</span>
 						Created Course
+					</Link>
+					<Link
+						to={`/Teacher/Student`}
+						className={`mt-5 px-2 py-4 flex items-center rounded-xl hover:text-blue-500 hover:bg-gray-200 duration-200 ${
+							isActive("/Teacher/Student") ? "text-white bg-blue-500 " : ""
+						}`}
+					>
+						<span className="mr-3">
+							<IconAccountGroup />
+						</span>
+						Students
+					</Link>
+					<Link
+						to={`/Teacher/Report`}
+						className={`mt-5 px-2 py-4 flex items-center rounded-xl hover:text-blue-500 hover:bg-gray-200 duration-200 ${
+							isActive("/Teacher/Report") ? "text-white bg-blue-500 " : ""
+						}`}
+					>
+						<span className="mr-3">
+							<IconBarChart />
+						</span>
+						Report
 					</Link>
 				</div>
 			</div>

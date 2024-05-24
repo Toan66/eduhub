@@ -130,7 +130,7 @@ export default () => {
 												{/* avatar */}
 												<img
 													title="avatar"
-													className=" size-10"
+													className="size-10 rounded-full"
 													src={userAvatar}
 												/>
 
@@ -158,6 +158,26 @@ export default () => {
 															<div className="text-base mt-2">{userEmail}</div>
 														</div>
 													</div>
+													{userRole === "Admin" && (
+														<>
+															<Link
+																to="/Admin/Dashboard"
+																className="block px-4 py-4 text-xl hover:bg-gray-100"
+															>
+																Admin Dashboard
+															</Link>
+														</>
+													)}
+													{userRole === "Teacher" && (
+														<>
+															<Link
+																to="/Teacher/Dashboard"
+																className="block px-4 py-4 text-xl hover:bg-gray-100"
+															>
+																Teacher Dashboard
+															</Link>
+														</>
+													)}
 													<Link
 														to="/DashBoard"
 														className="block px-4 py-4 text-xl hover:bg-gray-100"
@@ -165,7 +185,7 @@ export default () => {
 														Dashboard
 													</Link>
 													<Link
-														to="/MyOrder"
+														to="/DashBoard/Order"
 														className="block px-4 py-4 text-xl hover:bg-gray-100"
 													>
 														Order History

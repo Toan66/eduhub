@@ -7,6 +7,11 @@ import IconBxsBookContent from "../../Components/Icons/IconBxsBookContent";
 
 function Courses() {
 	const [courses, setCourses] = useState([]);
+	const [categories, setCategories] = useState([]);
+	const [levels, setLevels] = useState([]);
+	const [selectedCategory, setSelectedCategory] = useState(null);
+	const [selectedLevel, setSelectedLevel] = useState(null);
+	const [searchTerm, setSearchTerm] = useState("");
 
 	useEffect(() => {
 		const fetchCourses = async () => {
@@ -15,6 +20,7 @@ function Courses() {
 					"https://localhost:7291/api/Course/approvedCourses"
 				);
 				setCourses(response.data.$values);
+				console.log(response.data.$values);
 			} catch (error) {
 				console.error("Error fetching courses:", error);
 			}
@@ -23,11 +29,101 @@ function Courses() {
 		fetchCourses();
 	}, []);
 
+	useEffect(() => {
+		const fetchCategoriesAndLevels = async () => {
+			try {
+				const responseCategory = await axios.get(
+					"https://localhost:7291/api/Course/category"
+				);
+				const responseLevel = await axios.get(
+					"https://localhost:7291/api/Course/level"
+				);
+				setCategories(responseCategory.data.$values);
+				setLevels(responseLevel.data.$values);
+			} catch (error) {
+				console.error("Error fetching categories and levels:", error);
+			}
+		};
+
+		fetchCategoriesAndLevels();
+	}, []);
+
+	const filteredCourses = courses.filter((course) => {
+		return (
+			(!selectedCategory || course.courseCategoryName === selectedCategory) &&
+			(!selectedLevel || course.courseLevelName === selectedLevel) &&
+			(course.courseName.toLowerCase().includes(searchTerm.toLowerCase()) ||
+				course.fullName.toLowerCase().includes(searchTerm.toLowerCase()))
+		);
+	});
+
+	const handleCategoryClick = (category) => {
+		setSelectedCategory((prevCategory) =>
+			prevCategory === category ? null : category
+		);
+	};
+
+	const handleLevelClick = (level) => {
+		setSelectedLevel((prevLevel) => (prevLevel === level ? null : level));
+	};
+
 	return (
-		<div className="container mx-auto px-4 py-8 sm:max-w-screen-lg">
-			<h1 className="font-bold text-3xl mb-10">All Courses</h1>
+		<div className="container mx-auto px-4 sm:max-w-screen-lg">
+			<div className="mb-4">
+				<h2 className="font-semibold text-xl mb-2">Search Courses</h2>
+				<input
+					type="text"
+					placeholder="Search by course name or instructor"
+					value={searchTerm}
+					onChange={(e) => setSearchTerm(e.target.value)}
+					className="px-4 py-2 border rounded-md w-full"
+				/>
+			</div>
+			<div className="mb-4">
+				<h2 className="font-semibold text-xl mb-2">Filter by Category</h2>
+				<div className="flex flex-wrap gap-2">
+					{categories.map((category) => (
+						<button
+							key={category.courseCategoryId}
+							className={`px-4 py-2 rounded-md ${
+								selectedCategory === category.courseCategoryName
+									? "bg-blue-500 text-white"
+									: "bg-gray-200"
+							}`}
+							onClick={() => handleCategoryClick(category.courseCategoryName)}
+						>
+							{category.courseCategoryName}
+						</button>
+					))}
+				</div>
+			</div>
+			<div className="mb-4">
+				<h2 className="font-semibold text-xl mb-2">Filter by Level</h2>
+				<div className="flex flex-wrap gap-2">
+					{levels.map((level) => (
+						<button
+							key={level.courseLevelId}
+							className={`px-4 py-2 rounded-md ${
+								selectedLevel === level.courseLevelName
+									? "bg-blue-500 text-white"
+									: "bg-gray-200"
+							}`}
+							onClick={() => handleLevelClick(level.courseLevelName)}
+						>
+							{level.courseLevelName}
+						</button>
+					))}
+				</div>
+			</div>
+
+			{filteredCourses.length === 0 && (
+				<div className="text-xl">
+					<p className="text-center">No courses found</p>
+				</div>
+			)}
+
 			<div className="grid lg:grid-cols-3 lg:gap-5 grid-cols-1 gap-6">
-				{courses.map((course) => (
+				{filteredCourses.map((course) => (
 					<div
 						key={course.courseId}
 						className="bg-gray-50 rounded-lg shadow-md"
@@ -59,7 +155,7 @@ function Courses() {
 									<IconStar />
 								</div>
 								<div className="text-gray-400">
-									({course.averageRating ? course.averageRating.toFixed(1) : 0})
+									({course.averageRating ? course.averageRating : 0})
 								</div>
 							</div>
 						</div>

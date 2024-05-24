@@ -61,9 +61,8 @@ function Profile() {
 								<>Don't have an avatar</>
 							)}
 							<div className="mt-5 text-center">
-								<p className="">
-									<strong>Description: </strong>{" "}
-									{userData.userInfo?.userDescription}
+								<p>
+									<strong>Expertise:</strong> {userData.userInfo?.expertise}
 								</p>
 							</div>
 						</div>
@@ -81,6 +80,10 @@ function Profile() {
 							</p>
 							<p>
 								<strong>Phone Number:</strong> {userData.userInfo?.phoneNumber}
+							</p>
+							<p className="">
+								<strong>Description: </strong>{" "}
+								{userData.userInfo?.userDescription}
 							</p>
 						</div>
 						<div className="w-full md:w-1/2 float-right inline-block">

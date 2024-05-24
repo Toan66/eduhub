@@ -12,6 +12,7 @@ function UnapprovalCourses() {
 					{ withCredentials: true }
 				);
 				setUnapproveCourses(response.data.$values);
+				console.log(response.data.$values);
 			} catch (error) {
 				console.error("Error fetching user courses:", error);
 			}
@@ -21,24 +22,26 @@ function UnapprovalCourses() {
 	}, []);
 
 	return (
-		<div className="p-10">
+		<div className="p-2">
 			<div>
 				{unapproveCourses.length > 0 ? (
 					<>
-						<div className="text-2xl w-full font-bold mb-4">
-							Unapproved Courses
-						</div>
 						<div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
 							{unapproveCourses.map((course) => (
-								<div key={course.courseId} className="shadow-lg p-5">
-									<div className="text-xl my-10 font-semibold">
+								<div key={course.courseId} className="shadow-lg ">
+									<img
+										src={course.featureImage}
+										alt=""
+										className="h-32 w-full"
+									/>
+									<div className="text-lg font-semibold line-clamp-1	">
 										{course.courseName}
 									</div>
 									<Link
-										to={`/Course/${course.courseId}/Preview`}
-										className="px-4 py-3 rounded-md text-white font-semibold bg-blue-500"
+										to={`/Admin/Course/${course.courseId}/Preview`}
+										className="mb-2 mr-2 px-4 py-3 rounded-md text-white font-semibold bg-blue-500 float-right"
 									>
-										Course Preview
+										Preview
 									</Link>
 								</div>
 							))}
@@ -46,7 +49,7 @@ function UnapprovalCourses() {
 					</>
 				) : (
 					<div className="text-4xl font-semibold">
-						No unapproved courses found.
+						No unapprove course found.
 					</div>
 				)}
 			</div>

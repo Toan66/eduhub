@@ -15,6 +15,25 @@ export default () => {
 	const [searchQuery, setSearchQuery] = useState("");
 	const [categories, setCategories] = useState([]);
 
+	const [isSticky, setIsSticky] = useState(true);
+	const [lastScrollY, setLastScrollY] = useState(0);
+
+	// const handleScroll = () => {
+	// 	if (window.scrollY < lastScrollY) {
+	// 		setIsSticky(true);
+	// 	} else {
+	// 		setIsSticky(false);
+	// 	}
+	// 	setLastScrollY(window.scrollY);
+	// };
+
+	// useEffect(() => {
+	// 	window.addEventListener("scroll", handleScroll);
+	// 	return () => {
+	// 		window.removeEventListener("scroll", handleScroll);
+	// 	};
+	// }, [lastScrollY]);
+
 	const [isCategoriesVisible, setIsCategoriesVisible] = useState(false);
 
 	const location = useLocation();
@@ -73,6 +92,19 @@ export default () => {
 	}, [location.pathname]);
 
 	useEffect(() => {
+		const handleClickOutside = (event) => {
+			if (!event.target.closest(".categories-dropdown")) {
+				setIsCategoriesVisible(false);
+			}
+		};
+
+		document.addEventListener("click", handleClickOutside);
+		return () => {
+			document.removeEventListener("click", handleClickOutside);
+		};
+	}, []);
+
+	useEffect(() => {
 		const fetchCategories = async () => {
 			try {
 				const responseCategory = await axios.get(
@@ -90,8 +122,8 @@ export default () => {
 
 	const navigation = [
 		{ title: "Course", path: "/Course" },
-		{ title: "About Us", path: "/AboutUs" },
-		{ title: "Pricing", path: "#" },
+		{ title: "Teacher", path: "/Teachers" },
+		{ title: "About", path: "/AboutUs" },
 	];
 
 	const logoutHandle = async () => {
@@ -116,7 +148,11 @@ export default () => {
 	};
 
 	return (
-		<header className="bg-white z-10 shadow-xl border-b w-full md:static md:text-sm md:border-none">
+		<header
+			className={`bg-white ${
+				isSticky ? "sticky top-0" : ""
+			} z-50 shadow-xl border-b w-full md:text-sm md:border-none`}
+		>
 			<div className="items-center max-w-screen-lg mx-auto md:flex justify-center">
 				<div className="flex items-center justify-between py-3 md:py-5 md:block">
 					<Link to="/">
@@ -142,7 +178,7 @@ export default () => {
 							/>
 							<button
 								type="submit"
-								className="md:w-auto text-md px-2 bg-blue-300 rounded-r-3xl"
+								className="md:w-auto text-md px-2 bg-blue-500 text-white rounded-r-3xl"
 							>
 								<IconSearch />
 							</button>
@@ -190,7 +226,10 @@ export default () => {
 				<div className="hidden ml-10 md:block relative">
 					<button
 						className="text-gray-700 hover:text-indigo-600 text-lg"
-						onClick={() => setIsCategoriesVisible(!isCategoriesVisible)}
+						onClick={(e) => {
+							e.stopPropagation();
+							setIsCategoriesVisible(!isCategoriesVisible);
+						}}
 					>
 						Categories
 					</button>
@@ -225,7 +264,7 @@ export default () => {
 						/>
 						<button
 							type="submit"
-							className="md:w-auto text-xl px-2 bg-blue-300 rounded-r-3xl"
+							className="md:w-auto text-xl px-2 bg-blue-500 text-white rounded-r-3xl"
 						>
 							<IconSearch />
 						</button>
@@ -296,7 +335,7 @@ export default () => {
 												{/* avatar */}
 												<img
 													title="avatar"
-													className=" size-10"
+													className="size-10 rounded-full"
 													src={userAvatar}
 												/>
 
@@ -324,6 +363,26 @@ export default () => {
 															<div className="text-base mt-2">{userEmail}</div>
 														</div>
 													</div>
+													{userRole === "Admin" && (
+														<>
+															<Link
+																to="/Admin/Dashboard"
+																className="block px-4 py-4 text-xl hover:bg-gray-100"
+															>
+																Admin Dashboard
+															</Link>
+														</>
+													)}
+													{userRole === "Teacher" && (
+														<>
+															<Link
+																to="/Teacher/Dashboard"
+																className="block px-4 py-4 text-xl hover:bg-gray-100"
+															>
+																Teacher Dashboard
+															</Link>
+														</>
+													)}
 													<Link
 														to="/DashBoard"
 														className="block px-4 py-4 text-xl hover:bg-gray-100"
@@ -331,7 +390,7 @@ export default () => {
 														Dashboard
 													</Link>
 													<Link
-														to="/MyOrder"
+														to="/DashBoard/Order"
 														className="block px-4 py-4 text-xl hover:bg-gray-100"
 													>
 														Order History
@@ -342,6 +401,7 @@ export default () => {
 													>
 														Profile
 													</Link>
+
 													<button
 														onClick={logoutHandle}
 														className="w-full text-left block pointer-events-auto px-4 py-4 text-xl hover:bg-gray-100"

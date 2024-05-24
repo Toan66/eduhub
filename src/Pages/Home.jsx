@@ -157,7 +157,7 @@ function Home() {
 				{/* Categories */}
 				<div className="py-10 container mx-auto max-w-screen-lg">
 					<div className="text-3xl font-bold">Top categories</div>
-					<div className="grid lg:grid-cols-4 lg:gap-5 grid-cols-1 gap-6 mt-6">
+					<div className="grid lg:grid-cols-4 lg:gap-5 grid-cols-2 gap-6 mt-6">
 						<Link to="/Category/1">
 							<div className="overflow-hidden">
 								<img
@@ -251,8 +251,8 @@ function Home() {
 
 				{/* Start Teaching to day */}
 				<div className="py-10">
-					<div className="flex w-full lg:w-5/6 m-auto">
-						<div className="w-full lg:w-1/2 pl-20">
+					<div className="flex flex-col md:flex-row w-full lg:w-5/6 m-auto">
+						<div className="w-full lg:w-1/2 md:pl-20">
 							<img src="../src/assets/instructor-2x-v3.jpg" />
 						</div>
 						<div className="w-full lg:w-1/2 pl-20 flex flex-col justify-center">
@@ -262,9 +262,12 @@ function Home() {
 								EDUHUB. We provide the tools and skills to teach what you love.
 							</div>
 							<div className="mt-10">
-								<button className="px-4 py-3 bg-blue-500 font-semibold text-xl text-white hover:bg-black duration-500">
+								<Link
+									to="/Teacher/DashBoard"
+									className="px-4 py-3 bg-blue-500 font-semibold text-xl text-white hover:bg-black duration-500"
+								>
 									Start teaching today
-								</button>
+								</Link>
 							</div>
 						</div>
 					</div>

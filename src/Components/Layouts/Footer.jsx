@@ -1,150 +1,75 @@
+import { Link } from "react-router-dom";
+
 export default () => {
 	const footerNavs = [
 		{
-			label: "Resources",
+			label: "EDUHUB",
 			items: [
 				{
-					href: "#",
-					name: "contact",
+					href: "/Course",
+					name: "Courses",
 				},
 				{
-					href: "#",
-					name: "Support",
+					href: "/Teachers",
+					name: "Teachers",
 				},
 				{
-					href: "#",
-					name: "Documentation",
-				},
-				{
-					href: "#",
-					name: "Pricing",
+					href: "/AboutUs",
+					name: "About Us",
 				},
 			],
 		},
 		{
-			label: "About",
+			label: "Navigate",
 			items: [
 				{
-					href: "#",
-					name: "Terms",
+					href: "/Profile",
+					name: "Profile",
 				},
 				{
-					href: "#",
-					name: "License",
+					href: "/Dashboard/Order",
+					name: "Order History",
 				},
 				{
-					href: "#",
-					name: "Privacy",
-				},
-				{
-					href: "#",
-					name: "About US",
-				},
-			],
-		},
-		{
-			label: "Course",
-			items: [
-				{
-					href: "#",
-					name: "IT",
-				},
-				{
-					href: "#",
-					name: "Designer",
-				},
-				{
-					href: "#",
-					name: "Bussiness",
-				},
-				{
-					href: "#",
-					name: "Photography",
-				},
-			],
-		},
-		{
-			label: "Company",
-			items: [
-				{
-					href: "#",
-					name: "Partners",
-				},
-				{
-					href: "#",
-					name: "Team",
-				},
-				{
-					href: "#",
-					name: "Careers",
+					href: "/DashBoard",
+					name: "DashBoard",
 				},
 			],
 		},
 	];
 
 	return (
-		<footer className="mt-10 pt-10 bg-gray-800">
+		<footer className="mt-10 py-5 bg-gray-500 text-white ">
 			<div className="max-w-screen-lg mx-auto">
-				<div className="justify-between items-center gap-12 md:flex">
-					<div className="flex-1 max-w-lg">
-						<h3 className="text-white text-2xl font-bold">
-							Get newsletter straight to your inbox.
-						</h3>
-					</div>
-					<div className="flex-1 mt-6 md:mt-0 z-0">
-						<form
-							onSubmit={(e) => e.preventDefault()}
-							className="flex z-0 items-center gap-x-3 md:justify-end"
-						>
-							<div className="relative">
-								<svg
-									className="w-6 h-6 text-gray-400 absolute left-3 inset-y-0 my-auto"
-									xmlns="http://www.w3.org/2000/svg"
-									fill="none"
-									viewBox="0 0 24 24"
-									strokeWidth={1.5}
-									stroke="currentColor"
-								>
-									<path
-										strokeLinecap="round"
-										strokeLinejoin="round"
-										d="M21.75 6.75v10.5a2.25 2.25 0 01-2.25 2.25h-15a2.25 2.25 0 01-2.25-2.25V6.75m19.5 0A2.25 2.25 0 0019.5 4.5h-15a2.25 2.25 0 00-2.25 2.25m19.5 0v.243a2.25 2.25 0 01-1.07 1.916l-7.5 4.615a2.25 2.25 0 01-2.36 0L3.32 8.91a2.25 2.25 0 01-1.07-1.916V6.75"
-									/>
-								</svg>
-								<input
-									type="email"
-									required
-									placeholder="Enter your email"
-									className="w-full pl-12 pr-3 py-2 z-0 text-gray-500 bg-white outline-none border focus:border-indigo-600 shadow-sm rounded-lg"
-								/>
-							</div>
-							<button className="block w-auto py-3 px-4 font-medium text-sm text-center text-white bg-indigo-600 hover:bg-indigo-500 active:bg-indigo-700 active:shadow-none rounded-lg shadow">
-								Subscribe
-							</button>
-						</form>
-					</div>
-				</div>
-				<div className="flex-1 mt-16 space-y-6 justify-between sm:flex md:space-y-0">
+				<div className="flex flex-col md:flex-row py-10 justify-between md:space-y-0">
+					<Link
+						to="/"
+						className="md:w-3/12 w-2/3 md:border-white flex md:flex-col  justify-center md:border-l-2"
+					>
+						<img src="/images/result.png" className="w-full" />
+					</Link>
+
 					{footerNavs.map((item, idx) => (
-						<ul className="space-y-4 text-gray-300" key={idx}>
-							<h4 className="text-gray-200 font-semibold sm:pb-2">
-								{item.label}
-							</h4>
+						<ul
+							className="space-y-4 md:border-white md:border-l-2 py-5 px-10"
+							key={idx}
+						>
+							<h1 className="text-xl font-semibold sm:pb-2">{item.label}</h1>
 							{item.items.map((el, idx) => (
 								<li key={idx}>
-									<a
-										href={el.href}
-										className="duration-150 hover:text-gray-400"
+									<Link
+										to={el.href}
+										className="duration-150 hover:text-blue-500"
 									>
 										{el.name}
-									</a>
+									</Link>
 								</li>
 							))}
 						</ul>
 					))}
-				</div>
-				<div className="mt-10 py-10 border-t border-gray-700 items-center justify-between sm:flex">
-					<p className="text-gray-300">© 2024 EDUHUB. All rights reserved.</p>
+					<div className="mt-10 md:border-white md:border-x-2 px-10 py-10 items-center justify-between sm:flex">
+						<p className=" font-semibold">© 2024 EDUHUB.</p>
+					</div>
 				</div>
 			</div>
 		</footer>

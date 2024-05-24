@@ -49,7 +49,13 @@ import Certificate from "./Pages/Certificate/Certificate";
 import SearchResult from "./Pages/SearchResult";
 import CourseCategory from "./Pages/CourseCategory";
 import AboutUs from "./Pages/AboutUs";
-
+import Teachers from "./Pages/Teachers";
+import TeacherReport from "./Pages/Dashboard/Teacher/TeacherReport";
+import AdminReport from "./Pages/Admin/AdminReport";
+import AllUsers from "./Pages/Admin/AllUsers";
+import AllTeachers from "./Pages/Admin/AllTeachers";
+import Student from "./Pages/Dashboard/Teacher/Student";
+import AdminCategory from "./Pages/Admin/AdminCategory";
 
 function App() {
 	return (
@@ -72,6 +78,7 @@ function App() {
 				<Route path="PaymentResult" element={<PaymentResult />} />
 				<Route path="Category/:categoryId" element={<CourseCategory />} />
 				<Route path="AboutUs" element={<AboutUs />} />
+				<Route path="Teachers" element={<Teachers />} />
 
 
 
@@ -84,47 +91,41 @@ function App() {
 					<Route path="Order/:orderId/Payment" element={<OrderPay />} />
 					<Route path="Course/:courseId/Review" element={<ReviewForm />} />
 				</Route>
+				
+			</Route>
 
-				<Route element={<RequireAuth allowedRoles={["Teacher", "Admin"]} />}>
-					{/* <Route path="Course/Create" element={<CreateCourse />} />
-					<Route path="Course/:courseId/Edit" element={<CourseEditor />} />
-					<Route path="Course/:courseId/Chapter/Create" element={<CreateChapter />} />
-					<Route path="Chapter/:chapterId/Edit" element={<ChapterEditor />} />
-					<Route path="Chapter/:chapterId/Lesson/Create" element={<CreateLesson />} />
-					<Route path="Chapter/:chapterId/Test/Create" element={<TestForm />} />
-					<Route path="Lesson/:lessonId/Edit" element={<LessonEditor />} />
-					<Route path="Test/:testId/Edit" element={<TestEditor />} />
-					<Route path="TestForm" element={<TestForm />} />
-					<Route path="Course/:courseId/Preview" element={<CoursePreview />} />
-					<Route path="Teacher/MyCourse" element={<MyCourse />} /> */}
+			{/* Learn Layout */}
+			<Route element={<RequireAuth allowedRoles={["Teacher", "Admin", "Student"]} />} >
+				<Route path="/" element={<LayoutLearn />}>
+					<Route path="Learn/Course/:courseId" element={<CourseLearn />} />
+					<Route path="Learn/Course/:courseId/Chapter/:chapterId" element={<ChapterLearn />} />
+					<Route path="Learn/Course/:courseId/Chapter/:chapterId/Lesson/:lessonId" element={<LessonLearn />} />
+					<Route path="Learn/Course/:courseId/Chapter/:chapterId/Test/:testId" element={<TestLearn />} />
+					<Route path="Learn/Course/:courseId/Chapter/:chapterId/Test/:testId/Result/:resultId" element={<TestResult />} />
+					<Route path="Learn/Course/:courseId/Certificate" element={<Certificate />} />
 				</Route>
 			</Route>
 
 
+
 			{/* Dashboard Layout */}
-			<Route path="/" element={<LayoutDashBoard />}>
-				<Route element={<RequireAuth allowedRoles={["Teacher", "Admin", "Student"]} />} >
+			<Route element={<RequireAuth allowedRoles={["Teacher", "Admin", "Student"]} />} >
+				<Route path="/" element={<LayoutDashBoard />}>
 					<Route path="DashBoard" element={<DashBoard />} />
 					<Route path="DashBoard/MyCourses" element={<MyCourses />} />
 					<Route path="DashBoard/Order" element={<MyOrders />} />
 				</Route>
 			</Route>
 
-			{/* Admin Dashboard Layout*/}
-			<Route path="/" element={<LayoutAdminDashboard />}>
-				<Route element={<RequireAuth allowedRoles={["Admin"]} />}>
-          <Route path="Admin/DashBoard" element={<AdminDashboard />} />
-          <Route path="Admin/UnapprovalCourses" element={<UnapprovalCourses />} />
-					<Route path="Admin/CreatedCourse" element={<CreatedCourse />} />
-					<Route path="Admin/AllCourse" element={<AllCourse />} />
-        </Route>
-			</Route>
+
 
 			{/* Teacher Dashboard Layout*/}
-			<Route path="/" element={<LayoutTeacherDashboard />}>
-        <Route element={<RequireAuth allowedRoles={["Teacher", "Admin"]} />} >
+			<Route element={<RequireAuth allowedRoles={["Teacher", "Admin"]} />} >
+				<Route path="/" element={<LayoutTeacherDashboard />}>
 					<Route path="Teacher/DashBoard" element={<TeacherDashboard />} />
           <Route path="Teacher/CreatedCourse" element={<CreatedCourse />} />
+					<Route path="Teacher/Report" element={<TeacherReport />} />
+					<Route path="Teacher/Student" element={<Student />} />
 
 					<Route path="Course/Create" element={<CreateCourse />} />
 					<Route path="Course/:courseId/Edit" element={<CourseEditor />} />
@@ -141,17 +142,20 @@ function App() {
       </Route>
 
 
+			{/* Admin Dashboard Layout*/}
+			<Route element={<RequireAuth allowedRoles={["Admin"]} />}>
+				<Route path="/" element={<LayoutAdminDashboard />}>
+          <Route path="Admin/DashBoard" element={<AdminDashboard />} />
+          <Route path="Admin/UnapprovalCourses" element={<UnapprovalCourses />} />
+					<Route path="Admin/CreatedCourse" element={<CreatedCourse />} />
+					<Route path="Admin/AllCourse" element={<AllCourse />} />
+					<Route path="Admin/AdminReport" element={<AdminReport />} />
+					<Route path="Admin/AllUsers" element={<AllUsers />} />
+					<Route path="Admin/AllTeachers" element={<AllTeachers />} />
+					<Route path="Admin/Category" element={<AdminCategory />} />
 
-			{/* Learn Layout */}
-			<Route path="/" element={<LayoutLearn />}>
-				<Route element={<RequireAuth allowedRoles={["Teacher", "Admin", "Student"]} />} >
-					<Route path="Learn/Course/:courseId" element={<CourseLearn />} />
-					<Route path="Learn/Course/:courseId/Chapter/:chapterId" element={<ChapterLearn />} />
-					<Route path="Learn/Course/:courseId/Chapter/:chapterId/Lesson/:lessonId" element={<LessonLearn />} />
-					<Route path="Learn/Course/:courseId/Chapter/:chapterId/Test/:testId" element={<TestLearn />} />
-					<Route path="Learn/Course/:courseId/Chapter/:chapterId/Test/:testId/Result/:resultId" element={<TestResult />} />
-					<Route path="Learn/Course/:courseId/Certificate" element={<Certificate />} />
-				</Route>
+					<Route path="/Admin/Course/:courseId/Preview" element={<CoursePreview />} />
+        </Route>
 			</Route>
 
 		</Routes>

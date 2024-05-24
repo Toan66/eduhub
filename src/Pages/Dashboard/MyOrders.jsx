@@ -98,7 +98,7 @@ export default () => {
 				</tbody>
 			</table>
 			{!userOrders.length ? (
-				<div className="text-xl">You don't have any order yet!</div>
+				<div className="text-3xl">You don't have any order yet!</div>
 			) : (
 				<></>
 			)}

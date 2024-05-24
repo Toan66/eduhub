@@ -73,8 +73,8 @@ function CreateCourse() {
 								categoryId,
 								featureImage: downloadURL,
 								courseLevelId: levelId,
-								coursePrice, // Include course price in the API call
-								courseEarn, // Include potential earnings in the API call
+								coursePrice,
+								courseEarn: 0,
 							},
 							{ withCredentials: true }
 						)
@@ -213,7 +213,7 @@ function CreateCourse() {
 						htmlFor="coursePrice"
 						className="block text-sm font-medium text-gray-700"
 					>
-						Course Price
+						Course Price (VND)
 					</label>
 					<input
 						type="number"
@@ -223,21 +223,7 @@ function CreateCourse() {
 						className="mt-1 block w-full border border-gray-300 rounded-md shadow-sm p-2"
 					/>
 				</div>
-				<div>
-					<label
-						htmlFor="courseEarn"
-						className="block text-sm font-medium text-gray-700"
-					>
-						Course Earn
-					</label>
-					<input
-						type="number"
-						id="courseEarn"
-						value={courseEarn}
-						onChange={(e) => setCourseEarn(e.target.value)}
-						className="mt-1 block w-full border border-gray-300 rounded-md shadow-sm p-2"
-					/>
-				</div>
+
 				<button
 					type="submit"
 					className="px-4 py-2 bg-blue-500 text-white rounded-md hover:bg-blue-700"

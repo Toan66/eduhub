@@ -134,7 +134,7 @@ function TestForm() {
 	};
 
 	return (
-		<div className="container mx-auto max-w-screen-lg mt-5">
+		<div className="p-3">
 			{/* <DragDropContext>
                 <Droppable droppableId="question ">
                     {(provided) => (
@@ -203,24 +203,27 @@ function TestForm() {
 							onSubmit={handleSubmit}
 							className="space-y-6"
 						>
-							<div className="my-10">
-								<label className="font-semibold">Test Title</label>
+							<div className="text-3xl font-bold">Create Test</div>
+							<div className="">
+								<label className="text-xl font-bold">Test Title</label>
 								<input
 									type="text"
-									placeholder="Tiêu đề bài test"
+									placeholder="Test Title"
 									value={testTitle}
 									onChange={(e) => setTestTitle(e.target.value)}
 									className="w-full p-2 border-2 border-gray-300 rounded-md focus:outline-none focus:border-blue-500 transition-colors"
 								/>
-								<label className="font-semibold">Test Description</label>
+								<label className="text-xl font-bold">Test Description</label>
 								<textarea
-									placeholder="Mô tả bài test"
+									placeholder="Test Description"
 									value={testDescription}
 									onChange={(e) => setTestDescription(e.target.value)}
 									className="w-full p-2 border-2 border-gray-300 rounded-md focus:outline-none focus:border-blue-500 transition-colors "
 									rows="3"
 								></textarea>
 							</div>
+
+							<div className="text-xl font-bold">Questions and Answers</div>
 
 							{questions.map((question, questionIndex) => (
 								<Draggable
@@ -240,10 +243,10 @@ function TestForm() {
 											>
 												<IconDragHorizontal />
 											</div>
-											<div className="flex justify-between">
+											<div className="flex justify-between text-xl">
 												<input
 													type="text"
-													placeholder="Câu hỏi"
+													placeholder="Question"
 													value={question.questionText}
 													onChange={(e) =>
 														handleQuestionChange(e, questionIndex)
@@ -275,17 +278,15 @@ function TestForm() {
 																	{(provided) => (
 																		<div
 																			ref={provided.innerRef}
-																			{...provided.draggableProps} // Bỏ prop này khỏi div chính
+																			{...provided.draggableProps}
 																			className="flex items-center space-x-2 my-3"
 																		>
 																			<div {...provided.dragHandleProps}>
-																				{" "}
-																				{/* Áp dụng dragHandleProps vào đây */}
 																				<IconDragHandleDots2 />
 																			</div>
 																			<input
 																				type="text"
-																				placeholder="Câu trả lời"
+																				placeholder="Answer"
 																				value={answer.answerText}
 																				onChange={(e) =>
 																					handleAnswerChange(
@@ -294,7 +295,7 @@ function TestForm() {
 																						answerIndex
 																					)
 																				}
-																				className="w-full p-2 border-2 border-gray-300 rounded-md focus:outline-none focus:border-blue-500 transition-colors"
+																				className="w-full p-2 border-2 text-xl border-gray-300 rounded-md focus:outline-none focus:border-blue-500 transition-colors"
 																			/>
 																			<input
 																				type="radio"
@@ -329,9 +330,9 @@ function TestForm() {
 															<button
 																type="button"
 																onClick={() => handleAddAnswer(questionIndex)}
-																className="px-4 py-2 bg-blue-500 text-white rounded-md hover:bg-blue-600 transition-colors"
+																className="px-4 py-2 bg-blue-500 text-white text-xl font-semibold rounded-md hover:bg-blue-600 transition-colors"
 															>
-																Thêm câu trả lời
+																Add Answer
 															</button>
 														</div>
 													)}
@@ -345,15 +346,15 @@ function TestForm() {
 							<button
 								type="button"
 								onClick={handleAddQuestion}
-								className="px-4 py-2 bg-green-500 text-white rounded-md hover:bg-green-600 transition-colors"
+								className="px-4 py-2 text-xl font-semibold mr-4 bg-green-500 text-white rounded-md hover:bg-green-600 transition-colors"
 							>
-								Thêm câu hỏi
+								Add Question
 							</button>
 							<button
 								type="submit"
-								className="px-4 py-2 bg-indigo-500 text-white rounded-md hover:bg-indigo-600 transition-colors"
+								className="px-4 py-2 text-xl font-semibold bg-indigo-500 text-white rounded-md hover:bg-indigo-600 transition-colors"
 							>
-								Lưu bài test
+								Save Test
 							</button>
 						</form>
 					)}

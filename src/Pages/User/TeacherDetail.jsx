@@ -85,9 +85,7 @@ function TeacherDetail() {
 			0
 		);
 		const averageRating =
-			userReviews.length > 0
-				? (totalRating / userReviews.length).toFixed(1)
-				: 0;
+			userReviews.length > 0 ? totalRating / userReviews.length : 0;
 	}, [userReviews]);
 
 	const indexOfLastCourse = currentPageCourses * itemsPerPage;
@@ -131,6 +129,9 @@ function TeacherDetail() {
 
 							<p className="text-center text-2xl">
 								<strong>{userData.userInfo?.fullName}</strong>
+							</p>
+							<p className="text-center font-semibold ">
+								{userData.userInfo?.expertise}
 							</p>
 							<p className="text-center font-semibold mt-5">
 								{userData.userInfo?.userAddress}
@@ -187,7 +188,7 @@ function TeacherDetail() {
 													(acc, review) => acc + review.rating,
 													0
 												) / userReviews.length
-										  ).toFixed(1)
+										  ).toFixed(2)
 										: 0}
 								</div>
 								AVE. RATING
@@ -235,11 +236,7 @@ function TeacherDetail() {
 												<IconStar />
 											</div>
 											<div className="text-gray-400">
-												(
-												{course.averageRating
-													? course.averageRating.toFixed(1)
-													: 0}
-												)
+												({course.averageRating ? course.averageRating : 0})
 											</div>
 										</div>
 									</div>

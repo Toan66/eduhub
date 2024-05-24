@@ -456,63 +456,6 @@ function CourseEditor() {
 							</div>
 						)}
 					</div>
-
-					<div className="rounded-lg bg-indigo-50 p-3 mb-6">
-						<div className="flex flex-row justify-between mb-4 text-lg">
-							<div className="font-semibold w-1/2">Course level</div>
-							<button
-								onClick={() => {
-									setEditLevel(true);
-									setSelectedLevel(course.courseLevelId);
-								}}
-								className="font-semibold w-auto text-right items-center"
-							>
-								<span className="inline-block mr-2">
-									<Pencil />
-								</span>
-								Edit level
-							</button>
-						</div>
-
-						{editLevel ? (
-							<>
-								<select
-									value={selectedLevel}
-									onChange={(e) => setSelectedLevel(e.target.value)}
-									className="w-full p-3 h-15 rounded-md"
-								>
-									{levels.map((level) => (
-										<option
-											key={level.courseLevelId}
-											value={level.courseLevelId}
-										>
-											{level.courseLevelName}
-										</option>
-									))}
-								</select>
-								<button
-									className="text-md bg-gray-800 text-white font-semibold px-5 py-2 rounded-md mt-5"
-									onClick={handleUpdateLevel}
-								>
-									Save Level
-								</button>
-								<button
-									onClick={() => {
-										setEditLevel(false);
-									}}
-									className="text-md bg-sky-500 float-right text-white font-semibold px-5 py-2 rounded-md mt-5"
-								>
-									Cancel
-								</button>
-							</>
-						) : (
-							<div className="font-normal">
-								{levels.find(
-									(level) => level.courseLevelId === course.courseLevelId
-								)?.courseLevelName || "Level not found"}
-							</div>
-						)}
-					</div>
 				</div>
 
 				<div className="mb-8 w-full lg:w-1/2 pl-3">
@@ -662,6 +605,63 @@ function CourseEditor() {
 
 					<div className="rounded-lg bg-indigo-50 p-3 mb-6">
 						<div className="flex flex-row justify-between mb-4 text-lg">
+							<div className="font-semibold w-1/2">Course level</div>
+							<button
+								onClick={() => {
+									setEditLevel(true);
+									setSelectedLevel(course.courseLevelId);
+								}}
+								className="font-semibold w-auto text-right items-center"
+							>
+								<span className="inline-block mr-2">
+									<Pencil />
+								</span>
+								Edit level
+							</button>
+						</div>
+
+						{editLevel ? (
+							<>
+								<select
+									value={selectedLevel}
+									onChange={(e) => setSelectedLevel(e.target.value)}
+									className="w-full p-3 h-15 rounded-md"
+								>
+									{levels.map((level) => (
+										<option
+											key={level.courseLevelId}
+											value={level.courseLevelId}
+										>
+											{level.courseLevelName}
+										</option>
+									))}
+								</select>
+								<button
+									className="text-md bg-gray-800 text-white font-semibold px-5 py-2 rounded-md mt-5"
+									onClick={handleUpdateLevel}
+								>
+									Save Level
+								</button>
+								<button
+									onClick={() => {
+										setEditLevel(false);
+									}}
+									className="text-md bg-sky-500 float-right text-white font-semibold px-5 py-2 rounded-md mt-5"
+								>
+									Cancel
+								</button>
+							</>
+						) : (
+							<div className="font-normal">
+								{levels.find(
+									(level) => level.courseLevelId === course.courseLevelId
+								)?.courseLevelName || "Level not found"}
+							</div>
+						)}
+					</div>
+
+					<div className="rounded-lg bg-indigo-50 p-3 mb-6">
+						<div className="flex flex-row justify-between mb-4 text-lg">
 							<div className="font-semibold w-1/2">Course price</div>
 							<button
 								onClick={() => {
@@ -700,49 +700,6 @@ function CourseEditor() {
 							</div>
 						) : (
 							<div className="font-normal">{course.coursePrice} VND</div>
-						)}
-					</div>
-
-					<div className="rounded-lg bg-indigo-50 p-3 mb-6">
-						<div className="flex flex-row justify-between mb-4 text-lg">
-							<div className="font-semibold w-1/2">Course earnings</div>
-							<button
-								onClick={() => {
-									setEditEarnings(true);
-									setNewEarnings(course.courseEarn);
-								}}
-								className="font-semibold w-auto text-right items-center"
-							>
-								<span className="inline-block mr-2">
-									<Pencil />
-								</span>
-								Edit earnings
-							</button>
-						</div>
-
-						{editEarnings ? (
-							<div>
-								<input
-									type="number"
-									className="w-full p-3 h-11 rounded-md"
-									value={newEarnings}
-									onChange={(e) => setNewEarnings(e.target.value)}
-								/>
-								<button
-									className="text-md bg-gray-800 text-white font-semibold px-5 py-2 rounded-md mt-5"
-									onClick={handleUpdateEarnings}
-								>
-									Save
-								</button>
-								<button
-									onClick={() => setEditEarnings(false)}
-									className="text-md bg-sky-500 float-right text-white font-semibold px-5 py-2 rounded-md mt-5"
-								>
-									Cancel
-								</button>
-							</div>
-						) : (
-							<div className="font-normal">{course.courseEarn} VND</div>
 						)}
 					</div>
 
