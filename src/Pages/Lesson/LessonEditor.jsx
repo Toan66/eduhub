@@ -123,6 +123,23 @@ function LessonEditor() {
 		}
 	};
 
+	const handleDeleteLesson = async () => {
+		try {
+			await axios.delete(`https://localhost:7291/api/Lesson/${lessonId}`, {
+				withCredentials: true,
+			});
+			Swal.fire("Lesson has been deleted successfully!");
+			navigate(-1);
+			// Navigate back to the previous page
+			// navigate(-1);
+		} catch (error) {
+			console.error("Error deleting lesson:", error);
+			Swal.fire("Failed to delete lesson.");
+			// Navigate back to the previous page
+			navigate(-1);
+		}
+	};
+
 	return (
 		<div className="container mx-auto sm:max-w-screen-lg">
 			<button
@@ -145,6 +162,13 @@ function LessonEditor() {
 					/>
 				</svg>
 				<span>Back to Chapter Setup</span>
+			</button>
+
+			<button
+				className="text-md bg-gray-800 text-white font-semibold px-5 py-2 rounded-md inline-block float-right"
+				onClick={handleDeleteLesson}
+			>
+				Delete Lesson
 			</button>
 
 			<h1 className="text-3xl font-bold mb-4">Edit Lesson</h1>

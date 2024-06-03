@@ -345,7 +345,7 @@ function TeacherDetail() {
 									</div>
 								))
 							) : (
-								<></>
+								<>Don't have any review yet</>
 							)}
 							<div className="flex justify-center mt-4">
 								{[

@@ -66,7 +66,7 @@ function OrderPay() {
 								alt={courseData.courseName}
 							/>
 						</div>
-						<div className="flex flex-col justify-between">
+						<div className="flex w-1/3 flex-col justify-between">
 							<h2 className="text-xl font-bold mb-2">
 								{courseData.courseName}
 							</h2>

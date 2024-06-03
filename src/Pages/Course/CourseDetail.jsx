@@ -225,13 +225,6 @@ function CourseDetail() {
 						<div className="mt-10 border p-7 rounded-lg">
 							<p className="font-semibold text-2xl">Course Description </p>
 							<p>{course.courseDescription}</p>
-							<p className="font-semibold text-2xl">Certification</p>
-							<p className=" text-justify">
-								Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
-								eiusmod tempor incididunt ut labore et dolore magna aliqua. Quis
-								ipsum suspendisse ultrices gravida. Risus commodo viverra
-								maecenas accumsan lacus vel facilisis.
-							</p>
 						</div>
 
 						<div className="mt-10 border p-7 rounded-lg">
@@ -287,6 +280,15 @@ function CourseDetail() {
 									)}
 								</div>
 							))}
+						</div>
+
+						<div className="mt-10 border p-7 rounded-lg">
+							<p className="font-semibold text-2xl">Certification</p>
+							<p className=" text-justify">
+								After completing this course, you will be able to earn a
+								certificate. You will be able to download the certificate.
+								<br />
+							</p>
 						</div>
 
 						<div className="mt-10 border p-7 rounded-lg">

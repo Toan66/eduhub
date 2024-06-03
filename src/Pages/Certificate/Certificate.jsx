@@ -28,7 +28,6 @@ const Certificate = () => {
 		const certificateElement = document.getElementById("certificate");
 		if (certificateElement) {
 			html2canvas(certificateElement).then((canvas) => {
-				// Tạo ra URL từ canvas
 				const imgData = canvas.toDataURL("image/png");
 				const link = document.createElement("a");
 				link.download = `${certificateInfo?.user?.fullName}-certificate.png`;

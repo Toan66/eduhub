@@ -92,22 +92,6 @@ export default () => {
 		fetchCompletedItems();
 	}, [chapterId, courseId, navigate]);
 
-	const handleLessonSelect = (lesson) => {
-		if (selectedLesson && lesson.lessonId === selectedLesson.lessonId) {
-			setSelectedLesson(null);
-		} else {
-			setSelectedLesson(lesson);
-		}
-	};
-
-	const handleTestSelect = (test) => {
-		if (selectedTest && test.testId === selectedTest.testId) {
-			setSelectedTest(null);
-		} else {
-			setSelectedTest(test);
-		}
-	};
-
 	const handleSelectItem = (item, type) => {
 		const itemId = type === "lesson" ? item.lessonId : item.testId;
 		if (
@@ -131,13 +115,11 @@ export default () => {
 				{ withCredentials: true }
 			);
 			if (response.status === 200) {
-				console.log("Lesson marked as complete successfully");
+				Swal.fire("Success", "Lesson marked as complete", "success");
 				navigate(0);
-				// Cập nhật UI hoặc thông báo cho người dùng
 			}
 		} catch (error) {
 			console.error("Error marking lesson as complete:", error);
-			// Xử lý lỗi (hiển thị thông báo lỗi, v.v.)
 		}
 	};
 
@@ -171,11 +153,14 @@ export default () => {
 					<div className="lg:flex w-full">
 						<div className="w-full lg:w-1/4 border-gray border-r">
 							<div className="mt-3">
-								<div className="my-5">
-									<ProgressBar
-										completed={completionPercentage.completionPercent}
-									/>
-								</div>
+								{completionPercentage.completionPercent > 0 && (
+									<div className="my-5">
+										<ProgressBar
+											completed={completionPercentage.completionPercent}
+										/>
+									</div>
+								)}
+
 								{chapter.lessons.$values.map((lesson) => (
 									<button
 										key={lesson.lessonId}

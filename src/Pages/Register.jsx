@@ -62,17 +62,19 @@ function Register() {
 	};
 
 	return (
-		<div className="bg-blue-900 flex justify-center items-center flex-col ">
+		<div className="bg-stone-900 flex justify-center items-center flex-col ">
 			<div className="bg-white my-10 px-20 py-20 rounded-xl shadow-2xl w-1/3 flex flex-col items-center justify-center">
 				<div className="w-8/12">
 					<Link to={"/"} className="">
-						<img src="/images/logo.jpg" alt="123" className="" />
+						<img src="/images/logo.jpg" alt="123" className="mb-5" />
 					</Link>
 				</div>
 
 				<div className="font-bold uppercase text-2xl mb-5">
 					Welcome to EDUHUB
 				</div>
+				<div className="mb-5 text-xl">Create your account</div>
+
 				<form className="w-full max-w-sm" onSubmit={handleRegister}>
 					<div className="mb-4">
 						<label

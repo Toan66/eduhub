@@ -50,10 +50,10 @@ const Login = () => {
 	};
 
 	return (
-		<div className="bg-blue-900 h-screen flex justify-center items-center flex-col ">
+		<div className="bg-stone-900 h-screen flex justify-center items-center flex-col ">
 			<div className="flex w-2/3 bg-white items-center shadow-2xl rounded-xl overflow-hidden">
 				<div className="w-full md:w-1/2">
-					<img src="/images/login.webp" alt="" />
+					<img src="/images/login.webp" alt="" className="" />
 				</div>
 				<div className="w-full md:w-1/2">
 					<form

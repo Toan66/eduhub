@@ -98,7 +98,11 @@ function CreateLesson() {
 			);
 
 			if (response.status === 200) {
-				Swal.fire("Lesson has been created successfully!");
+				Swal.fire(
+					"Success",
+					"Lesson has been created successfully!",
+					"success"
+				);
 				navigate(-1); // Navigate back to the previous page
 			}
 		} catch (error) {
