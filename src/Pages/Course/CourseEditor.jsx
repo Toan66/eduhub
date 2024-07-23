@@ -39,6 +39,7 @@ function CourseEditor() {
 					{ withCredentials: true }
 				);
 				setCourse(response.data);
+				console.log(response.data);
 			} catch (error) {
 				console.error("Error fetching course details:", error);
 				navigate("/Unauthorized");
@@ -289,6 +290,20 @@ function CourseEditor() {
 					});
 			}
 		});
+	};
+
+	const handleUnapproveCourse = async () => {
+		try {
+			await axios.post(
+				`https://localhost:7291/api/Course/${course.courseId}/unapprove`,
+				{},
+				{ withCredentials: true }
+			);
+			Swal.fire("Course status has been reset to unapproved.");
+		} catch (error) {
+			console.error("Error resetting course status:", error);
+			Swal.fire("Failed to reset course status.");
+		}
 	};
 
 	if (!course)
@@ -703,8 +718,21 @@ function CourseEditor() {
 						)}
 					</div>
 
+					<div className="font-bold">
+						{course.approvalStatus
+							? "This course has been approved"
+							: "This course hasn't been approved yet"}
+					</div>
+
 					<div className="text-right mt-20">
 						<div>
+							<button
+								onClick={handleUnapproveCourse}
+								className="px-4 py-3 rounded-md text-white font-semibold bg-red-500 mt-4 mr-10"
+							>
+								Hide Course
+							</button>
+
 							<Link
 								to={`/Course/${course.courseId}/Preview`}
 								className="px-4 py-3 rounded-md text-white font-semibold bg-blue-500"

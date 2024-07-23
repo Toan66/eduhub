@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { Link, useNavigate, useParams } from "react-router-dom";
+import { Link, Navigate, useNavigate, useParams } from "react-router-dom";
 import axios from "axios";
 import IconBxsBookContent from "../../Components/Icons/IconBxsBookContent";
 import IconBxsBarChartAlt2 from "../../Components/Icons/IconBxsBarChartAlt2";
@@ -103,6 +103,7 @@ function CourseLearn() {
 					"You have already reviewed this course",
 					"error"
 				);
+				navigate(`/Course/${courseId}`);
 			}
 		} catch (error) {
 			console.error("Error fetching reviews:", error);

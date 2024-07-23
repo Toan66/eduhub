@@ -12,7 +12,21 @@ const Teachers = () => {
 					"https://localhost:7291/api/User/teachers",
 					{ withCredentials: true }
 				);
-				setTeachers(response.data.$values);
+				const teachersData = response.data.$values.map((teacher) => {
+					const totalRating = teacher.courseReviews.$values.reduce(
+						(acc, review) => acc + review.rating,
+						0
+					);
+					const averageRating =
+						teacher.courseReviews.$values.length > 0
+							? totalRating / teacher.courseReviews.$values.length
+							: 0;
+					return { ...teacher, averageRating };
+				});
+				// Sort teachers by average rating in descending order
+				teachersData.sort((a, b) => b.averageRating - a.averageRating);
+				setTeachers(teachersData);
+				console.log(teachersData);
 			} catch (error) {
 				console.error("Error fetching teachers:", error);
 			}
@@ -44,6 +58,9 @@ const Teachers = () => {
 							</h2>
 							<h2 className="text-lg  group-hover:text-orange-500 duration-300">
 								{teacher.userInfo.expertise}
+							</h2>
+							<h2 className="text-lg  group-hover:text-gray-500 duration-300">
+								Average Rating: {teacher.averageRating.toFixed(2)}
 							</h2>
 						</div>
 					</Link>
