@@ -16,18 +16,17 @@ EduHub is a modern e-learning platform built using ReactJS and styled with Tailw
 
 1. **Clone the repository:**
    ```bash
-   git clone https://github.com/your-username/eduhub-frontend.git
+   git clone https://github.com/Toan66/eduhub
    ```
 2. **Install dependencies:**
    ```bash
-   cd eduhub-frontend
+   cd eduhub
    npm install
    ```
 3. **Start the development server:**
    ```bash
-   npm start
+   npm run dev
    ```
-   The application should now be running at `http://localhost:3000`.
 
 ### Features
 
